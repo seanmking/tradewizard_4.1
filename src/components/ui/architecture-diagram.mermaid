@@ -1,0 +1,84 @@
+graph TD
+    subgraph "Frontend Layer"
+        UI["UI Components"]
+        subgraph "Three-Panel Layout"
+            Navigation["Left Navigation Panel"]
+            Conversation["Center Conversation Panel"]
+            Context["Right Context Panel"]
+        end
+        Pages["Next.js Pages"]
+        Forms["Form Components"]
+        Reports["Report Components"]
+        StateContext["React Context"]
+    end
+    
+    subgraph "Service Layer"
+        WebsiteAnalysis["Website Analysis Service"]
+        ProductClassification["Product Classification Service"]
+        MarketAssessment["Market Assessment Service"]
+        ReportGenerator["Report Generation Service"]
+        ConversationService["Conversation Service"]
+    end
+    
+    subgraph "Data Layer"
+        APIRoutes["Next.js API Routes"]
+        StateManagement["State Management"]
+        Persistence["Data Persistence"]
+    end
+    
+    subgraph "External Services"
+        OpenAI["OpenAI API"]
+        HSDatabase["HS Code Database"]
+        TradeData["Trade Requirements API"]
+    end
+    
+    %% Frontend connections
+    UI --- Pages
+    Pages --- Forms
+    Pages --- Reports
+    UI --- StateContext
+    Forms --- StateContext
+    Reports --- StateContext
+    
+    %% Three-panel layout connections
+    UI --- Navigation
+    UI --- Conversation
+    UI --- Context
+    Conversation --- Forms
+    Context --- Reports
+    
+    %% Service to Frontend
+    WebsiteAnalysis --> UI
+    ProductClassification --> UI
+    MarketAssessment --> UI
+    ReportGenerator --> Reports
+    ConversationService --> Conversation
+    
+    %% Service to Data
+    WebsiteAnalysis --> APIRoutes
+    ProductClassification --> APIRoutes
+    MarketAssessment --> APIRoutes
+    ReportGenerator --> APIRoutes
+    ConversationService --> APIRoutes
+    
+    APIRoutes --> StateManagement
+    StateManagement --> Persistence
+    
+    %% External Connections
+    APIRoutes --> OpenAI
+    APIRoutes --> HSDatabase
+    APIRoutes --> TradeData
+    
+    %% State flow
+    StateContext -.-> StateManagement
+    StateManagement -.-> StateContext
+    
+    classDef frontend fill:#d0e0ff,stroke:#3070b0
+    classDef service fill:#ffe0d0,stroke:#b07030
+    classDef data fill:#d0ffe0,stroke:#30b070
+    classDef external fill:#f0f0f0,stroke:#909090
+    
+    class UI,Pages,Forms,Reports,StateContext,Navigation,Conversation,Context frontend
+    class WebsiteAnalysis,ProductClassification,MarketAssessment,ReportGenerator,ConversationService service
+    class APIRoutes,StateManagement,Persistence data
+    class OpenAI,HSDatabase,TradeData external

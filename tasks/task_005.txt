@@ -1,0 +1,37 @@
+# Task ID: 5
+# Title: Build Production & Capacity Assessment
+# Status: pending
+# Dependencies: 4
+# Priority: medium
+# Description: Develop the assessment tool to evaluate the company's readiness to meet export market demands.
+# Details:
+Create interfaces for production capacity inputs (current monthly production volume, manufacturing approach, maximum capacity, seasonal variability). Implement export experience collection forms (previous export history, market-specific experience, success/challenge documentation). Build logistics assessment tools (shipping capabilities, packaging requirements, warehousing capacity). Develop budget planning features (export preparation budget allocation, cost estimation, ROI projection guidance). Integrate all data points into the assessment state.
+
+# Test Strategy:
+Test all input forms for validation and proper data capture. Verify storage of capacity assessment data in application state. Test the integration between capacity data and other assessment components. Validate calculations for capacity estimations and budget projections.
+
+# Subtasks:
+## 1. Implement Production Capacity Input Forms [pending]
+### Dependencies: None
+### Description: Create the interface components for collecting and validating production capacity data from companies.
+### Details:
+Develop form components to collect: current monthly production volume (with unit selection), manufacturing approach (dropdown with options like batch production, continuous flow, etc.), maximum production capacity, and seasonal variability (graph or month-by-month input). Include validation logic to ensure data consistency and completeness. Store this data in the assessment state using a structured format that can be easily integrated with other assessment components.
+
+## 2. Build Export Experience Collection System [pending]
+### Dependencies: 5.1
+### Description: Create forms and data structures to capture the company's previous export history and market-specific experience.
+### Details:
+Implement a multi-step form that collects: previous export markets (with dates and volumes), market-specific experience (regulatory compliance, cultural adaptations), and documentation of successes and challenges. Include the ability to upload supporting documents. Design the UI to encourage detailed responses through guided questions and tooltips explaining the importance of each section. Connect this component to the assessment state established in subtask 1.
+
+## 3. Develop Logistics Assessment Tools [pending]
+### Dependencies: 5.1
+### Description: Create interfaces for evaluating the company's logistics capabilities related to export operations.
+### Details:
+Build assessment tools for: shipping capabilities (carrier relationships, international shipping experience), packaging requirements (compliance with international standards, durability for export), and warehousing capacity (storage availability, inventory management systems). Include a scoring system that evaluates readiness in each category. Implement visual indicators (like progress bars or radar charts) to display logistics readiness. Integrate these evaluations with the assessment state.
+
+## 4. Implement Budget Planning and Results Integration [pending]
+### Dependencies: 5.1, 5.2, 5.3
+### Description: Create budget planning features and integrate all assessment components into a comprehensive export readiness evaluation.
+### Details:
+Develop budget planning tools including: export preparation budget allocation forms, cost estimation calculators for different markets, and ROI projection guidance based on industry benchmarks. Then, implement the final integration layer that combines data from all previous subtasks into a unified assessment state. Create a dashboard that visualizes the overall export readiness score with detailed breakdowns by category. Include actionable recommendations based on the assessment results and allow for PDF export of the complete assessment.
+

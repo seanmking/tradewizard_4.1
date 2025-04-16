@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "generatedAt": "2025-04-16T15:07:14.029Z",
+    "tasksAnalyzed": 10,
+    "thresholdScore": 5,
+    "projectName": "Your Project Name",
+    "usedResearch": false
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 1,
+      "taskTitle": "Setup Next.js Project with TypeScript and TailwindCSS",
+      "complexityScore": 6,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the Next.js project setup into specific technical steps including project initialization, TailwindCSS configuration, folder structure setup, component creation, state management setup, and CI/CD configuration.",
+      "reasoning": "This task involves multiple technical configurations and setup steps. While each individual step is moderately complex, the combination of Next.js, TypeScript, TailwindCSS, component structure, and CI/CD setup creates a medium-high complexity task that requires careful planning and technical expertise."
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "Implement Website Analysis Feature",
+      "complexityScore": 8,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Divide the website analysis feature implementation into specific components including form creation, API integration, data extraction logic, loading state management, error handling, and state management integration.",
+      "reasoning": "This task involves complex API integration with OpenAI, sophisticated data extraction logic, and multiple UI states (loading, success, error). The need to extract various business information types with confidence indicators adds to the complexity, making this a high-complexity task requiring careful decomposition."
+    },
+    {
+      "taskId": 3,
+      "taskTitle": "Build Product Classification System",
+      "complexityScore": 7,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Break down the HS code classification system into components including database structure, hierarchical navigation UI, search functionality, and product management interface with confidence indicators.",
+      "reasoning": "Creating a hierarchical product classification system with search capabilities and confidence indicators presents significant complexity. The requirement for a cascading dropdown interface and future-proofing for country-specific extensions adds technical challenges that require careful planning and implementation."
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "Implement Market Assessment Tool",
+      "complexityScore": 8,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Divide the market assessment tool into components including market selection interface, country-specific requirements database, HS code integration, market intelligence displays, and regulatory compliance information systems.",
+      "reasoning": "This task involves creating multiple interconnected data systems and UI components. The complexity stems from the need to integrate with the HS classification system, manage country-specific requirements, and present various types of market intelligence data in a coherent interface."
+    },
+    {
+      "taskId": 5,
+      "taskTitle": "Build Production & Capacity Assessment",
+      "complexityScore": 7,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Break down the production and capacity assessment tool into components including production capacity input forms, export experience collection interfaces, logistics assessment tools, and budget planning features.",
+      "reasoning": "This task requires creating multiple assessment interfaces that collect and analyze different types of business data. The complexity comes from the variety of data points to collect and the need to integrate them into a cohesive assessment state that provides meaningful insights."
+    },
+    {
+      "taskId": 6,
+      "taskTitle": "Implement Conversation-Driven UI",
+      "complexityScore": 9,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Divide the conversation-driven UI implementation into components including conversation panel design, AI persona development, progressive disclosure system, embedded form integration, and conversation flow state management.",
+      "reasoning": "Creating a conversation-driven UI with an AI persona is highly complex. It requires sophisticated state management to handle progressive disclosure, embedded forms within conversation flows, and maintaining context across the interaction. The need to align with predefined user flows adds another layer of complexity."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "Develop Export Readiness Report Generation",
+      "complexityScore": 8,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the report generation functionality into components including React-PDF integration, modular report template creation, data aggregation from multiple sources, interactive report version, and sharing functionality.",
+      "reasoning": "Generating comprehensive reports requires integrating data from multiple assessment areas and presenting it in both PDF and interactive formats. The complexity lies in creating modular templates, aggregating data correctly, and ensuring consistency across different report formats."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "Implement Complete User Flows and Navigation",
+      "complexityScore": 7,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Divide the user flows and navigation implementation into components including left navigation panel development, state persistence system, exit point implementation, and inter-component navigation flow setup.",
+      "reasoning": "This task involves connecting multiple complex components into cohesive user flows. The complexity comes from ensuring proper state management across flows, implementing persistence, and creating intuitive navigation between different assessment stages."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "Develop Context Panel with Supporting Information",
+      "complexityScore": 6,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Break down the context panel development into components including dynamic content system, detailed form implementation, data visualization components, and supporting documentation integration.",
+      "reasoning": "Creating a context panel with dynamic content based on the current assessment stage is moderately complex. The challenge lies in developing appropriate visualizations, integrating forms, and ensuring the panel complements the conversation flow in the center panel."
+    },
+    {
+      "taskId": 10,
+      "taskTitle": "Implement Testing, Documentation, and Final Polishing",
+      "complexityScore": 9,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Divide the testing, documentation, and polishing phase into components including unit testing implementation, component testing, integration testing, documentation creation, and performance optimization.",
+      "reasoning": "This comprehensive task involves testing across multiple levels, creating extensive documentation, and performing final optimizations. The complexity is high due to the breadth of testing required, the need for both user and technical documentation, and ensuring the application meets performance and accessibility standards."
+    }
+  ]
+}
