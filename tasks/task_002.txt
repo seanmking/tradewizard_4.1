@@ -1,0 +1,43 @@
+# Task ID: 2
+# Title: Implement Website Analysis Feature
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create the website analysis feature that allows users to input a business URL and extract relevant information using OpenAI API.
+# Details:
+Develop a URL input form with validation. Implement OpenAI API integration for content extraction with targeted extraction prompts. Create loading indicators for analysis progress. Design an editable results interface with confidence indicators. Implement error handling for failed extractions with fallback to manual entry. Extract business name, location, description, product listings, contact information, and industry categorization. Store the extracted data in the application state using React Context API.
+
+# Test Strategy:
+Test URL validation for various inputs. Verify API integration with OpenAI. Validate extraction results against sample websites. Test error handling with invalid URLs or failed API calls. Verify editing functionality for extracted data.
+
+# Subtasks:
+## 1. Create URL input form with validation [done]
+### Dependencies: None
+### Description: Implement a form component that accepts a business URL with proper validation to ensure it's a valid URL before proceeding with analysis.
+### Details:
+Build a React component with a form input for URL entry. Implement validation logic to check for valid URL format (using regex or a validation library). Add error messages for invalid URLs. Include a submit button that is disabled until a valid URL is entered. The form should prevent submission if validation fails and provide user feedback.
+
+## 2. Set up OpenAI API integration and extraction prompt engineering [done]
+### Dependencies: None
+### Description: Implement the connection to OpenAI API and create the prompt templates needed to extract different types of business information from websites.
+### Details:
+Create an API service module to handle OpenAI API calls. Set up environment variables for API keys. Design specific prompt templates for extracting each type of business information (name, location, description, products, contact info, industry). Implement proper error handling for API failures. Structure the prompts to return data in a consistent JSON format for easier parsing. Include confidence score requests in the prompts.
+
+## 3. Implement extraction process with loading indicators [done]
+### Dependencies: 2.1, 2.2
+### Description: Create the core extraction functionality that processes the URL and displays appropriate loading states during analysis.
+### Details:
+Connect the URL form submission to the OpenAI API service. Implement a loading state management system. Create animated loading indicators that show extraction progress. Consider implementing a step-by-step loading indicator that shows which information is currently being extracted. Handle timeouts for long-running extractions. Ensure the UI remains responsive during extraction.
+
+## 4. Build editable results interface with confidence indicators [done]
+### Dependencies: 2.3
+### Description: Create the UI components to display extraction results with confidence scores and make them editable by users.
+### Details:
+Design and implement result display components for each type of extracted information. Add visual confidence indicators (like color coding or percentage bars) next to each extracted field. Make all fields editable with appropriate input controls. Implement validation for edited fields. Add the ability to mark certain fields as verified by the user. Consider implementing auto-save for edited fields. Ensure the interface is accessible and responsive.
+
+## 5. Implement error handling and data storage with Context API [done]
+### Dependencies: 2.3, 2.4
+### Description: Create error handling for failed extractions with fallback to manual entry, and set up the React Context API for storing and managing the extracted data across the application.
+### Details:
+Implement specific error handling for different failure scenarios (API errors, content extraction failures, etc.). Create user-friendly error messages with suggestions for manual entry. Build a fallback interface for manual data entry when extraction fails. Set up a React Context provider to store all extracted and edited data. Implement actions and reducers for data management within the Context. Create hooks for easy access to the extraction data throughout the application. Add persistence of extraction results using local storage as a backup.
+

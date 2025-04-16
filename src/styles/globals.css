@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  color: #222;
+}
+
+main {
+  min-height: 100vh;
+  display: flex;
+  padding: 0;
+}
+
+aside {
+  min-height: 100vh;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.04);
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+/* Improve form and panel spacing */
+form {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 420px;
+}
+
+input, textarea {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  aside {
+    display: none !important;
+  }
+  form {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: 100%;
+  }
+}
