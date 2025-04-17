@@ -3,18 +3,17 @@ import LeftPanel from './LeftPanel';
 import CenterPanel from './CenterPanel';
 import RightPanel from './RightPanel';
 
-interface LayoutProps {
-  children?: ReactNode;
-}
+interface LayoutProps {}
+
+import ThreePanelLayout from './ThreePanelLayout';
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen bg-neutral-50">
-      <LeftPanel />
-      <CenterPanel />
-      <RightPanel />
-      {children}
-    </div>
+    <ThreePanelLayout
+      left={<LeftPanel />}
+      center={<CenterPanel />}
+      right={<RightPanel />}
+    />
   );
 };
 

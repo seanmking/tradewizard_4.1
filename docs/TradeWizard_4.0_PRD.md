@@ -86,12 +86,14 @@ A system to help users properly classify their products using the Harmonized Sys
   - Confidence indicators for suggestions
 
 - **HS Code Database**
-  - Global 6-digit HS codes in structured format
+  - Global 6-digit HS codes in structured format, sourced directly from the official [datasets/harmonized-system GitHub repository](https://github.com/datasets/harmonized-system)
+  - The CSV will be fetched directly from the repo and parsed for use in the cascading dropdown
   - Clear descriptions for each level
   - Searchable by keywords and categories
+  - System will check for updates to the HS code dataset once per month and notify the team if a new version is found
 
 - **Technical Implementation**
-  - CSV-based HS code database initially
+  - Fetch and parse the CSV-based HS code database from the official repo
   - Custom UI implementation (no reuse from TradeWizard 3.0)
   - Future-proof for country-specific extensions
 

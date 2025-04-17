@@ -41,3 +41,9 @@ Create a contexts folder with: 1) AppContext.tsx for global app state (theme, us
 ### Details:
 Initialize Git repository if not done already. Create .github/workflows/ci.yml for GitHub Actions with jobs for linting and type-checking. Set up Vercel CLI with `npm i -g vercel` and link to Vercel account. Configure vercel.json with project settings. Add deployment scripts to package.json. Create .env.example for environment variables. Document the deployment process in README.md with instructions for both development and production environments.
 
+## 6. Implement landing page and user onboarding form [pending]
+### Dependencies: 1.2, 1.4
+### Description: Create an attractive landing page and user onboarding form to collect initial user information
+### Details:
+Design and implement an engaging landing page that introduces the application's purpose and benefits. Create a multi-step onboarding form to collect essential user information (business name, industry, contact details, export goals). Implement form validation with helpful error messages. Store onboarding data in the application state using the Context API. Add progress indicators for multi-step forms. Ensure the landing page and onboarding process are fully responsive and accessible. Include clear call-to-action buttons to guide users to the next steps.
+
