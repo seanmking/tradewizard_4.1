@@ -75,10 +75,9 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
   const [products, setProducts] = useState<Product[]>([]);
 
   // DEV/DEMO ONLY: Auto-load sample products if none exist, so UI can be reviewed
+  // DEMO/DEV ONLY: Always reload sample products if products are empty (ensures fallback works after navigation/reset)
   useEffect(() => {
     if (products.length === 0) {
-      // Import sampleProducts from hs-code-data
-      // Each product should have variants, classification, and classificationStep fields
       setProducts(
         sampleProducts.map((p: any, idx: number) => ({
           ...p,
@@ -91,7 +90,8 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
         }))
       );
     }
-  }, []); // Remove for production
+    // This fallback will always run when products are cleared/reset (for demo/dev purposes only)
+  }, [products.length]); // Remove for production
 
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [expandedProductId, setExpandedProductId] = useState<number | null>(null);

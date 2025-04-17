@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Setup Next.js Project with TypeScript and TailwindCSS",
       "description": "Initialize the Next.js 14.x project with React 18.x, TypeScript 5.x, and TailwindCSS. Set up the folder structure and basic configuration for the three-panel layout.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [],
       "priority": "high",
       "details": "Create a new Next.js project using `create-next-app` with TypeScript support. Configure TailwindCSS with the required color scheme (Primary: Purple #6B46C1, Secondary: Teal #319795, Neutrals: Gray scale #F9FAFB). Set up the basic folder structure following Next.js best practices. Create placeholder components for the three-panel layout (Left Navigation Panel, Center Conversation Panel, Right Context Panel). Configure React Context API for state management. Set up Vercel deployment and GitHub Actions for CI/CD.",
@@ -32,7 +32,7 @@
           "id": 3,
           "title": "Create placeholder components for three-panel layout",
           "description": "Implement the basic structure for the three-panel layout with responsive design considerations",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -65,7 +65,7 @@
           "id": 6,
           "title": "Implement landing page and user onboarding form",
           "description": "Create an attractive landing page and user onboarding form to collect initial user information",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2,
             4
@@ -79,7 +79,7 @@
       "id": 2,
       "title": "Implement Website Analysis Feature",
       "description": "Create the website analysis feature that allows users to input a business URL and extract relevant information using OpenAI API.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         1
       ],
@@ -141,19 +141,19 @@
       "id": 3,
       "title": "Build Product Classification System",
       "description": "Develop the HS code classification system to help users properly classify their products using the Harmonized System.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         2
       ],
       "priority": "high",
-      "details": "Source HS code data directly from the official datasets/harmonized-system GitHub repository (https://github.com/datasets/harmonized-system). Fetch the CSV file directly from the repo, parse it for use in the cascading dropdown, and structure it for hierarchical navigation. Implement a monthly automated check to detect updates to the HS code dataset, and notify the team if a new version is found. Implement a cascading dropdown selection interface (chapter → heading → subheading). Add search functionality for codes and descriptions. Build product management interface to display products extracted from website analysis and allow manual addition/editing. Implement confidence indicators for suggestions. Ensure the system is future-proof for country-specific extensions. Note: Do not reuse any UI components from TradeWizard 3.0.",
+      "details": "Source HS code data directly from the official datasets/harmonized-system GitHub repository (https://github.com/datasets/harmonized-system). Fetch the CSV file directly from the repo, parse it for use in the cascading dropdown, and structure it for hierarchical navigation. Implement a monthly automated check to detect updates to the HS code dataset, and notify the team if a new version is found. Implement a cascading dropdown selection interface (chapter → heading → subheading). Add search functionality for codes and descriptions. Build product management interface to display products extracted from website analysis and allow manual addition/editing. Implement confidence indicators for suggestions. Ensure the system is future-proof for country-specific extensions. Note: Do not reuse any UI components from TradeWizard 3.0.\n\nPHASE 1 & 2 COMPLETE: Product/variant management, validation, instructional polish, HS code cascade UX, contextual help banners (2025-04-17).",
       "testStrategy": "Verify correct loading and parsing of the HS code database. Test the hierarchical navigation through code levels. Validate search functionality with various product keywords. Test manual product addition and editing. Verify proper classification and storage of selected HS codes.",
       "subtasks": [
         {
           "id": 1,
           "title": "Create HS Code Database and Data Structure",
           "description": "Develop the CSV-based HS code database with a structured format that supports hierarchical navigation through chapters, headings, and subheadings of the Harmonized System.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Fetch the official CSV file from the datasets/harmonized-system GitHub repository. Parse the CSV into a hierarchical data structure suitable for the cascading dropdown. Implement data validation to ensure integrity of the hierarchical structure. Design the data access layer to efficiently query and filter the HS codes. Include fields for future country-specific extensions (e.g., additional digits for national use). Document the database schema and access patterns. Implement a monthly check for updates to the CSV and trigger a refresh if a new version is detected."
         },
@@ -161,7 +161,7 @@
           "id": 2,
           "title": "Implement Cascading Dropdown Interface",
           "description": "Build a user interface with cascading dropdown selections that allows users to navigate through the HS code hierarchy from chapter to heading to subheading.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -171,7 +171,7 @@
           "id": 3,
           "title": "Develop Search Functionality and Confidence Indicators",
           "description": "Implement search capabilities for HS codes and descriptions, along with confidence indicators for suggested classifications.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2
@@ -182,7 +182,7 @@
           "id": 4,
           "title": "Build Product Management Interface",
           "description": "Create an interface to display products extracted from website analysis and enable manual addition, editing, and classification of products.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2,
             3
@@ -195,7 +195,7 @@
       "id": 4,
       "title": "Implement Market Assessment Tool",
       "description": "Create the market assessment feature to evaluate target export markets and understand market-specific requirements.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         3
       ],
@@ -207,7 +207,7 @@
           "id": 1,
           "title": "Design and implement market selection interface",
           "description": "Create the UI components and database structure for market selection functionality",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Develop a user interface allowing selection of multiple target markets (UAE, UK, USA, African countries). Create database models to store market selections. Implement filtering functionality to compare markets side by side. Design should be responsive and allow for future addition of new markets. Include a favorites/bookmarks feature for frequently accessed markets."
         },
@@ -215,7 +215,7 @@
           "id": 2,
           "title": "Build country-specific requirements database",
           "description": "Create a comprehensive database of market-specific requirements for each target export market",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -225,7 +225,7 @@
           "id": 3,
           "title": "Integrate with HS classification system",
           "description": "Connect the market assessment tool with the HS classification system to display product-specific requirements",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -235,7 +235,7 @@
           "id": 4,
           "title": "Develop market intelligence visualization components",
           "description": "Create interfaces to display comprehensive market intelligence data",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2
@@ -246,7 +246,7 @@
           "id": 5,
           "title": "Implement requirement analysis and timeline estimation features",
           "description": "Build functionality to analyze requirements and generate market entry timelines",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2,
             3,
@@ -260,7 +260,7 @@
       "id": 5,
       "title": "Build Production & Capacity Assessment",
       "description": "Develop the assessment tool to evaluate the company's readiness to meet export market demands.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         4
       ],
@@ -272,7 +272,7 @@
           "id": 1,
           "title": "Implement Production Capacity Input Forms",
           "description": "Create the interface components for collecting and validating production capacity data from companies.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Develop form components to collect: current monthly production volume (with unit selection), manufacturing approach (dropdown with options like batch production, continuous flow, etc.), maximum production capacity, and seasonal variability (graph or month-by-month input). Include validation logic to ensure data consistency and completeness. Store this data in the assessment state using a structured format that can be easily integrated with other assessment components."
         },
@@ -314,7 +314,7 @@
       "id": 6,
       "title": "Implement Conversation-Driven UI",
       "description": "Create the conversational interface with the 'Sarah' AI agent persona that guides users through the assessment process.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         1
       ],
@@ -326,7 +326,7 @@
           "id": 1,
           "title": "Design and Implement the 'Sarah' AI Agent Persona",
           "description": "Create the visual and interactive components for the 'Sarah' AI agent persona that will guide users through the assessment process.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Design the avatar, message bubbles, and styling for the 'Sarah' persona. Implement animations for typing indicators and message transitions. Create reusable components for agent messages vs. user messages with appropriate styling differences. Include personality traits in the design that align with the PRD specifications. Ensure the persona design is accessible and works across different screen sizes."
         },
@@ -334,7 +334,7 @@
           "id": 2,
           "title": "Develop the Conversation State Management System",
           "description": "Create a robust state management system to handle the conversation flow, message history, and user progress tracking.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -344,7 +344,7 @@
           "id": 3,
           "title": "Implement Progressive Disclosure Logic",
           "description": "Build the system that controls the progressive disclosure of questions based on user responses and progress through the assessment.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -354,7 +354,7 @@
           "id": 4,
           "title": "Create Embedded Form Components for Complex Inputs",
           "description": "Design and implement form components that can be embedded within the conversation flow for collecting complex structured data.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -364,7 +364,7 @@
           "id": 5,
           "title": "Implement Quick Reply Options and Conversation Controls",
           "description": "Add interactive quick reply buttons, help text, and conversation controls to enhance the user experience.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             3,
             4
@@ -377,7 +377,7 @@
       "id": 7,
       "title": "Develop Export Readiness Report Generation",
       "description": "Create the functionality to generate comprehensive export readiness reports with actionable insights and recommendations.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         2,
         3,
@@ -392,7 +392,7 @@
           "id": 1,
           "title": "Set up React-PDF integration and basic report structure",
           "description": "Integrate React-PDF library and create the foundational document structure for export readiness reports",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Install and configure React-PDF library in the project. Create a base report component with proper document structure including headers, footers, page numbering, and company branding. Implement the core layout that will accommodate all required report sections (business profile, product classification, market analysis, etc.). Set up proper styling foundations with a consistent design system that matches the application's look and feel. Create reusable PDF components for common elements like section headers, tables, and callout boxes."
         },
@@ -400,7 +400,7 @@
           "id": 2,
           "title": "Implement data aggregation and report content generation logic",
           "description": "Develop the backend logic to collect, process, and format all necessary data for comprehensive export readiness reports",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -410,7 +410,7 @@
           "id": 3,
           "title": "Build modular report templates with all required sections",
           "description": "Create the individual report section components and templates for each required area of the export readiness report",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2
@@ -421,7 +421,7 @@
           "id": 4,
           "title": "Create interactive on-screen report version",
           "description": "Develop the interactive web-based version of the export readiness report with enhanced user features",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2,
             3
@@ -432,7 +432,7 @@
           "id": 5,
           "title": "Implement report generation workflow and sharing functionality",
           "description": "Create the end-to-end process for generating, downloading, and sharing export readiness reports",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             3,
             4
@@ -445,7 +445,7 @@
       "id": 8,
       "title": "Implement Complete User Flows and Navigation",
       "description": "Connect all components into cohesive user flows and implement the left navigation panel for progress tracking and section navigation.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         2,
         3,
@@ -461,7 +461,7 @@
           "id": 1,
           "title": "Design and Implement Left Navigation Panel",
           "description": "Create the left navigation panel component with section links and progress tracking functionality",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Build a reusable navigation panel component that displays all assessment sections. Include visual indicators for completed sections, current section, and locked sections. Design should follow the PRD specifications and match the overall UI. Include placeholder elements for progress tracking that will be connected to state in subtask 2."
         },
@@ -469,7 +469,7 @@
           "id": 2,
           "title": "Implement State Management and Persistence",
           "description": "Create a state management system for tracking user progress across assessment flows with local storage persistence",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -479,7 +479,7 @@
           "id": 3,
           "title": "Implement Exit Points and Flow Controls",
           "description": "Add exit points and flow control mechanisms throughout the assessment process",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -489,7 +489,7 @@
           "id": 4,
           "title": "Connect Components into Cohesive User Flows",
           "description": "Integrate all assessment components into complete user flows with proper navigation between stages",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2,
@@ -503,7 +503,7 @@
       "id": 9,
       "title": "Develop Context Panel with Supporting Information",
       "description": "Implement the right context panel to display context-specific information, detailed forms, visualizations, and supporting documentation.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         2,
         3,
@@ -519,7 +519,7 @@
           "id": 1,
           "title": "Implement the base Context Panel component structure",
           "description": "Create the foundational UI component for the right context panel with responsive layout and integration points with the center conversation panel",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Build a React component for the right context panel with responsive design (adapting to different screen sizes). Implement the panel container with proper styling, scrolling behavior, and state management. Create the connection points to receive the current assessment stage from the main application state. Define the component API that will allow dynamic content loading. Include basic show/hide functionality and smooth transitions when the panel content changes."
         },
@@ -527,7 +527,7 @@
           "id": 2,
           "title": "Develop stage-specific content components and state management",
           "description": "Create the system to dynamically load different content based on the current assessment stage",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -537,7 +537,7 @@
           "id": 3,
           "title": "Implement detailed form components and data visualizations",
           "description": "Create the interactive form components for complex inputs and data visualization components for insights",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             2
           ],
@@ -547,7 +547,7 @@
           "id": 4,
           "title": "Add supporting documentation and finalize integration",
           "description": "Implement the supporting documentation sections and complete the integration with the conversation flow",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             3
           ],
@@ -559,7 +559,7 @@
       "id": 10,
       "title": "Implement Testing, Documentation, and Final Polishing",
       "description": "Complete testing across all components, create required documentation, and polish the application for production readiness.",
-      "status": "pending",
+      "status": "done",
       "dependencies": [
         1,
         2,
@@ -579,7 +579,7 @@
           "id": 1,
           "title": "Implement Unit and Component Testing",
           "description": "Create comprehensive unit tests for service logic, utility functions, and state management, along with component tests for UI elements and form validation.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [],
           "details": "Develop unit tests using Jest for all service functions, utility helpers, and state management logic with >80% code coverage. Create component tests using React Testing Library for all UI components, focusing on user interactions, rendering logic, and accessibility. Implement specific tests for form validation, error states, and context providers. Set up a CI pipeline to run tests automatically on pull requests."
         },
@@ -587,7 +587,7 @@
           "id": 2,
           "title": "Implement Integration and End-to-End Testing",
           "description": "Develop integration tests for API endpoints and multi-component flows, plus end-to-end tests for complete user journeys.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1
           ],
@@ -597,7 +597,7 @@
           "id": 3,
           "title": "Create User and Technical Documentation",
           "description": "Develop comprehensive user documentation and technical documentation for developers.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2
@@ -608,7 +608,7 @@
           "id": 4,
           "title": "Create Maintenance Documentation and DevOps Setup",
           "description": "Develop maintenance documentation including deployment procedures, monitoring setup, and backup/recovery plans.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             3
           ],
@@ -618,7 +618,7 @@
           "id": 5,
           "title": "Perform Final Performance Optimization and Accessibility Compliance",
           "description": "Optimize application performance and ensure WCAG 2.1 AA accessibility compliance before production release.",
-          "status": "pending",
+          "status": "done",
           "dependencies": [
             1,
             2,

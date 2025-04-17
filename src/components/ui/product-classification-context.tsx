@@ -1,10 +1,19 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Type definitions
+export interface Variant {
+  id: number;
+  name: string;
+  selected: boolean;
+}
+
 export interface Product {
   id: number;
   name: string;
   description: string;
+  variants: Variant[];
+  classification: ClassificationStep;
+  classificationStep: number;
   hsCode?: string;
   hsCodeDescription?: string;
 }
@@ -26,13 +35,20 @@ export interface ProductClassificationContextType {
   // Actions
   setProducts: (products: Product[]) => void;
   addProduct: (product: Omit<Product, 'id'>) => void;
+  removeProduct: (productId: number) => void;
+  updateProductName: (productId: number, name: string) => void;
+  updateProductDescription: (productId: number, description: string) => void;
+  addVariant: (productId: number, variantName: string) => void;
+  removeVariant: (productId: number, variantId: number) => void;
+  updateVariantName: (productId: number, variantId: number, name: string) => void;
+  toggleVariantSelection: (productId: number, variantId: number) => void;
   selectProduct: (id: number | null) => void;
   toggleProductExpansion: (id: number) => void;
-  selectChapter: (chapter: { code: string; name: string } | null) => void;
-  selectHeading: (heading: { code: string; name: string } | null) => void;
-  selectSubheading: (subheading: { code: string; name: string } | null) => void;
-  resetClassification: () => void;
-  completeClassification: () => void;
+  selectChapter: (productId: number, chapter: { code: string; name: string } | null) => void;
+  selectHeading: (productId: number, heading: { code: string; name: string } | null) => void;
+  selectSubheading: (productId: number, subheading: { code: string; name: string } | null) => void;
+  resetClassification: (productId: number) => void;
+  completeClassification: (productId: number) => void;
   updateProductHsCode: (productId: number, hsCode: string, description: string) => void;
 }
 
@@ -56,9 +72,87 @@ export const ProductClassificationProvider: React.FC<{ children: ReactNode }> = 
     const newId = products.length > 0 
       ? Math.max(...products.map(p => p.id)) + 1 
       : 1;
-    
-    setProducts([...products, { id: newId, ...product }]);
+    setProducts([...products, { id: newId, ...product, variants: product.variants || [] }]);
   };
+
+  // Remove a product by ID
+  const removeProduct = (productId: number) => {
+    setProducts(products.filter(product => product.id !== productId));
+  };
+
+  // Update product name
+  const updateProductName = (productId: number, name: string) => {
+    setProducts(products.map(product =>
+      product.id === productId ? { ...product, name } : product
+    ));
+  };
+
+  // Update product description
+  const updateProductDescription = (productId: number, description: string) => {
+    setProducts(products.map(product =>
+      product.id === productId ? { ...product, description } : product
+    ));
+  };
+
+  // Add a variant to a product
+  const addVariant = (productId: number, variantName: string) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            variants: [
+              ...product.variants,
+              {
+                id: product.variants.length > 0 ? Math.max(...product.variants.map(v => v.id)) + 1 : 1,
+                name: variantName,
+                selected: false
+              }
+            ]
+          }
+        : product
+    ));
+  };
+
+  // Remove a variant from a product
+  const removeVariant = (productId: number, variantId: number) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            variants: product.variants.filter(variant => variant.id !== variantId)
+          }
+        : product
+    ));
+  };
+
+  // Update variant name
+  const updateVariantName = (productId: number, variantId: number, name: string) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            variants: product.variants.map(variant =>
+              variant.id === variantId ? { ...variant, name } : variant
+            )
+          }
+        : product
+    ));
+  };
+
+  // Toggle variant selection
+  const toggleVariantSelection = (productId: number, variantId: number) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            variants: product.variants.map(variant =>
+              variant.id === variantId ? { ...variant, selected: !variant.selected } : variant
+            )
+          }
+        : product
+    ));
+  };
+
 
   // Toggle product expansion for UI
   const toggleProductExpansion = (id: number) => {
@@ -81,44 +175,75 @@ export const ProductClassificationProvider: React.FC<{ children: ReactNode }> = 
     setSelectedProductId(id);
   };
 
-  // Classification steps
-  const selectChapter = (chapter: { code: string; name: string } | null) => {
-    setClassification({ ...classification, chapter, heading: null, subheading: null });
-    setClassificationStep(1);
+  // Classification steps (per product)
+  const selectChapter = (productId: number, chapter: { code: string; name: string } | null) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            classification: {
+              ...product.classification,
+              chapter,
+              heading: null,
+              subheading: null
+            }
+          }
+        : product
+    ));
   };
 
-  const selectHeading = (heading: { code: string; name: string } | null) => {
-    setClassification({ ...classification, heading, subheading: null });
-    setClassificationStep(2);
+  const selectHeading = (productId: number, heading: { code: string; name: string } | null) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            classification: {
+              ...product.classification,
+              heading,
+              subheading: null
+            }
+          }
+        : product
+    ));
   };
 
-  const selectSubheading = (subheading: { code: string; name: string } | null) => {
-    setClassification({ ...classification, subheading });
-    setClassificationStep(3);
-    
-    // Auto-advance to completion after slight delay
-    setTimeout(() => {
-      setClassificationStep(4);
-    }, 800);
+  const selectSubheading = (productId: number, subheading: { code: string; name: string } | null) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            classification: {
+              ...product.classification,
+              subheading
+            }
+          }
+        : product
+    ));
   };
 
-  // Reset classification process
-  const resetClassification = () => {
-    setClassificationStep(0);
-    setClassification({
-      chapter: null,
-      heading: null,
-      subheading: null
-    });
+  // Reset classification process (per product)
+  const resetClassification = (productId: number) => {
+    setProducts(products.map(product =>
+      product.id === productId
+        ? {
+            ...product,
+            classification: {
+              chapter: null,
+              heading: null,
+              subheading: null
+            }
+          }
+        : product
+    ));
   };
 
-  // Complete classification and update product
-  const completeClassification = () => {
-    if (selectedProductId && classification.chapter && classification.heading && classification.subheading) {
-      const hsCode = `${classification.chapter.code}.${classification.heading.code.slice(2)}.${classification.subheading.code.slice(4)}`;
-      const hsCodeDescription = `${classification.chapter.name} > ${classification.heading.name} > ${classification.subheading.name}`;
-      
-      updateProductHsCode(selectedProductId, hsCode, hsCodeDescription);
+  // Complete classification and update product (per product)
+  const completeClassification = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    if (product && product.classification?.chapter && product.classification?.heading && product.classification?.subheading) {
+      const hsCode = `${product.classification.chapter.code}.${product.classification.heading.code.slice(2)}.${product.classification.subheading.code.slice(4)}`;
+      const hsCodeDescription = `${product.classification.chapter.name} > ${product.classification.heading.name} > ${product.classification.subheading.name}`;
+      updateProductHsCode(productId, hsCode, hsCodeDescription);
     }
   };
 
@@ -140,6 +265,13 @@ export const ProductClassificationProvider: React.FC<{ children: ReactNode }> = 
     
     setProducts,
     addProduct,
+    removeProduct,
+    updateProductName,
+    updateProductDescription,
+    addVariant,
+    removeVariant,
+    updateVariantName,
+    toggleVariantSelection,
     selectProduct,
     toggleProductExpansion,
     selectChapter,

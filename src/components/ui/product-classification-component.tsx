@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { ChevronRight, ChevronDown, Plus, CheckCircle, HelpCircle, ArrowLeft, ArrowRight, Search, Edit } from 'lucide-react';
-import { useProductClassification } from '../context/ProductClassificationContext';
+import { useProductClassification } from './product-classification-context';
 import { chapters, headings, subheadings, sampleProducts } from '../data/hs-code-data';
 
 const ProductClassification: React.FC = () => {
-  // New state for incremental workflow
+  const [error, setError] = React.useState<string | null>(null);
   const [activeStep, setActiveStep] = React.useState<'grouping' | 'classification' | 'compliance'>('grouping');
   const [activeProductId, setActiveProductId] = React.useState<number | null>(null);
 
@@ -21,7 +21,13 @@ const ProductClassification: React.FC = () => {
     resetClassification,
     completeClassification,
     updateProductName,
+    updateProductDescription,
+    removeProduct,
+    addVariant,
+    removeVariant,
+    updateVariantName,
     toggleVariantSelection,
+    addProduct, // Ensure this is in context
   } = useProductClassification();
 
   const router = useRouter();
@@ -34,8 +40,31 @@ const ProductClassification: React.FC = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Select Products for Export</h1>
-        <p className="text-gray-600 mt-2">We&apos;ve detected these products from your website. Select the ones you plan to export.</p>
+        <p className="text-gray-600 mt-2">We&apos;ve detected these products from your website. Select the ones you plan to export. You can edit product and variant names, or remove items as needed.</p>
       </div>
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+          {error}
+<p className="mt-2 text-sm text-gray-500">Tip: You must select at least one variant for any product you wish to export. Use the checkboxes above to select variants.</p>
+        </div>
+      )}
+      {products.length === 0 && (
+        <div className="text-center text-gray-500 p-8 border rounded-xl bg-gray-50">
+          No products detected. Please add a product to begin classification. If you believe products should have been detected, try refreshing the page or adding them manually below.
+          <button
+            className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            onClick={() => addProduct({
+  name: 'New Product',
+  description: '',
+  variants: [{ id: 1, name: 'Default Variant', selected: false }],
+  classification: { chapter: null, heading: null, subheading: null },
+  classificationStep: 0
+})}
+          >
+            Add Product
+          </button>
+        </div>
+      )}
       {/* Products Grid */}
       <div className="space-y-4 mb-8">
         {products.map(product => (
@@ -59,14 +88,49 @@ const ProductClassification: React.FC = () => {
                         onChange={() => toggleVariantSelection(product.id, variant.id)}
                       />
                       <span>{variant.name}</span>
+                      <button
+                        className="text-purple-600 font-medium flex items-center justify-center"
+                        onClick={() => {
+  const newName = prompt('Enter new variant name:', variant.name);
+  if (newName) updateVariantName(product.id, variant.id, newName);
+}}
+                      >
+                        <Edit size={16} className="mr-1" /> Edit
+                      </button>
+                      <button
+                        className="text-red-600 font-medium flex items-center justify-center"
+                        onClick={() => {
+  if (window.confirm(`Remove variant "${variant.name}" from product "${product.name}"?`)) {
+    removeVariant(product.id, variant.id);
+  }
+}}
+                      >
+                        <HelpCircle size={16} className="mr-1" /> Remove
+                      </button>
                     </label>
                   ))}
+                  <button
+                    className="text-purple-600 font-medium flex items-center justify-center"
+                    onClick={() => addVariant(product.id, 'New Variant')}
+                  >
+                    <Plus size={16} className="mr-1" /> Add Variant
+                  </button>
                 </div>
                 <button
                   className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
                   onClick={() => setActiveProductId(product.id)}
                 >
                   Next: Classify Product
+                </button>
+                <button
+                  className="text-red-600 font-medium flex items-center justify-center"
+                  onClick={() => {
+  if (window.confirm(`Are you sure you want to remove the product "${product.name}" and all its variants? This action cannot be undone.`)) {
+    removeProduct(product.id);
+  }
+}}
+                >
+                  <HelpCircle size={16} className="mr-1" /> Remove Product
                 </button>
               </div>
             ) : (
@@ -91,10 +155,16 @@ const ProductClassification: React.FC = () => {
                     </div>
                   )}
                 </div>
-                {/* Step 1: Chapter Selection */}
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Step 1: Select Chapter (2-digit)
-                </label>
+                {/* Step 1: HS Code Step Help Banner */}
+                <div className="flex items-start mb-4 bg-blue-50 border border-blue-200 rounded p-3">
+                  <HelpCircle size={20} className="text-blue-400 mt-0.5 mr-2" />
+                  <div>
+                    <span className="font-semibold text-blue-700">HS Code Step 1: Chapter</span>
+                    <div className="text-xs text-blue-700 mt-1">The chapter is the broadest category in the HS code system (first 2 digits). Choose the chapter that best matches your product type.</div>
+                  </div>
+                </div>
+                {/* Chapter Selection */}
+                <label className="block font-medium text-gray-700 mt-6 mb-2">Select HS Chapter</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search size={16} className="text-gray-400" />
@@ -209,13 +279,24 @@ const ProductClassification: React.FC = () => {
       <div className="flex justify-between pt-4 border-t border-gray-200 mt-10">
         <button
           className="text-primary underline flex items-center px-4 py-2"
-          onClick={() => activeProductId && resetClassification(activeProductId)}
+          onClick={() => setActiveProductId(null)}
         >
           <ArrowLeft size={18} className="mr-2" />
           Back
         </button>
         <button
           className="bg-primary text-white px-8 py-2 rounded font-semibold shadow hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary"
+          onClick={() => {
+            // Validation: at least one variant selected
+            const anySelected = products.some(product => product.variants && product.variants.some(v => v.selected));
+            if (!anySelected) {
+              setError('You must select at least one variant to proceed.');
+              return;
+            }
+            setError(null);
+            // Proceed to next step (classification)
+            setActiveStep('classification');
+          }}
         >
           Continue
           <ArrowRight size={18} className="ml-2" />
