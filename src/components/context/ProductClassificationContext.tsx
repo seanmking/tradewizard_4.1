@@ -1,12 +1,49 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { sampleProducts } from '../data/hs-code-data';
 
 // Type definitions
+export interface ProductVariant {
+  id: number;
+  name: string;
+  selected: boolean;
+  sku?: string;
+  price?: number;
+  weight?: number;
+  dimensions?: { length: number; width: number; height: number };
+  hsCode?: string;
+  tariffCode?: string;
+  countryOfOrigin?: string;
+  exportControlCode?: string;
+  unitOfQuantity?: string;
+}
+
 export interface Product {
   id: number;
   name: string;
-  description: string;
+  description?: string;
+  sku?: string;
+  price?: number;
+  weight?: number;
+  dimensions?: { length: number; width: number; height: number };
+  images?: string[];
+  category?: string;
+  brand?: string;
+  variants: ProductVariant[];
+  classification: {
+    chapter: { code: string; name: string } | null;
+    heading: { code: string; name: string } | null;
+    subheading: { code: string; name: string } | null;
+  };
+  classificationStep: number;
   hsCode?: string;
-  hsCodeDescription?: string;
+  tariffCode?: string;
+  countryOfOrigin?: string;
+  exportControlCode?: string;
+  unitOfQuantity?: string;
+  declaredValue?: number;
+  ftaEligibility?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ClassificationStep {
@@ -16,36 +53,62 @@ export interface ClassificationStep {
 }
 
 export interface ProductClassificationContextType {
+  updateProductName: (productId: number, newName: string) => void;
+  toggleVariantSelection: (productId: number, variantId: number) => void;
   products: Product[];
   selectedProductId: number | null;
   expandedProductId: number | null;
-  classificationStep: number;
-  classification: ClassificationStep;
   setProducts: (products: Product[]) => void;
   addProduct: (product: Omit<Product, 'id'>) => void;
   selectProduct: (id: number | null) => void;
   toggleProductExpansion: (id: number) => void;
-  selectChapter: (chapter: { code: string; name: string } | null) => void;
-  selectHeading: (heading: { code: string; name: string } | null) => void;
-  selectSubheading: (subheading: { code: string; name: string } | null) => void;
-  resetClassification: () => void;
-  completeClassification: () => void;
+  selectChapter: (productId: number, chapter: { code: string; name: string } | null) => void;
+  selectHeading: (productId: number, heading: { code: string; name: string } | null) => void;
+  selectSubheading: (productId: number, subheading: { code: string; name: string } | null) => void;
+  resetClassification: (productId: number) => void;
+  completeClassification: (productId: number) => void;
 }
 
 const ProductClassificationContext = createContext<ProductClassificationContextType | undefined>(undefined);
 
 export const ProductClassificationProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<Product[]>([]);
+
+  // DEV/DEMO ONLY: Auto-load sample products if none exist, so UI can be reviewed
+  useEffect(() => {
+    if (products.length === 0) {
+      // Import sampleProducts from hs-code-data
+      // Each product should have variants, classification, and classificationStep fields
+      setProducts(
+        sampleProducts.map((p: any, idx: number) => ({
+          ...p,
+          variants: [
+            { id: 1, name: `${p.name} Variant A`, selected: false },
+            { id: 2, name: `${p.name} Variant B`, selected: false }
+          ],
+          classification: { chapter: null, heading: null, subheading: null },
+          classificationStep: 1,
+        }))
+      );
+    }
+  }, []); // Remove for production
+
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [expandedProductId, setExpandedProductId] = useState<number | null>(null);
-  const [classificationStep, setClassificationStep] = useState<number>(0);
-  const [classification, setClassification] = useState<ClassificationStep>({
-    chapter: null,
-    heading: null,
-    subheading: null,
-  });
 
   // Actions
+  const updateProductName = (productId: number, newName: string) => {
+    setProducts(prev => prev.map(p => p.id === productId ? { ...p, name: newName } : p));
+  };
+
+  const toggleVariantSelection = (productId: number, variantId: number) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? { ...p, variants: p.variants.map(v => v.id === variantId ? { ...v, selected: !v.selected } : v) }
+        : p
+    ));
+  };
+
   const addProduct = (product: Omit<Product, 'id'>) => {
     setProducts(prev => [...prev, { ...product, id: Date.now() }]);
   };
@@ -61,29 +124,62 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
     setExpandedProductId(prev => (prev === id ? null : id));
   };
 
-  const selectChapter = (chapter: { code: string; name: string } | null) => {
-    setClassification(prev => ({ ...prev, chapter, heading: null, subheading: null }));
-    setClassificationStep(2);
+  const selectChapter = (productId: number, chapter: { code: string; name: string } | null) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? {
+            ...p,
+            classification: { chapter, heading: null, subheading: null },
+            classificationStep: 2,
+          }
+        : p
+    ));
   };
 
-  const selectHeading = (heading: { code: string; name: string } | null) => {
-    setClassification(prev => ({ ...prev, heading, subheading: null }));
-    setClassificationStep(3);
+  const selectHeading = (productId: number, heading: { code: string; name: string } | null) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? {
+            ...p,
+            classification: { ...p.classification, heading, subheading: null },
+            classificationStep: 3,
+          }
+        : p
+    ));
   };
 
-  const selectSubheading = (subheading: { code: string; name: string } | null) => {
-    setClassification(prev => ({ ...prev, subheading }));
-    setClassificationStep(4);
+  const selectSubheading = (productId: number, subheading: { code: string; name: string } | null) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? {
+            ...p,
+            classification: { ...p.classification, subheading },
+            classificationStep: 4,
+          }
+        : p
+    ));
   };
 
-  const resetClassification = () => {
-    setClassification({ chapter: null, heading: null, subheading: null });
-    setClassificationStep(1);
+  const resetClassification = (productId: number) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? {
+            ...p,
+            classification: { chapter: null, heading: null, subheading: null },
+            classificationStep: 1,
+          }
+        : p
+    ));
   };
 
-  const completeClassification = () => {
-    setClassificationStep(4);
+  const completeClassification = (productId: number) => {
+    setProducts(prev => prev.map(p =>
+      p.id === productId
+        ? { ...p, classificationStep: 4 }
+        : p
+    ));
   };
+
 
   return (
     <ProductClassificationContext.Provider
@@ -91,8 +187,6 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
         products,
         selectedProductId,
         expandedProductId,
-        classificationStep,
-        classification,
         setProducts,
         addProduct,
         selectProduct,
@@ -102,6 +196,8 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
         selectSubheading,
         resetClassification,
         completeClassification,
+        updateProductName,
+        toggleVariantSelection,
       }}
     >
       {children}

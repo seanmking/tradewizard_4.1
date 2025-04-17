@@ -60,6 +60,18 @@
             4
           ],
           "details": "Initialize Git repository if not done already. Create .github/workflows/ci.yml for GitHub Actions with jobs for linting and type-checking. Set up Vercel CLI with `npm i -g vercel` and link to Vercel account. Configure vercel.json with project settings. Add deployment scripts to package.json. Create .env.example for environment variables. Document the deployment process in README.md with instructions for both development and production environments."
+        },
+        {
+          "id": 6,
+          "title": "Implement landing page and user onboarding form",
+          "description": "Create an attractive landing page and user onboarding form to collect initial user information",
+          "status": "pending",
+          "dependencies": [
+            2,
+            4
+          ],
+          "priority": "high",
+          "details": "Design and implement an engaging landing page that introduces the application's purpose and benefits. Create a multi-step onboarding form to collect essential user information (business name, industry, contact details, export goals). Implement form validation with helpful error messages. Store onboarding data in the application state using the Context API. Add progress indicators for multi-step forms. Ensure the landing page and onboarding process are fully responsive and accessible. Include clear call-to-action buttons to guide users to the next steps."
         }
       ]
     },
@@ -134,7 +146,7 @@
         2
       ],
       "priority": "high",
-      "details": "Create a CSV-based HS code database with structured format for hierarchical navigation. Implement a cascading dropdown selection interface (chapter → heading → subheading). Add search functionality for codes and descriptions. Build product management interface to display products extracted from website analysis and allow manual addition/editing. Implement confidence indicators for suggestions. Ensure the system is future-proof for country-specific extensions. Note: Do not reuse any UI components from TradeWizard 3.0.",
+      "details": "Source HS code data directly from the official datasets/harmonized-system GitHub repository (https://github.com/datasets/harmonized-system). Fetch the CSV file directly from the repo, parse it for use in the cascading dropdown, and structure it for hierarchical navigation. Implement a monthly automated check to detect updates to the HS code dataset, and notify the team if a new version is found. Implement a cascading dropdown selection interface (chapter → heading → subheading). Add search functionality for codes and descriptions. Build product management interface to display products extracted from website analysis and allow manual addition/editing. Implement confidence indicators for suggestions. Ensure the system is future-proof for country-specific extensions. Note: Do not reuse any UI components from TradeWizard 3.0.",
       "testStrategy": "Verify correct loading and parsing of the HS code database. Test the hierarchical navigation through code levels. Validate search functionality with various product keywords. Test manual product addition and editing. Verify proper classification and storage of selected HS codes.",
       "subtasks": [
         {
@@ -143,7 +155,7 @@
           "description": "Develop the CSV-based HS code database with a structured format that supports hierarchical navigation through chapters, headings, and subheadings of the Harmonized System.",
           "status": "pending",
           "dependencies": [],
-          "details": "Create a CSV file with columns for code, description, level (chapter/heading/subheading), parent code references, and metadata. Import the complete Harmonized System classification data. Implement data validation to ensure integrity of the hierarchical structure. Design the data access layer to efficiently query and filter the HS codes. Include fields for future country-specific extensions (e.g., additional digits for national use). Document the database schema and access patterns."
+          "details": "Fetch the official CSV file from the datasets/harmonized-system GitHub repository. Parse the CSV into a hierarchical data structure suitable for the cascading dropdown. Implement data validation to ensure integrity of the hierarchical structure. Design the data access layer to efficiently query and filter the HS codes. Include fields for future country-specific extensions (e.g., additional digits for national use). Document the database schema and access patterns. Implement a monthly check for updates to the CSV and trigger a refresh if a new version is detected."
         },
         {
           "id": 2,

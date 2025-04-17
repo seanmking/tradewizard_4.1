@@ -1,14 +1,10 @@
-import React from 'react';
-import Head from 'next/head';
-import MainPage from '../components/ui/main-page';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>TradeWizard 4.1</title>
-      </Head>
-      <MainPage />
-    </>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/website-analysis');
+  }, [router]);
+  return null;
 }
