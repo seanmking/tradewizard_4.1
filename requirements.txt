@@ -1,0 +1,12 @@
+# /Users/seanking/Projects/tradewizard_4.1/requirements.txt
+# Core Scrapy dependencies
+scrapy>=2.11.0 # Use a recent stable version
+python-dotenv>=1.0.0
+
+# Supabase client (used by both scraper pipeline and interpreter)
+supabase>=1.0.0 # Use v1 or later for async/sync consistency if needed
+
+# LLM Interpreter dependencies
+openai>=1.0.0 # For OpenAI API access
+
+# Add other project-specific dependencies below as needed
