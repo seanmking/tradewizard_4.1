@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Setup Project Structure and Dependencies",
       "description": "Initialize project directories, install dependencies, and set up configuration for Scrapy and Playwright.",
-      "status": "pending",
+      "status": "In Progress",
       "dependencies": [],
       "priority": "high",
       "details": "Create a new project repository for the TradeWizard 4.1 web scraping component. Set up the basic folder structure including directories for scrapers, processors, storage, and API interfaces. Install required dependencies for web scraping (e.g., BeautifulSoup, Selenium, Scrapy), social media API access, and data processing libraries. Configure environment variables for API keys and credentials.",
@@ -14,7 +14,7 @@
           "id": 1,
           "title": "Create Repository and Define Folder Structure",
           "description": "Initialize the TradeWizard 4.1 repository and establish the core directory structure for the web scraping component.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Create a new Git repository named 'tradewizard-4.1-scraper'. Set up the following directory structure: /scrapers (with subdirectories for different data sources), /processors (for data transformation logic), /storage (for database connectors and caching), /api (for external API interfaces), /tests (for unit and integration tests), and /config (for configuration files). Include a README.md with project overview and setup instructions."
         },
@@ -22,7 +22,7 @@
           "id": 2,
           "title": "Install Core Web Scraping Dependencies",
           "description": "Set up the Python environment and install primary web scraping libraries needed for the project.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [
             1
           ],
@@ -32,7 +32,7 @@
           "id": 3,
           "title": "Implement Social Media API Connectors",
           "description": "Set up the necessary libraries and authentication for accessing social media platforms' APIs.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [
             2
           ],
@@ -42,7 +42,7 @@
           "id": 4,
           "title": "Configure Environment and Credentials Management",
           "description": "Establish a secure system for managing API keys, credentials, and environment-specific configurations.",
-          "status": "pending",
+          "status": "Completed",
           "dependencies": [
             3
           ],
@@ -52,7 +52,7 @@
           "id": 5,
           "title": "Set Up Data Processing and Storage Libraries",
           "description": "Install and configure libraries for data processing, transformation, and storage of scraped information.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [
             2,
             4
@@ -65,7 +65,7 @@
       "id": 2,
       "title": "Implement SME Website Scraping (Scrapy)",
       "description": "Develop a Scrapy-based service for crawling SME company websites (e.g., www.kelvinspices.co.za) to extract products, About Us, company metadata, social links, and contact info.",
-      "status": "pending",
+      "status": "Pending",
       "dependencies": [1],
       "priority": "high",
       "details": "Implement Scrapy spiders for 5-10 provided SME company websites. Extract product listings, About Us section, company type/services/location, social links, and contact info. Output JSON in the schema required by the MCP and UI integration. Ensure all operations are scoped by assessmentId.",
@@ -75,7 +75,7 @@
           "id": 1,
           "title": "Implement Product & Metadata Extraction",
           "description": "Extract product names, descriptions, images, About Us, company metadata, social links, and contact info from SME websites.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Create robust selectors for each target site. Map all data to the unified JSON structure for Supabase storage (scoped by assessmentId) and MCP consumption."
         },
@@ -83,7 +83,7 @@
           "id": 2,
           "title": "REST API Output for Next.js Integration",
           "description": "Expose Scrapy results via REST endpoint for ingestion by the TypeScript backend.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [1],
           "details": "Ensure output is MCP-compatible JSON, ready for UI and LLM prompt flow. Endpoint must accept assessmentId to fetch/trigger relevant data. Implement enhanced ScrapingError structure for API responses."
         }
@@ -93,7 +93,7 @@
       "id": 3,
       "title": "Implement Social Platform Scraping (Playwright)",
       "description": "Use Playwright (Node.js) to scrape LinkedIn, Instagram, Facebook, and Twitter/X for SME company and product data.",
-      "status": "pending",
+      "status": "Pending",
       "dependencies": [1],
       "priority": "high",
       "details": "Implement Playwright scripts to extract company profiles, product mentions, About/description, and engagement metrics from LinkedIn, Instagram, Facebook, and Twitter/X. Output structured JSON (scoped by assessmentId) as per the MCP and UI requirements. No Reddit. Implement enhanced ScrapingError structure for error reporting.",
@@ -103,7 +103,7 @@
           "id": 1,
           "title": "LinkedIn Company Scraper",
           "description": "Extract company profile, about, products/services, and social links from LinkedIn.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Use Playwright to navigate and extract relevant sections. Map to JSON schema. Scope data by assessmentId."
         },
@@ -111,7 +111,7 @@
           "id": 2,
           "title": "Instagram Scraper",
           "description": "Extract product posts, company bio, and contact links from Instagram.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Focus on posts mentioning products/services. Extract images, captions, and links. Scope data by assessmentId."
         },
@@ -119,7 +119,7 @@
           "id": 3,
           "title": "Facebook Scraper",
           "description": "Extract company page details, products, about, and contact info from Facebook.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Extract posts, about section, and social/contact links. Scope data by assessmentId."
         },
@@ -127,7 +127,7 @@
           "id": 4,
           "title": "Twitter/X Scraper",
           "description": "Extract tweets mentioning products, company bio, and engagement metrics from Twitter/X.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Extract relevant tweets, bio, and links. Map all data to unified JSON structure. Scope data by assessmentId."
         }
@@ -137,7 +137,7 @@
       "id": 4,
       "title": "Implement Frontend Context and UI Integration",
       "description": "Create React Context (ScrapingProvider/useScraping) for managing scraped data state and integrate with UI panels.",
-      "status": "pending",
+      "status": "In Progress",
       "dependencies": [2, 3],
       "priority": "critical",
       "details": "Implement ScrapingProvider accepting assessmentId and Supabase client. Use Supabase real-time subscriptions for data refresh after startNewScrape. Implement enhanced ScrapingError type. Handle initial/empty state UX (Sarah prompt or UI fallback). Integrate context data with Center Panel, Right Panel, and Sarah prompt triggers.",
@@ -147,7 +147,7 @@
           "id": 1,
           "title": "Develop Scraping Context Provider & Hook",
           "description": "Implement ScrapingProvider and useScraping hook with assessmentId scoping, Supabase real-time subscription logic, and enhanced error handling.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": "Define IScrapingContext, ScrapingError interfaces. Implement state logic for loading, error, data, and isInitialState."
         },
@@ -155,7 +155,7 @@
           "id": 2,
           "title": "Integrate Context with UI Panels",
           "description": "Connect Center Panel, Right Panel, and relevant action buttons to the useScraping hook.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [1],
           "details": "Display scraped data, loading indicators, error messages (using resolutionHint), and handle initial state prompts."
         },
@@ -163,7 +163,7 @@
           "id": 3,
           "title": "Integrate Context with Sarah Agent",
           "description": "Ensure Sarah agent logic can access scraped data from the context to inform prompts.",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [1],
           "details": "Pass scrapedData (especially products) to prompt generation logic. Trigger prompts based on data availability/updates."
         }
@@ -173,7 +173,7 @@
       "id": 5,
       "title": "Refactor Product Classification Flow",
       "description": "Overhaul the product classification experience in TradeWizard to use a stepwise, incremental UX flow (Grouping -> HS Code -> Compliance -> Review). Focus on reducing cognitive load and guiding the user through complex data entry.",
-      "status": "in_progress",
+      "status": "Pending",
       "dependencies": [],
       "priority": "high",
       "details": "Finalize data model for per-product and per-variant fields (export compliant). Design UI mockups for each step (Grouping, HS Code, Compliance, Review). Implement Step 1: Product Grouping & Variant Selection UI. Implement Step 2: HS Code Cascade/Classification (using Github repo data lookup). Implement Step 3: Compliance Fields (collapsible/optional sections). Implement Step 4: Review/Export screen (placeholder for now). Connect UI components to backend data model/state management. Add validation logic for each step. Ensure smooth transitions between steps. Write unit/integration tests for the new flow",
@@ -183,7 +183,7 @@
           "id": 1,
           "title": "Finalize data model for per-product and per-variant fields (export compliant)",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -191,7 +191,7 @@
           "id": 2,
           "title": "Design UI mockups for each step (Grouping, HS Code, Compliance, Review)",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -199,7 +199,7 @@
           "id": 3,
           "title": "Implement Step 1: Product Grouping & Variant Selection UI",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -207,7 +207,7 @@
           "id": 4,
           "title": "Implement Step 2: HS Code Cascade/Classification (using Github repo data lookup)",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -215,7 +215,7 @@
           "id": 5,
           "title": "Implement Step 3: Compliance Fields (collapsible/optional sections)",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -223,7 +223,7 @@
           "id": 6,
           "title": "Implement Step 4: Review/Export screen (placeholder for now)",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -231,7 +231,7 @@
           "id": 7,
           "title": "Connect UI components to backend data model/state management",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -239,7 +239,7 @@
           "id": 8,
           "title": "Add validation logic for each step",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -247,7 +247,7 @@
           "id": 9,
           "title": "Ensure smooth transitions between steps",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -255,7 +255,7 @@
           "id": 10,
           "title": "Write unit/integration tests for the new flow",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         }
@@ -265,7 +265,7 @@
       "id": 6,
       "title": "Implement LLM Interpreter for SME Assessment",
       "description": "Develop the LLM-based module to process scraped SME assessment data, extract structured information, and update Supabase.",
-      "status": "in_progress",
+      "status": "In Progress",
       "dependencies": [
         5
       ],
@@ -277,7 +277,7 @@
           "id": 1,
           "title": "Fetch Assessments where `llm_ready = true`",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Query Supabase for records meeting criteria (llm_ready=true, raw_content not null, is_mock=false)."
         },
@@ -285,7 +285,7 @@
           "id": 2,
           "title": "Design & Test LLM Prompt Template",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Create a robust prompt instructing the LLM on JSON structure and field confidence."
         },
@@ -293,7 +293,7 @@
           "id": 3,
           "title": "Implement LLM Interpreter Function",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Function to call the chosen LLM API (OpenAI/Anthropic) using credentials from .env."
         },
@@ -301,7 +301,7 @@
           "id": 4,
           "title": "Implement Pre-Checks (is_mock, content length)",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Add checks to skip processing if record is mock or content too short."
         },
@@ -309,7 +309,7 @@
           "id": 5,
           "title": "Parse LLM Response to MCPData",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Validate and parse the LLM's JSON output into the target MCPData structure. **Implement schema validation (required fields, types, value ranges) and confidence threshold checks.**"
         },
@@ -317,7 +317,7 @@
           "id": 6,
           "title": "Upsert Structured MCPData to Supabase",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Update the original Supabase record by ID with the extracted structured data."
         },
@@ -325,7 +325,7 @@
           "id": 7,
           "title": "Mark `llm_ready = false` and `llm_processed_at` timestamp",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Update status flags in Supabase upon successful processing."
         },
@@ -333,7 +333,7 @@
           "id": 8,
           "title": "Handle Errors and Log",
           "description": "",
-          "status": "complete",
+          "status": "Completed",
           "dependencies": [],
           "details": "Implement error handling for API calls and database updates; add comprehensive logging. **Implement retry logic (e.g., exponential backoff) for transient errors.**"
         },
@@ -341,7 +341,7 @@
           "id": 9,
           "title": "Write Unit Tests",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         },
@@ -349,7 +349,7 @@
           "id": 10,
           "title": "Document how the interpreter connects to Sarah and downstream UX",
           "description": "",
-          "status": "pending",
+          "status": "Pending",
           "dependencies": [],
           "details": ""
         }
