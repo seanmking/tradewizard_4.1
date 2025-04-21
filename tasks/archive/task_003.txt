@@ -1,0 +1,43 @@
+# Task ID: 3
+# Title: Develop Social Media API Connectors
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create connectors for relevant social media platforms to extract financial discussions and sentiment data.
+# Details:
+Implement API connectors for Twitter, Reddit, StockTwits, and other relevant platforms. Each connector should handle authentication, rate limiting, and pagination. Create methods to search for specific financial terms, follow relevant accounts, and extract post content, engagement metrics, and user information. Develop a unified interface that standardizes data from different platforms.
+
+# Test Strategy:
+Test each social media connector with sample queries related to financial markets. Verify the connectors can retrieve recent posts, handle rate limits appropriately, and transform platform-specific data into the standardized format.
+
+# Subtasks:
+## 1. Design unified data model and connector interface [pending]
+### Dependencies: None
+### Description: Create a standardized data model and interface that all social media connectors will implement
+### Details:
+Define a common interface (IMediaConnector) with methods like authenticate(), search(terms), getContent(id), getEngagementMetrics(id), and getUserInfo(id). Create standardized data models for posts, users, and engagement metrics that will normalize data across platforms. Include error handling patterns and rate limit management interfaces. Document the interface with examples of how each connector will implement it.
+
+## 2. Implement Twitter API connector [pending]
+### Dependencies: 3.1
+### Description: Develop the connector for Twitter's API with authentication, search, and data extraction capabilities
+### Details:
+Use Twitter API v2 with OAuth 2.0 authentication. Implement the IMediaConnector interface for Twitter. Create methods to search tweets by cashtags/hashtags, follow financial accounts, and extract tweet content. Handle Twitter-specific rate limiting (300/15min for search endpoints) with exponential backoff. Implement pagination for search results. Map Twitter's engagement metrics (likes, retweets, replies) to the standardized model. Include error handling for API changes and downtime.
+
+## 3. Implement Reddit API connector [pending]
+### Dependencies: 3.1
+### Description: Develop the connector for Reddit's API with authentication, subreddit monitoring, and comment extraction
+### Details:
+Use Reddit's OAuth API with application-only authentication. Implement the IMediaConnector interface for Reddit. Create methods to search financial subreddits (r/investing, r/wallstreetbets, etc.), monitor discussion threads, and extract post/comment content. Handle Reddit's rate limiting (60 requests/minute) with appropriate throttling. Implement pagination for retrieving large comment threads. Map Reddit's engagement metrics (upvotes, downvotes, awards) to the standardized model. Include special handling for NSFW content filtering.
+
+## 4. Implement StockTwits API connector [pending]
+### Dependencies: 3.1
+### Description: Develop the connector for StockTwits API with symbol-based searches and sentiment data extraction
+### Details:
+Use StockTwits REST API with API key authentication. Implement the IMediaConnector interface for StockTwits. Create methods to search by stock symbols, retrieve trending stocks, and extract message content. Handle StockTwits' rate limiting (200 requests/hour) with appropriate throttling. Implement pagination for symbol streams. Extract StockTwits' built-in sentiment indicators (bullish/bearish) and map to the standardized model. Include methods to retrieve user watchlists and following relationships for network analysis.
+
+## 5. Create connector manager with unified query capabilities [pending]
+### Dependencies: 3.2, 3.3, 3.4
+### Description: Develop a manager class that coordinates queries across all implemented social media connectors
+### Details:
+Create a MediaConnectorManager class that maintains instances of all implemented connectors. Implement methods to broadcast searches across all platforms (searchAll(terms)), aggregate results with consistent formatting, and handle platform-specific errors gracefully. Add capability to filter and sort results by relevance, recency, or engagement metrics. Implement parallel queries with appropriate throttling to respect each platform's rate limits. Include comprehensive logging of API interactions for debugging and monitoring purposes. Add configuration options to enable/disable specific platforms.
+
