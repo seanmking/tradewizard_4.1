@@ -354,6 +354,90 @@
           "details": ""
         }
       ]
+    },
+    {
+      "id": 7,
+      "title": "Integrate LLM for Data Interpretation",
+      "description": "Build a module to process raw scraped text using an LLM, extract structured MCPData, and update Supabase.",
+      "status": "In Progress",
+      "dependencies": [2, 6],
+      "priority": "critical",
+      "details": "This module monitors Supabase for Assessments marked `llm_ready=true` with non-null `raw_content`. It uses an LLM (OpenAI/Anthropic) via .env keys to parse content based on a structured prompt, aiming to extract fields like summary, products, certifications, contacts, etc. Output must conform to MCPData JSON format. Includes retry/fallback logic, confidence logging per field. Updates Supabase record, resets `llm_ready=false`, adds `llm_processed_at`. Critical for Sarah's agentic UX.",
+      "testStrategy": "Unit test the interpreter function with sample raw content and mocked LLM/Supabase responses. Verify correct parsing, error handling, and Supabase update payloads. Integration test with live Supabase data (marked as mock). End-to-end test the flow from scraping to LLM processing.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Fetch Assessments where `llm_ready = true`",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Query Supabase for records meeting criteria (llm_ready=true, raw_content not null, is_mock=false)."
+        },
+        {
+          "id": 2,
+          "title": "Design & Test LLM Prompt Template",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Create a robust prompt instructing the LLM on JSON structure and field confidence."
+        },
+        {
+          "id": 3,
+          "title": "Implement LLM Interpreter Function",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Function to call the chosen LLM API (OpenAI/Anthropic) using credentials from .env."
+        },
+        {
+          "id": 4,
+          "title": "Implement Pre-Checks (is_mock, content length)",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Add checks to skip processing if record is mock or content too short. Verified: The 'is_mock' check correctly identifies mock records, logs them, updates their status in Supabase to prevent re-processing, and skips LLM interaction, ensuring data fidelity."
+        },
+        {
+          "id": 5,
+          "title": "Parse LLM Response to MCPData",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Validate and parse the LLM's JSON output into the target MCPData structure. **Implement schema validation (required fields, types, value ranges) and confidence threshold checks.**"
+        },
+        {
+          "id": 6,
+          "title": "Upsert Structured MCPData to Supabase",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Update the original Supabase record by ID with the extracted structured data."
+        },
+        {
+          "id": 7,
+          "title": "Mark `llm_ready = false` and `llm_processed_at` timestamp",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Update status flags in Supabase upon successful processing."
+        },
+        {
+          "id": 8,
+          "title": "Handle Errors and Log",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": "Implement error handling for API calls and database updates; add comprehensive logging. **Implement retry logic (e.g., exponential backoff) for transient errors.**"
+        },
+        {
+          "id": 9,
+          "title": "Write Unit Tests",
+          "description": "",
+          "status": "Pending",
+          "dependencies": [],
+          "details": ""
+        }
+      ]
     }
   ],
   "metadata": {
