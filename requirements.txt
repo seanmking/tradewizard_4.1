@@ -9,4 +9,20 @@ supabase>=1.0.0 # Use v1 or later for async/sync consistency if needed
 # LLM Interpreter dependencies
 openai>=1.0.0 # For OpenAI API access
 
+# Classification API Backend dependencies
+fastapi>=0.100.0 # Use a recent stable version
+uvicorn[standard]>=0.20.0 # ASGI server with standard extras
+SQLAlchemy>=2.0.0 # ORM
+psycopg2-binary>=2.9.5 # PostgreSQL adapter for Supabase
+pydantic>=2.0.0 # Data validation (used by FastAPI)
+
+# LLM Interpreter Helpers
+tenacity>=8.2.0 # For retry logic
+
+# Scheduler Dependencies
+schedule>=1.1.0 # For running the interpreter periodically
+
+# Testing Dependencies
+pytest>=7.0.0 # For running unit and integration tests
+
 # Add other project-specific dependencies below as needed

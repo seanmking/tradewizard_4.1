@@ -1,26 +1,49 @@
-# windsurf.rules
+{
+  "project": "TradeWizard 4.1",
+  "description": "Execution and architecture rules for AI agent Windsurf. This file defines mandatory constraints, references, and review checks to ensure alignment with strategic goals, architecture, and implementation plans.",
 
-## Task-Driven Implementation Policy
+  "mandatory_references": [
+    "docs/TradeWizard_4.0_PRD.md",
+    "docs/sarah_agent_ux_prd.md",
+    "tasks/tasks.json"
+  ],
 
-1. **Authoritative Task Source**
-   - All implementation, progress tracking, and reporting must be aligned to the current `task-master` task and subtask structure in `/tasks`.
+  "enforced_principles": {
+    "no_unapproved_stack_changes": true,
+    "primary_language": "TypeScript",
+    "backend_language_exceptions": ["Python (temporary, containerized only)"],
+    "mcp_compatibility_required": true,
+    "output_schema": "MCPData",
+    "require_confidence_scores": true,
+    "frontend_integration_ready": true,
+    "task_alignment_required": true,
+    "fallback_reason_required": true
+  },
 
-2. **Subtask Completion Criteria**
-   - No subtask may be marked as done until it fully meets PRD, technical, and UX requirements and is verified in code and/or UI.
-   - All deliverables must be reviewed against subtask acceptance criteria.
+  "prohibited_actions": [
+    "Introducing new runtimes without explicit approval (e.g., Python, Rust, Go)",
+    "Adding stateful logic outside of MCP patterns",
+    "Creating services not scoped by `assessmentId`",
+    "Ignoring taskmaster.taskId mapping in implementations"
+  ],
 
-3. **Progress Reporting**
-   - All progress updates, blockers, and next steps must reference the relevant task/subtask IDs.
+  "review_before_submit": [
+    "Was the PRD referenced? (TradeWizard 4.0, Sarah UX, tasks.json)",
+    "Does this change support or extend an existing Taskmaster task?",
+    "Is there TypeScript-first implementation where possible?",
+    "Is Python containerized and bounded?",
+    "Are MCP logs, confidence, fallback reason, and standard output schema present?"
+  ],
 
-4. **Feature, Bugfix, and Refactor Policy**
-   - All new features, bugfixes, and refactors must reference a specific task or subtask ID from `task-master`.
-
-5. **Automation**
-   - When a subtask is completed, it must be marked as done in `task-master` using the appropriate CLI command to ensure dashboard accuracy.
-
-6. **Continuous Alignment**
-   - If the subtask structure changes, implementation and reporting must be realigned accordingly.
-
----
-
-# End of windsurf.rules
+  "output_contract": {
+    "expected_schema_fields": [
+      "summary",
+      "products",
+      "certifications",
+      "contacts",
+      "confidence_score",
+      "fallback_reason",
+      "next_best_action"
+    ]
+  }
+}

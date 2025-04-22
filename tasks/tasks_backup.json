@@ -1,0 +1,639 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Setup Next.js Project with TypeScript and TailwindCSS",
+      "description": "Initialize the Next.js 14.x project with React 18.x, TypeScript 5.x, and TailwindCSS. Set up the folder structure and basic configuration for the three-panel layout.",
+      "status": "done",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Create a new Next.js project using `create-next-app` with TypeScript support. Configure TailwindCSS with the required color scheme (Primary: Purple #6B46C1, Secondary: Teal #319795, Neutrals: Gray scale #F9FAFB). Set up the basic folder structure following Next.js best practices. Create placeholder components for the three-panel layout (Left Navigation Panel, Center Conversation Panel, Right Context Panel). Configure React Context API for state management. Set up Vercel deployment and GitHub Actions for CI/CD.",
+      "testStrategy": "Verify successful project initialization. Test the base application for proper rendering. Ensure TailwindCSS is correctly configured with the specified color scheme. Validate responsive behavior of the three-panel layout.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Initialize Next.js project with TypeScript",
+          "description": "Create a new Next.js 14.x project with TypeScript 5.x support using create-next-app and set up the basic folder structure",
+          "status": "done",
+          "dependencies": [],
+          "details": "Run `npx create-next-app@latest my-app --typescript` to create the project. Verify TypeScript configuration in tsconfig.json and adjust if needed. Create the following folder structure: /components for UI components, /contexts for React Context files, /hooks for custom hooks, /lib for utility functions, /pages or /app (depending on chosen router). Add README.md with project setup instructions."
+        },
+        {
+          "id": 2,
+          "title": "Configure TailwindCSS with custom theme",
+          "description": "Install and configure TailwindCSS with the required color scheme and basic styling utilities",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Install TailwindCSS with `npm install -D tailwindcss postcss autoprefixer`, then initialize with `npx tailwindcss init -p`. Configure the content paths in tailwind.config.js. Add the required color scheme to the theme section: Primary: Purple #6B46C1, Secondary: Teal #319795, Neutrals: Gray scale #F9FAFB. Create a globals.css file with @tailwind directives and import it in _app.tsx or layout.tsx."
+        },
+        {
+          "id": 3,
+          "title": "Create placeholder components for three-panel layout",
+          "description": "Implement the basic structure for the three-panel layout with responsive design considerations",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Create the following components: 1) LeftPanel.tsx for navigation with a fixed width (280px on desktop, full-width slide-in on mobile), 2) CenterPanel.tsx for the main conversation area (flexible width), 3) RightPanel.tsx for the context panel (320px on desktop, hideable on smaller screens), 4) Layout.tsx to compose the three panels. Use Flexbox or Grid for layout. Add basic responsive behavior with Tailwind's responsive modifiers (sm:, md:, lg:)."
+        },
+        {
+          "id": 4,
+          "title": "Set up React Context API for state management",
+          "description": "Create context providers for managing application state across components",
+          "status": "done",
+          "dependencies": [
+            3
+          ],
+          "details": "Create a contexts folder with: 1) AppContext.tsx for global app state (theme, user preferences), 2) UIContext.tsx for UI state (panel visibility, responsive layout state), 3) Create custom hooks (useApp.ts, useUI.ts) to access these contexts. Implement the context providers in _app.tsx or layout.tsx to wrap the application. Add TypeScript interfaces for all state types and context values."
+        },
+        {
+          "id": 5,
+          "title": "Configure CI/CD with GitHub Actions and Vercel",
+          "description": "Set up the deployment pipeline with GitHub Actions for testing and Vercel for deployment",
+          "status": "done",
+          "dependencies": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "details": "Initialize Git repository if not done already. Create .github/workflows/ci.yml for GitHub Actions with jobs for linting and type-checking. Set up Vercel CLI with `npm i -g vercel` and link to Vercel account. Configure vercel.json with project settings. Add deployment scripts to package.json. Create .env.example for environment variables. Document the deployment process in README.md with instructions for both development and production environments."
+        },
+        {
+          "id": 6,
+          "title": "Implement landing page and user onboarding form",
+          "description": "Create an attractive landing page and user onboarding form to collect initial user information",
+          "status": "done",
+          "dependencies": [
+            2,
+            4
+          ],
+          "priority": "high",
+          "details": "Design and implement an engaging landing page that introduces the application's purpose and benefits. Create a multi-step onboarding form to collect essential user information (business name, industry, contact details, export goals). Implement form validation with helpful error messages. Store onboarding data in the application state using the Context API. Add progress indicators for multi-step forms. Ensure the landing page and onboarding process are fully responsive and accessible. Include clear call-to-action buttons to guide users to the next steps."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Implement Website Analysis Feature",
+      "description": "Create the website analysis feature that allows users to input a business URL and extract relevant information using OpenAI API.",
+      "status": "done",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Develop a URL input form with validation. Implement OpenAI API integration for content extraction with targeted extraction prompts. Create loading indicators for analysis progress. Design an editable results interface with confidence indicators. Implement error handling for failed extractions with fallback to manual entry. Extract business name, location, description, product listings, contact information, and industry categorization. Store the extracted data in the application state using React Context API.",
+      "testStrategy": "Test URL validation for various inputs. Verify API integration with OpenAI. Validate extraction results against sample websites. Test error handling with invalid URLs or failed API calls. Verify editing functionality for extracted data.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create URL input form with validation",
+          "description": "Implement a form component that accepts a business URL with proper validation to ensure it's a valid URL before proceeding with analysis.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Build a React component with a form input for URL entry. Implement validation logic to check for valid URL format (using regex or a validation library). Add error messages for invalid URLs. Include a submit button that is disabled until a valid URL is entered. The form should prevent submission if validation fails and provide user feedback."
+        },
+        {
+          "id": 2,
+          "title": "Set up OpenAI API integration and extraction prompt engineering",
+          "description": "Implement the connection to OpenAI API and create the prompt templates needed to extract different types of business information from websites.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Create an API service module to handle OpenAI API calls. Set up environment variables for API keys. Design specific prompt templates for extracting each type of business information (name, location, description, products, contact info, industry). Implement proper error handling for API failures. Structure the prompts to return data in a consistent JSON format for easier parsing. Include confidence score requests in the prompts."
+        },
+        {
+          "id": 3,
+          "title": "Implement extraction process with loading indicators",
+          "description": "Create the core extraction functionality that processes the URL and displays appropriate loading states during analysis.",
+          "status": "done",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Connect the URL form submission to the OpenAI API service. Implement a loading state management system. Create animated loading indicators that show extraction progress. Consider implementing a step-by-step loading indicator that shows which information is currently being extracted. Handle timeouts for long-running extractions. Ensure the UI remains responsive during extraction."
+        },
+        {
+          "id": 4,
+          "title": "Build editable results interface with confidence indicators",
+          "description": "Create the UI components to display extraction results with confidence scores and make them editable by users.",
+          "status": "done",
+          "dependencies": [
+            3
+          ],
+          "details": "Design and implement result display components for each type of extracted information. Add visual confidence indicators (like color coding or percentage bars) next to each extracted field. Make all fields editable with appropriate input controls. Implement validation for edited fields. Add the ability to mark certain fields as verified by the user. Consider implementing auto-save for edited fields. Ensure the interface is accessible and responsive."
+        },
+        {
+          "id": 5,
+          "title": "Implement error handling and data storage with Context API",
+          "description": "Create error handling for failed extractions with fallback to manual entry, and set up the React Context API for storing and managing the extracted data across the application.",
+          "status": "done",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Implement specific error handling for different failure scenarios (API errors, content extraction failures, etc.). Create user-friendly error messages with suggestions for manual entry. Build a fallback interface for manual data entry when extraction fails. Set up a React Context provider to store all extracted and edited data. Implement actions and reducers for data management within the Context. Create hooks for easy access to the extraction data throughout the application. Add persistence of extraction results using local storage as a backup."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Build Product Classification System",
+      "description": "Develop the HS code classification system to help users properly classify their products using the Harmonized System.",
+      "status": "done",
+      "dependencies": [
+        2
+      ],
+      "priority": "high",
+      "details": "Source HS code data directly from the official datasets/harmonized-system GitHub repository (https://github.com/datasets/harmonized-system). Fetch the CSV file directly from the repo, parse it for use in the cascading dropdown, and structure it for hierarchical navigation. Implement a monthly automated check to detect updates to the HS code dataset, and notify the team if a new version is found. Implement a cascading dropdown selection interface (chapter → heading → subheading). Add search functionality for codes and descriptions. Build product management interface to display products extracted from website analysis and allow manual addition/editing. Implement confidence indicators for suggestions. Ensure the system is future-proof for country-specific extensions. Note: Do not reuse any UI components from TradeWizard 3.0.\n\nPHASE 1 & 2 COMPLETE: Product/variant management, validation, instructional polish, HS code cascade UX, contextual help banners (2025-04-17).",
+      "testStrategy": "Verify correct loading and parsing of the HS code database. Test the hierarchical navigation through code levels. Validate search functionality with various product keywords. Test manual product addition and editing. Verify proper classification and storage of selected HS codes.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Create HS Code Database and Data Structure",
+          "description": "Develop the CSV-based HS code database with a structured format that supports hierarchical navigation through chapters, headings, and subheadings of the Harmonized System.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Fetch the official CSV file from the datasets/harmonized-system GitHub repository. Parse the CSV into a hierarchical data structure suitable for the cascading dropdown. Implement data validation to ensure integrity of the hierarchical structure. Design the data access layer to efficiently query and filter the HS codes. Include fields for future country-specific extensions (e.g., additional digits for national use). Document the database schema and access patterns. Implement a monthly check for updates to the CSV and trigger a refresh if a new version is detected."
+        },
+        {
+          "id": 2,
+          "title": "Implement Cascading Dropdown Interface",
+          "description": "Build a user interface with cascading dropdown selections that allows users to navigate through the HS code hierarchy from chapter to heading to subheading.",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Create custom dropdown components that dynamically load options based on previous selections. Implement the three-level navigation: chapter (2-digit) → heading (4-digit) → subheading (6-digit). Display both code numbers and descriptions in the dropdowns. Ensure the UI is responsive and accessible. Add visual indicators to show the current selection path. Cache loaded data appropriately to improve performance. Include tooltips with additional information about each code when hovering."
+        },
+        {
+          "id": 3,
+          "title": "Develop Search Functionality and Confidence Indicators",
+          "description": "Implement search capabilities for HS codes and descriptions, along with confidence indicators for suggested classifications.",
+          "status": "done",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Build a search component that queries both code numbers and descriptions. Implement fuzzy matching and keyword relevance scoring. Display search results with highlighting of matching terms. Create a confidence scoring algorithm based on keyword matches, historical selections, and data patterns. Visualize confidence levels using color-coded indicators or percentage scores. Allow filtering of search results by confidence level. Optimize search performance for quick response times even with large datasets."
+        },
+        {
+          "id": 4,
+          "title": "Build Product Management Interface",
+          "description": "Create an interface to display products extracted from website analysis and enable manual addition, editing, and classification of products.",
+          "status": "done",
+          "dependencies": [
+            2,
+            3
+          ],
+          "details": "Design a product listing view with pagination and sorting capabilities. Implement a form for manual product entry with fields for name, description, and attributes. Create an editing interface for existing products. Integrate the classification system to allow assigning HS codes to products using the cascading dropdowns or search. Display confidence indicators for suggested classifications. Implement batch operations for classifying multiple products. Add validation to ensure all products have valid classifications before export. Include a history of classification changes for audit purposes."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Implement Market Assessment Tool",
+      "description": "Create the market assessment feature to evaluate target export markets and understand market-specific requirements.",
+      "status": "done",
+      "dependencies": [
+        3
+      ],
+      "priority": "medium",
+      "details": "Develop a market selection interface supporting multiple target markets (UAE, UK, USA, African countries). Create a database of country-specific requirements. Implement integration with the HS classification system to show product-specific requirements. Build interfaces to display market intelligence (market size, growth trends, competitive landscape, tariff information, trade agreement details). Develop requirement analysis features showing certification requirements, documentation needs, regulatory compliance information, and estimated timeline for market entry.",
+      "testStrategy": "Test market selection for all supported countries. Verify correct display of market-specific requirements based on product classification. Validate integration between HS codes and market requirements. Test the display of all required market intelligence components.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Design and implement market selection interface",
+          "description": "Create the UI components and database structure for market selection functionality",
+          "status": "done",
+          "dependencies": [],
+          "details": "Develop a user interface allowing selection of multiple target markets (UAE, UK, USA, African countries). Create database models to store market selections. Implement filtering functionality to compare markets side by side. Design should be responsive and allow for future addition of new markets. Include a favorites/bookmarks feature for frequently accessed markets."
+        },
+        {
+          "id": 2,
+          "title": "Build country-specific requirements database",
+          "description": "Create a comprehensive database of market-specific requirements for each target export market",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Design and implement database schemas to store country-specific requirements including regulatory standards, certification needs, and documentation requirements. Create admin interfaces for updating this information. Import initial data for the primary markets (UAE, UK, USA, major African countries). Include versioning to track requirement changes over time. Implement a tagging system to categorize requirements by type (legal, financial, logistical, etc.)."
+        },
+        {
+          "id": 3,
+          "title": "Integrate with HS classification system",
+          "description": "Connect the market assessment tool with the HS classification system to display product-specific requirements",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Implement API integration with the Harmonized System (HS) classification database. Create mapping between HS codes and country-specific requirements. Develop UI components to display product-specific requirements based on HS code selection. Include search functionality for HS codes. Build caching mechanisms to improve performance. Implement validation to ensure requirements displayed match the selected product category."
+        },
+        {
+          "id": 4,
+          "title": "Develop market intelligence visualization components",
+          "description": "Create interfaces to display comprehensive market intelligence data",
+          "status": "done",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Design and implement visualization components (charts, graphs, tables) to display market intelligence including market size, growth trends, competitive landscape, tariff information, and trade agreement details. Create data models to store and update this information. Implement filters to customize views based on specific metrics. Include export functionality for reports. Add comparison views to evaluate multiple markets simultaneously."
+        },
+        {
+          "id": 5,
+          "title": "Implement requirement analysis and timeline estimation features",
+          "description": "Build functionality to analyze requirements and generate market entry timelines",
+          "status": "done",
+          "dependencies": [
+            2,
+            3,
+            4
+          ],
+          "details": "Develop algorithms to analyze certification requirements, documentation needs, and regulatory compliance information based on selected market and product. Create a timeline estimation engine that calculates realistic market entry timelines. Implement a dashboard showing requirement completion status. Build notification system for requirement updates. Create PDF export functionality for generated reports. Include a checklist feature for tracking progress on meeting requirements."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Build Production & Capacity Assessment",
+      "description": "Develop the assessment tool to evaluate the company's readiness to meet export market demands.",
+      "status": "done",
+      "dependencies": [
+        4
+      ],
+      "priority": "medium",
+      "details": "Create interfaces for production capacity inputs (current monthly production volume, manufacturing approach, maximum capacity, seasonal variability). Implement export experience collection forms (previous export history, market-specific experience, success/challenge documentation). Build logistics assessment tools (shipping capabilities, packaging requirements, warehousing capacity). Develop budget planning features (export preparation budget allocation, cost estimation, ROI projection guidance). Integrate all data points into the assessment state.",
+      "testStrategy": "Test all input forms for validation and proper data capture. Verify storage of capacity assessment data in application state. Test the integration between capacity data and other assessment components. Validate calculations for capacity estimations and budget projections.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Production Capacity Input Forms",
+          "description": "Create the interface components for collecting and validating production capacity data from companies.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Develop form components to collect: current monthly production volume (with unit selection), manufacturing approach (dropdown with options like batch production, continuous flow, etc.), maximum production capacity, and seasonal variability (graph or month-by-month input). Include validation logic to ensure data consistency and completeness. Store this data in the assessment state using a structured format that can be easily integrated with other assessment components."
+        },
+        {
+          "id": 2,
+          "title": "Build Export Experience Collection System",
+          "description": "Create forms and data structures to capture the company's previous export history and market-specific experience.",
+          "status": "pending",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement a multi-step form that collects: previous export markets (with dates and volumes), market-specific experience (regulatory compliance, cultural adaptations), and documentation of successes and challenges. Include the ability to upload supporting documents. Design the UI to encourage detailed responses through guided questions and tooltips explaining the importance of each section. Connect this component to the assessment state established in subtask 1."
+        },
+        {
+          "id": 3,
+          "title": "Develop Logistics Assessment Tools",
+          "description": "Create interfaces for evaluating the company's logistics capabilities related to export operations.",
+          "status": "pending",
+          "dependencies": [
+            1
+          ],
+          "details": "Build assessment tools for: shipping capabilities (carrier relationships, international shipping experience), packaging requirements (compliance with international standards, durability for export), and warehousing capacity (storage availability, inventory management systems). Include a scoring system that evaluates readiness in each category. Implement visual indicators (like progress bars or radar charts) to display logistics readiness. Integrate these evaluations with the assessment state."
+        },
+        {
+          "id": 4,
+          "title": "Implement Budget Planning and Results Integration",
+          "description": "Create budget planning features and integrate all assessment components into a comprehensive export readiness evaluation.",
+          "status": "pending",
+          "dependencies": [
+            1,
+            2,
+            3
+          ],
+          "details": "Develop budget planning tools including: export preparation budget allocation forms, cost estimation calculators for different markets, and ROI projection guidance based on industry benchmarks. Then, implement the final integration layer that combines data from all previous subtasks into a unified assessment state. Create a dashboard that visualizes the overall export readiness score with detailed breakdowns by category. Include actionable recommendations based on the assessment results and allow for PDF export of the complete assessment."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Implement Conversation-Driven UI",
+      "description": "Create the conversational interface with the 'Sarah' AI agent persona that guides users through the assessment process.",
+      "status": "done",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Develop the Center Conversation Panel with a guided conversation interface. Implement the 'Sarah' AI agent persona with appropriate styling and interaction patterns. Create a system for progressive disclosure of questions based on user progress. Design embedded forms for complex inputs within the conversation flow. Implement clear guidance and help text throughout the conversation. Add quick reply options where appropriate. Ensure the conversation flow matches the user flows defined in the PRD.",
+      "testStrategy": "Test the conversation flow for all assessment stages. Verify proper progression between questions. Test embedded forms for data capture. Validate help text and guidance for clarity and usefulness. Test quick reply functionality for appropriate scenarios.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Design and Implement the 'Sarah' AI Agent Persona",
+          "description": "Create the visual and interactive components for the 'Sarah' AI agent persona that will guide users through the assessment process.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Design the avatar, message bubbles, and styling for the 'Sarah' persona. Implement animations for typing indicators and message transitions. Create reusable components for agent messages vs. user messages with appropriate styling differences. Include personality traits in the design that align with the PRD specifications. Ensure the persona design is accessible and works across different screen sizes."
+        },
+        {
+          "id": 2,
+          "title": "Develop the Conversation State Management System",
+          "description": "Create a robust state management system to handle the conversation flow, message history, and user progress tracking.",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement a state management architecture (Redux/Context API) to track conversation state. Create reducers/actions for adding messages, updating conversation context, and tracking assessment progress. Develop a message queue system to handle message timing and animations. Implement persistence of conversation state to allow users to continue where they left off. Create a logging system to track conversation paths for analysis."
+        },
+        {
+          "id": 3,
+          "title": "Implement Progressive Disclosure Logic",
+          "description": "Build the system that controls the progressive disclosure of questions based on user responses and progress through the assessment.",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Create a question sequencing engine that determines which questions to show next based on previous answers. Implement branching logic for conversation paths as defined in the PRD. Develop a system to handle conditional questions that only appear based on specific user responses. Create progress indicators to show users where they are in the assessment journey. Implement validation logic to ensure required information is collected before proceeding."
+        },
+        {
+          "id": 4,
+          "title": "Create Embedded Form Components for Complex Inputs",
+          "description": "Design and implement form components that can be embedded within the conversation flow for collecting complex structured data.",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Develop reusable form components (date pickers, sliders, multi-select, etc.) that maintain the conversational UI aesthetic. Implement validation for form inputs with conversational error messages. Create smooth transitions for revealing and hiding form components within the message flow. Ensure all form components are accessible and mobile-responsive. Implement auto-save functionality for partially completed forms."
+        },
+        {
+          "id": 5,
+          "title": "Implement Quick Reply Options and Conversation Controls",
+          "description": "Add interactive quick reply buttons, help text, and conversation controls to enhance the user experience.",
+          "status": "done",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Design and implement quick reply buttons for common responses. Create a system for contextual help text that can be triggered within the conversation. Implement conversation controls (edit previous answers, restart, etc.). Add keyboard shortcuts for common actions. Create a system for suggesting next steps based on the current conversation context. Ensure all interactive elements align with the conversation flows defined in the PRD."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Develop Export Readiness Report Generation",
+      "description": "Create the functionality to generate comprehensive export readiness reports with actionable insights and recommendations.",
+      "status": "done",
+      "dependencies": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "priority": "high",
+      "details": "Implement React-PDF for document generation as specified in the PRD. Create modular report templates with sections for business profile summary, product classification details, target market analysis, certification and documentation roadmap, timeline and budget recommendations, and action plan with prioritized steps. Develop both PDF and on-screen interactive versions of the report. Implement sharing functionality. Ensure print-friendly styling for all report formats.",
+      "testStrategy": "Test PDF generation with various assessment data. Verify all report sections contain accurate information. Test on-screen interactive version functionality. Validate sharing features. Test printing capability for generated reports. Verify performance meets the requirement of PDF generation in < 5 seconds.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Set up React-PDF integration and basic report structure",
+          "description": "Integrate React-PDF library and create the foundational document structure for export readiness reports",
+          "status": "done",
+          "dependencies": [],
+          "details": "Install and configure React-PDF library in the project. Create a base report component with proper document structure including headers, footers, page numbering, and company branding. Implement the core layout that will accommodate all required report sections (business profile, product classification, market analysis, etc.). Set up proper styling foundations with a consistent design system that matches the application's look and feel. Create reusable PDF components for common elements like section headers, tables, and callout boxes."
+        },
+        {
+          "id": 2,
+          "title": "Implement data aggregation and report content generation logic",
+          "description": "Develop the backend logic to collect, process, and format all necessary data for comprehensive export readiness reports",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Create data processing services to gather and organize information from various assessment areas (business profile, product classification, target markets, etc.). Implement algorithms to generate actionable insights and recommendations based on assessment data. Develop the logic for certification roadmaps and timeline generation. Create budget calculation functionality based on identified requirements. Design the prioritization system for the action plan section. Ensure all data is properly formatted for both PDF rendering and interactive display."
+        },
+        {
+          "id": 3,
+          "title": "Build modular report templates with all required sections",
+          "description": "Create the individual report section components and templates for each required area of the export readiness report",
+          "status": "done",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Develop separate components for each report section: business profile summary, product classification details, target market analysis, certification roadmap, timeline visualization, budget recommendations, and prioritized action plan. Implement data visualization elements (charts, graphs, progress indicators) for relevant sections. Create conditional rendering logic to customize section content based on assessment results. Ensure each section has appropriate styling for both PDF and on-screen display. Implement print-friendly CSS for all components."
+        },
+        {
+          "id": 4,
+          "title": "Create interactive on-screen report version",
+          "description": "Develop the interactive web-based version of the export readiness report with enhanced user features",
+          "status": "done",
+          "dependencies": [
+            2,
+            3
+          ],
+          "details": "Build a React component structure for displaying the report directly in the browser. Implement interactive elements like expandable sections, tooltips for additional information, and clickable links to relevant resources. Create navigation controls for moving between report sections. Develop responsive layouts that work across different screen sizes. Add interactive features that aren't possible in PDF format, such as dynamic filtering of recommendations or interactive timelines. Ensure the interactive version maintains visual consistency with the PDF version."
+        },
+        {
+          "id": 5,
+          "title": "Implement report generation workflow and sharing functionality",
+          "description": "Create the end-to-end process for generating, downloading, and sharing export readiness reports",
+          "status": "done",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "Develop the user interface for initiating report generation, including any configuration options. Implement PDF download functionality with appropriate file naming conventions. Create sharing capabilities including email, direct link sharing, and social media integration if specified. Add options for users to select between full reports or specific sections only. Implement proper error handling and loading states during report generation. Add analytics tracking to monitor report usage. Test the entire workflow across different browsers and devices to ensure consistent functionality."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Implement Complete User Flows and Navigation",
+      "description": "Connect all components into cohesive user flows and implement the left navigation panel for progress tracking and section navigation.",
+      "status": "done",
+      "dependencies": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "priority": "medium",
+      "details": "Develop the Left Navigation Panel with assessment progress tracking, section navigation, resource links, and completion status indicators. Implement state persistence using local storage. Create exit points for each flow as specified in the PRD (save and continue later, download options, sharing features). Connect all assessment components into cohesive flows matching the specifications. Implement navigation between all assessment stages.",
+      "testStrategy": "Test complete user journeys through all assessment stages. Verify progress tracking functionality. Test state persistence when leaving and returning to the application. Validate all exit points and continuation paths. Test navigation between different sections of the assessment.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Design and Implement Left Navigation Panel",
+          "description": "Create the left navigation panel component with section links and progress tracking functionality",
+          "status": "done",
+          "dependencies": [],
+          "details": "Build a reusable navigation panel component that displays all assessment sections. Include visual indicators for completed sections, current section, and locked sections. Design should follow the PRD specifications and match the overall UI. Include placeholder elements for progress tracking that will be connected to state in subtask 2."
+        },
+        {
+          "id": 2,
+          "title": "Implement State Management and Persistence",
+          "description": "Create a state management system for tracking user progress across assessment flows with local storage persistence",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Develop a state management solution that tracks user progress through all assessment sections. Implement local storage persistence to save progress automatically. Create functions to update progress state when sections are completed. Connect the state to the navigation panel developed in subtask 1 to reflect accurate progress. Include logic for section unlocking based on completion status of prerequisites."
+        },
+        {
+          "id": 3,
+          "title": "Implement Exit Points and Flow Controls",
+          "description": "Add exit points and flow control mechanisms throughout the assessment process",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Implement 'Save and continue later' functionality that leverages the persistence system from subtask 2. Create download options for assessment results and reports. Develop sharing features as specified in the PRD. Add confirmation dialogs for critical actions like exiting without saving. Ensure all exit points maintain proper state and return users to the correct location when they resume."
+        },
+        {
+          "id": 4,
+          "title": "Connect Components into Cohesive User Flows",
+          "description": "Integrate all assessment components into complete user flows with proper navigation between stages",
+          "status": "done",
+          "dependencies": [
+            1,
+            2,
+            3
+          ],
+          "details": "Connect all previously developed components into complete, cohesive flows according to the PRD specifications. Implement navigation between all assessment stages, ensuring that state is properly maintained throughout the entire process. Test complete user journeys from start to finish, including edge cases like returning to a saved assessment. Ensure that the navigation panel accurately reflects the user's position in the flow and allows jumping between unlocked sections. Finalize the integration of progress tracking with all components."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Develop Context Panel with Supporting Information",
+      "description": "Implement the right context panel to display context-specific information, detailed forms, visualizations, and supporting documentation.",
+      "status": "done",
+      "dependencies": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "priority": "medium",
+      "details": "Create the Right Context Panel with dynamic content based on the current assessment stage. Implement detailed forms for complex inputs. Develop visualizations for data representation. Add supporting documentation sections. Include relevant statistics and insights. Ensure the panel is responsive and properly integrates with the conversation flow in the center panel.",
+      "testStrategy": "Verify context-appropriate content appears at each assessment stage. Test detailed forms for data capture and validation. Validate visualizations with different data sets. Test responsive behavior of the context panel on various screen sizes.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement the base Context Panel component structure",
+          "description": "Create the foundational UI component for the right context panel with responsive layout and integration points with the center conversation panel",
+          "status": "done",
+          "dependencies": [],
+          "details": "Build a React component for the right context panel with responsive design (adapting to different screen sizes). Implement the panel container with proper styling, scrolling behavior, and state management. Create the connection points to receive the current assessment stage from the main application state. Define the component API that will allow dynamic content loading. Include basic show/hide functionality and smooth transitions when the panel content changes."
+        },
+        {
+          "id": 2,
+          "title": "Develop stage-specific content components and state management",
+          "description": "Create the system to dynamically load different content based on the current assessment stage",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement a content router that displays different components based on the current assessment stage. Create placeholder components for each assessment stage type. Develop the state management system to track the current stage and update the panel accordingly. Build the communication layer between the center conversation panel and the context panel to ensure context changes are reflected immediately. Include loading states and error handling for content transitions."
+        },
+        {
+          "id": 3,
+          "title": "Implement detailed form components and data visualizations",
+          "description": "Create the interactive form components for complex inputs and data visualization components for insights",
+          "status": "done",
+          "dependencies": [
+            2
+          ],
+          "details": "Develop reusable form components for complex data input (multi-step forms, conditional fields, validation). Implement data visualization components using a charting library (like D3.js, Chart.js or similar) to display statistics and insights. Create components for different visualization types (bar charts, line graphs, pie charts, etc.) that can be configured based on the data. Ensure all components are accessible and responsive. Add animations for data transitions and implement proper data loading states."
+        },
+        {
+          "id": 4,
+          "title": "Add supporting documentation and finalize integration",
+          "description": "Implement the supporting documentation sections and complete the integration with the conversation flow",
+          "status": "done",
+          "dependencies": [
+            3
+          ],
+          "details": "Create components to display supporting documentation with proper formatting (markdown support, code snippets, etc.). Implement a system to load relevant documentation based on the current context. Add functionality to expand/collapse documentation sections for better space management. Finalize the integration with the conversation flow, ensuring the context panel updates appropriately as the conversation progresses. Add user preference settings for the panel (width, visibility defaults). Perform thorough testing of the entire context panel across different assessment stages and conversation flows."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Implement Testing, Documentation, and Final Polishing",
+      "description": "Complete testing across all components, create required documentation, and polish the application for production readiness.",
+      "status": "done",
+      "dependencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "priority": "high",
+      "details": "Implement unit tests for service logic, utility functions, and state management. Create component tests for UI components, form validation, and context providers. Develop integration tests for API endpoints, multi-component flows, and external service integration. Perform end-to-end testing of complete user journeys, cross-browser compatibility, and responsive design. Create user documentation (getting started guide, feature walkthroughs, FAQ). Develop technical documentation (architecture overview, API documentation, component documentation, state management guide). Create maintenance documentation (deployment procedures, monitoring setup, backup and recovery plans). Perform final performance optimization and accessibility compliance (WCAG 2.1 AA).",
+      "testStrategy": "Verify test coverage across all application components. Validate documentation for completeness and accuracy. Test performance against requirements (initial page load < 3 seconds, API responses < 2 seconds, etc.). Verify accessibility compliance with automated and manual testing. Conduct final user testing to validate the complete application.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Unit and Component Testing",
+          "description": "Create comprehensive unit tests for service logic, utility functions, and state management, along with component tests for UI elements and form validation.",
+          "status": "done",
+          "dependencies": [],
+          "details": "Develop unit tests using Jest for all service functions, utility helpers, and state management logic with >80% code coverage. Create component tests using React Testing Library for all UI components, focusing on user interactions, rendering logic, and accessibility. Implement specific tests for form validation, error states, and context providers. Set up a CI pipeline to run tests automatically on pull requests."
+        },
+        {
+          "id": 2,
+          "title": "Implement Integration and End-to-End Testing",
+          "description": "Develop integration tests for API endpoints and multi-component flows, plus end-to-end tests for complete user journeys.",
+          "status": "done",
+          "dependencies": [
+            1
+          ],
+          "details": "Create integration tests using Jest and MSW (Mock Service Worker) to test API endpoints, data fetching, and service integrations. Develop end-to-end tests using Cypress to validate complete user journeys across the application. Include tests for cross-browser compatibility (Chrome, Firefox, Safari, Edge) and responsive design across desktop, tablet, and mobile breakpoints. Implement visual regression testing using Cypress or Percy to catch unexpected UI changes."
+        },
+        {
+          "id": 3,
+          "title": "Create User and Technical Documentation",
+          "description": "Develop comprehensive user documentation and technical documentation for developers.",
+          "status": "done",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Create user documentation including a getting started guide, feature walkthroughs with screenshots, and an FAQ section. Develop technical documentation with an architecture overview diagram, API documentation (endpoints, request/response formats, error handling), component documentation with usage examples, and a state management guide. Use Markdown format for all documentation and organize in a logical structure. Host documentation in a dedicated section of the application or in a separate documentation site using tools like Docusaurus or Storybook."
+        },
+        {
+          "id": 4,
+          "title": "Create Maintenance Documentation and DevOps Setup",
+          "description": "Develop maintenance documentation including deployment procedures, monitoring setup, and backup/recovery plans.",
+          "status": "done",
+          "dependencies": [
+            3
+          ],
+          "details": "Create comprehensive maintenance documentation covering deployment procedures for different environments (development, staging, production), CI/CD pipeline configuration, and release management. Set up monitoring using tools like Sentry for error tracking and New Relic or Datadog for performance monitoring. Implement logging standards and create dashboards for key metrics. Document backup and recovery procedures, including database backups and restoration steps. Include security protocols and incident response procedures."
+        },
+        {
+          "id": 5,
+          "title": "Perform Final Performance Optimization and Accessibility Compliance",
+          "description": "Optimize application performance and ensure WCAG 2.1 AA accessibility compliance before production release.",
+          "status": "done",
+          "dependencies": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "details": "Run performance audits using Lighthouse and WebPageTest to identify bottlenecks. Optimize bundle size using code splitting, lazy loading, and tree shaking. Implement resource hints (preload, prefetch) for critical assets. Optimize images and implement responsive loading strategies. Conduct a comprehensive accessibility audit using axe or similar tools to ensure WCAG 2.1 AA compliance. Fix all critical and high-priority issues, including proper heading structure, sufficient color contrast, keyboard navigation, screen reader compatibility, and appropriate ARIA attributes. Document any known issues with remediation plans."
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectName": "TradeWizard 4.0 Implementation",
+    "totalTasks": 10,
+    "sourceFile": "docs/TradeWizard_4.0_PRD.md",
+    "generatedAt": "2023-11-20"
+  }
+}

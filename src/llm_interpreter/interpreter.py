@@ -1,326 +1,259 @@
 # /Users/seanking/Projects/tradewizard_4.1/src/llm_interpreter/interpreter.py
 
 import os
-import json
 import logging
+import json
+from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
-from dotenv import load_dotenv
 from supabase import create_client, Client
-from openai import OpenAI # Assuming OpenAI, change if needed (e.g., Anthropic)
+from dotenv import load_dotenv
 
-# --- Configuration & Setup ---
+# Import MCP components using relative imports
+import sys
+import os
 
-# Load environment variables from .env file at the project root
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-load_dotenv(dotenv_path=dotenv_path)
+# Add the parent directory to sys.path to enable relative imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from mcps import get_active_mcps, log_mcp_run, handle_mcp_result, BaseMCP, MCPOutput
 
-# Logging setup
+# Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Supabase Client
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY") # Use service role key
-supabase: Client = None
-if not SUPABASE_URL or not SUPABASE_KEY:
-    logger.error("Supabase URL or Service Key not found in environment variables.")
-else:
+# Load environment variables
+load_dotenv()
+
+# Initialize Supabase client
+supabase_url: Optional[str] = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
+supabase_key: Optional[str] = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+supabase: Optional[Client] = None
+if supabase_url and supabase_key:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-        logger.info("Supabase client initialized successfully.")
+        supabase = create_client(supabase_url, supabase_key)
+        logger.info("Supabase client initialized successfully in interpreter.")
     except Exception as e:
-        logger.error(f"Failed to initialize Supabase client: {e}", exc_info=True)
-
-# LLM Client (OpenAI example)
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-llm_client = None
-if not OPENAI_API_KEY:
-    logger.warning("OPENAI_API_KEY not found in environment variables. LLM processing disabled.")
+        logger.error(f"Failed to initialize Supabase client: {e}")
 else:
-    try:
-        llm_client = OpenAI(api_key=OPENAI_API_KEY)
-        logger.info("OpenAI client initialized successfully.")
-    except Exception as e:
-        logger.error(f"Failed to initialize OpenAI client: {e}", exc_info=True)
+    logger.warning("Supabase URL or Key not found. Interpreter operations requiring DB access will fail.")
 
-# Target Supabase Table
-ASSESSMENTS_TABLE = os.getenv("SUPABASE_TABLE_NAME", "Assessments")
-MIN_RAW_CONTENT_LENGTH = 1000 # Minimum characters required in raw_content
+# --- Database Interaction Functions ---
 
-# --- Core Functions ---
-
-def fetch_assessments_for_llm():
-    """
-    Fetches records from the Assessments table that are ready for LLM processing.
-    Looks for records where llm_ready = true, is_mock = false, and raw_content is not null.
-    """
+def fetch_assessments_for_llm() -> List[Dict[str, Any]]:
+    """Fetches assessments marked ready for LLM processing."""
     if not supabase:
-        logger.error("Supabase client not initialized. Cannot fetch assessments.")
+        logger.error("Supabase client not available for fetching assessments.")
         return []
-
     try:
-        response = supabase.table(ASSESSMENTS_TABLE)\
-                           .select("id, raw_content, is_mock")\
-                           .eq("llm_ready", True)\
-                           .eq("is_mock", False)\
-                           .not_.is_("raw_content", "null")\
-                           .execute()
+        # TODO: Potentially filter out assessments already processed or in a failed state?
+        # Filter by llm_ready = true and maybe llm_status != 'failed' or based on last attempt time?
+        # Currently selecting based on original 'llm_ready' logic
+        response = supabase.table("Assessments") \
+                         .select("*", count='exact') \
+                         .eq("llm_ready", True) \
+                         .is_("raw_content", "not.null") \
+                         .execute()
 
-        if response.data:
-            logger.info(f"Fetched {len(response.data)} assessments ready for LLM processing.")
+        if response.count is not None and response.count > 0:
+            logger.info(f"Fetched {response.count} assessments for LLM processing.")
             return response.data
         else:
-            logger.info("No non-mock assessments found ready for LLM processing.")
+            logger.info("No assessments found ready for LLM processing.")
             return []
     except Exception as e:
         logger.error(f"Error fetching assessments from Supabase: {e}", exc_info=True)
         return []
 
-def generate_llm_prompt(raw_content: str) -> str:
-    """
-    Creates the prompt to send to the LLM, instructing it to parse the raw_content
-    into the desired MCPData JSON structure.
-    (Includes placeholder for per-field confidence)
-    """
-    # TODO: Refine this prompt template significantly, especially for per-field confidence
-    prompt = f"""
-    Analyze the following raw text content scraped from a company website and extract the specified information into a structured JSON format.
-
-    **Raw Content:**
-    --- START ---
-    {raw_content}
-    --- END ---
-
-    **Desired JSON Output Structure:**
-    {{
-      "summary": "string (Brief company overview, 1-2 sentences)",
-      "products": [
-        {{ "name": "string", "category": "string (optional)", "estimated_hs_code": "string (optional)", "confidence": "float (0.0-1.0)", "source": "string (e.g., 'Extracted from product section')" }}
-      ],
-      "certifications": [
-        {{ "name": "string", "required_for": ["string (optional country/region code)"], "confidence": "float (0.0-1.0)", "source": "string" }}
-      ],
-      "contacts": {{
-        "email": "string (optional)", "confidence_email": "float",
-        "phone": "string (optional)", "confidence_phone": "float",
-        "address": "string (optional)", "confidence_address": "float"
-      }},
-      "social_links": {{
-        "facebook": "string (optional URL)", "confidence_facebook": "float",
-        "instagram": "string (optional URL)", "confidence_instagram": "float",
-        "youtube": "string (optional URL)", "confidence_youtube": "float",
-        "linkedin": "string (optional URL)", "confidence_linkedin": "float",
-        "twitter": "string (optional URL)", "confidence_twitter": "float",
-        "other": ["string (optional URL)"]
-      }},
-      "confidence_score": "float (Estimate overall confidence 0.0-1.0)"
-    }}
-
-    **Instructions:**
-    1. Extract relevant information *only* from the Raw Content.
-    2. If information is missing, omit the field or use null/empty values.
-    3. Include a `confidence` score (0.0-1.0) for each product, certification, and optionally for contact/social fields, reflecting certainty of the extraction.
-    4. Include a `source` description for products/certifications where possible.
-    5. Provide an overall `confidence_score`.
-    6. Output *only* the JSON object.
-
-    **JSON Output:**
-    """
-    return prompt.strip()
-
-def call_llm_interpreter(prompt: str, assessment_id: str): # Added assessment_id for logging
-    """
-    Sends the prompt to the configured LLM API and returns the structured response.
-    """
-    if not llm_client:
-        logger.error(f"[{assessment_id}] LLM client not initialized. Cannot call interpreter.")
-        return None
-
-    try:
-        logger.info(f"[{assessment_id}] Calling LLM API...")
-        response = llm_client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are an expert data extraction assistant. Output structured JSON based on the user's schema."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.2,
-            max_tokens=2048,
-            response_format={ "type": "json_object" }
-        )
-
-        llm_output_raw = response.choices[0].message.content
-        logger.debug(f"[{assessment_id}] Raw LLM Response:\n{llm_output_raw}")
-
-        parsed_data = json.loads(llm_output_raw)
-        logger.info(f"[{assessment_id}] Successfully parsed LLM response JSON.")
-        # Log confidence score if present
-        overall_confidence = parsed_data.get('confidence_score')
-        if overall_confidence is not None:
-             logger.info(f"[{assessment_id}] LLM reported overall confidence: {overall_confidence}")
-        else:
-             logger.warning(f"[{assessment_id}] LLM response missing overall 'confidence_score'.")
-
-        return parsed_data
-
-    except json.JSONDecodeError as json_err:
-        logger.error(f"[{assessment_id}] Failed to decode JSON from LLM response: {json_err}", exc_info=True)
-        logger.error(f"[{assessment_id}] LLM Raw Output: {llm_output_raw}")
-        return None
-    except Exception as e:
-        logger.error(f"[{assessment_id}] Error calling LLM API: {e}", exc_info=True)
-        return None
-
-def update_assessment_with_llm_data(assessment_id: str, parsed_data: dict):
-    """
-    Updates the Supabase assessment record with the structured data from the LLM.
-    Sets llm_ready to false and adds a timestamp.
-    """
+def fetch_products_for_classification(classification_id: str) -> List[Dict[str, Any]]:
+    """Fetches product records associated with a given assessment ID."""
+    # This function queries the 'Products' table based on the assessment_id
     if not supabase:
-        logger.error(f"[{assessment_id}] Supabase client not initialized. Cannot update assessment.")
-        return False
-    if not parsed_data:
-        logger.error(f"[{assessment_id}] Parsed data is empty. Cannot update assessment.")
-        return False
-
-    update_payload = parsed_data.copy()
-    update_payload['llm_ready'] = False
-    update_payload['llm_processed_at'] = datetime.now(timezone.utc).isoformat()
-    update_payload['fallback_reason'] = None # Clear any previous fallback reason on success
-
-    if 'id' in update_payload:
-        del update_payload['id']
-
+        logger.error("Supabase client not available for fetching products.")
+        return []
+    
     try:
-        logger.info(f"[{assessment_id}] Attempting to update Supabase record...")
-        response = supabase.table(ASSESSMENTS_TABLE)\
-                           .update(update_payload)\
-                           .eq("id", assessment_id)\
-                           .execute()
-
-        if hasattr(response, 'error') and response.error:
-             logger.error(f"[{assessment_id}] Supabase update failed: {response.error}")
-             # Log details
-             if hasattr(response.error, 'message'): logger.error(f"[{assessment_id}] Error Message: {response.error.message}")
-             if hasattr(response.error, 'details'): logger.error(f"[{assessment_id}] Error Details: {response.error.details}")
-             return False
-        elif response.data:
-            logger.info(f"[{assessment_id}] Successfully updated assessment with LLM data.")
-            return True
+        logger.info(f"Fetching products for classification ID: {classification_id}")
+        # Using assessment_id which is the column name in our Products table
+        response = (supabase.table("Products")
+                          .select("*, ProductVariants(*)")
+                          .eq("assessment_id", classification_id)
+                          .execute())
+        
+        if response.data:
+            logger.info(f"Fetched {len(response.data)} products for classification {classification_id}")
+            return response.data
         else:
-            logger.warning(f"[{assessment_id}] Supabase update executed but returned no data. Check if ID exists.")
-            return False
-
+            logger.info(f"No products found for classification {classification_id}")
+            return []
     except Exception as e:
-        logger.error(f"[{assessment_id}] Error updating Supabase: {e}", exc_info=True)
-        return False
+        logger.error(f"Error fetching products for classification {classification_id}: {e}", exc_info=True)
+        return []
+    # --- End Placeholder Implementation ---
 
-def update_assessment_with_error(assessment_id: str, reason: str):
-    """Marks an assessment as failed LLM processing."""
+def update_assessment_status(assessment_id: str, status: str, processed_at: Optional[datetime] = None) -> None:
+    """Updates the llm_status and optionally llm_processed_at for an assessment."""
     if not supabase:
-        logger.error(f"[{assessment_id}] Supabase client not initialized. Cannot mark assessment as failed.")
-        return False
+        logger.error(f"Supabase client not available. Cannot update assessment status for {assessment_id}.")
+        return
 
-    update_payload = {
-        'llm_ready': False, # Stop retrying for now
-        'fallback_reason': reason,
-        'llm_processed_at': datetime.now(timezone.utc).isoformat()
+    update_data: Dict[str, Any] = {
+        "llm_status": status,
+        "llm_ready": False # Always set llm_ready to false after processing attempt
     }
+    if processed_at:
+        update_data["llm_processed_at"] = processed_at.isoformat()
+
     try:
-        logger.warning(f"[{assessment_id}] Marking assessment as failed LLM processing. Reason: {reason}")
-        response = supabase.table(ASSESSMENTS_TABLE)\
-                           .update(update_payload)\
-                           .eq("id", assessment_id)\
-                           .execute()
-        # Basic check, could add more detail
-        if hasattr(response, 'error') and response.error:
-             logger.error(f"[{assessment_id}] Failed to mark assessment as failed in Supabase: {response.error}")
-             return False
-        else:
-             return True
+        logger.info(f"Updating assessment {assessment_id} status to '{status}'...")
+        response = supabase.table("Assessments") \
+                         .update(update_data) \
+                         .eq("id", assessment_id) \
+                         .execute()
+        # Add check for success/failure if needed based on response
+        logger.debug(f"Assessment {assessment_id} status update response: {response.data}")
     except Exception as e:
-        logger.error(f"[{assessment_id}] Error marking assessment as failed in Supabase: {e}", exc_info=True)
-        return False
+        logger.error(f"Error updating assessment status for {assessment_id}: {e}", exc_info=True)
 
+# --- Core Processing Logic ---
 
-def process_single_assessment(assessment: dict):
-    """Processes a single assessment record fetched from Supabase with checks."""
+def process_single_assessment(assessment: Dict[str, Any]) -> str:
+    """Processes a single assessment by running all applicable MCPs."""
     assessment_id = assessment.get("id")
-    raw_content = assessment.get("raw_content")
-    is_mock = assessment.get("is_mock", False) # Default to False if field is missing
-
     if not assessment_id:
-        logger.warning(f"Skipping assessment due to missing ID: {assessment}")
-        return False # Indicate failure/skip
+        logger.error("Assessment data missing 'id'. Cannot process.")
+        return "failed" # Indicate failure
 
-    # --- Data Integrity Checks ---
-    if is_mock:
-        logger.info(f"[{assessment_id}] Skipping: Record marked as mock (is_mock=true).")
-        # Optionally mark llm_ready=false here if mock records shouldn't be re-queued
-        update_assessment_with_error(assessment_id, "Skipped: Mock Record")
-        return False
-    if not raw_content or len(raw_content.strip()) < MIN_RAW_CONTENT_LENGTH:
-        reason = f"Skipped: Raw content missing or too short ({len(raw_content.strip()) if raw_content else 0} chars, required {MIN_RAW_CONTENT_LENGTH})."
-        logger.warning(f"[{assessment_id}] {reason}")
-        update_assessment_with_error(assessment_id, reason)
-        return False
-    # --- End Checks ---
+    logger.info(f"Processing assessment ID: {assessment_id}")
 
-    logger.info(f"Processing assessment ID: {assessment_id} (is_mock={is_mock}, content_length={len(raw_content.strip())})")
+    # 1. Fetch associated products (using placeholder function)
+    products = fetch_products_for_classification(assessment_id)
+    if not products:
+        logger.warning(f"No products found for assessment {assessment_id}. Some MCPs might not function correctly.")
+        # Decide if processing should continue or fail if products are essential
 
-    # 1. Generate Prompt
-    prompt = generate_llm_prompt(raw_content)
-    logger.debug(f"[{assessment_id}] Generated Prompt (truncated):\n{prompt[:500]}...")
+    # 2. Determine active MCPs based on assessment status
+    try:
+        active_mcps: Dict[str, BaseMCP] = get_active_mcps(assessment)
+    except Exception as e:
+        logger.error(f"Error determining active MCPs for assessment {assessment_id}: {e}", exc_info=True)
+        return "failed"
 
-    # 2. Call LLM
-    parsed_data = call_llm_interpreter(prompt, assessment_id)
+    if not active_mcps:
+        logger.info(f"No active MCPs found for assessment {assessment_id} based on its status. Marking as processed.")
+        return "success" # Or another status like 'skipped'?
 
-    # 3. Update Supabase
-    if parsed_data:
-        # TODO: Add validation logic for parsed_data structure/content here
-        logger.info(f"[{assessment_id}] LLM processing successful. Updating Supabase...")
-        success = update_assessment_with_llm_data(assessment_id, parsed_data)
-        return success
+    logger.info(f"Active MCPs for assessment {assessment_id}: {list(active_mcps.keys())}")
+
+    overall_status = "success" # Assume success initially
+    mcp_errors = 0
+
+    # 3. Iterate through active MCPs and execute them
+    for mcp_name, mcp_instance in active_mcps.items():
+        logger.info(f"--- Running MCP: {mcp_name} (v{mcp_instance.version}) for assessment {assessment_id} ---")
+        mcp_output: Optional[MCPOutput] = None
+        payload: Optional[Dict[str, Any]] = None
+        run_error: Optional[str] = None
+
+        try:
+            # a. Build Payload
+            payload = mcp_instance.build_payload(assessment, products)
+            logger.debug(f"[{mcp_name}] Payload built: {payload}")
+
+            # b. Run MCP
+            mcp_output = mcp_instance.run(payload)
+            logger.debug(f"[{mcp_name}] Raw output: {mcp_output}")
+
+            # Check for errors reported by the MCP itself
+            if mcp_output.get("error"):
+                run_error = mcp_output["error"]
+                logger.error(f"MCP {mcp_name} reported an error: {run_error}")
+                mcp_errors += 1
+
+        except Exception as e:
+            run_error = f"Interpreter error running {mcp_name}: {e}"
+            logger.error(run_error, exc_info=True)
+            mcp_errors += 1
+            # Create a minimal MCPOutput for logging the error
+            mcp_output = MCPOutput(result={}, confidence=None, error=run_error, _db_patch=None, llm_input_prompt=None, llm_raw_output=None, started_at=datetime.now(timezone.utc), completed_at=datetime.now(timezone.utc))
+
+        finally:
+            # c. Log MCP Run (always attempt to log, even on error)
+            if mcp_output is not None:
+                try:
+                    # Extract arguments for log_mcp_run from mcp_output
+                    log_mcp_run(
+                        # assessment_id=assessment_id,
+                        classification_id=assessment_id, # Changed from assessment_id for clarity if needed
+                        mcp_name=mcp_instance.name,
+                        mcp_version=mcp_instance.version,
+                        payload=payload or {}, # Log empty payload if build failed
+                        # Unpack relevant fields from mcp_output
+                        result=mcp_output.get("result"),
+                        confidence=mcp_output.get("confidence"),
+                        error=mcp_output.get("error"), # Use .get() for safety
+                        llm_input_prompt=mcp_output.get("llm_input_prompt"),
+                        llm_raw_output=mcp_output.get("llm_raw_output"),
+                        started_at=mcp_output.get("started_at"), # Pass timestamps if available
+                        completed_at=mcp_output.get("completed_at")
+                        # mcp_output=mcp_output # Removed this incorrect argument
+                    )
+                except Exception as log_e:
+                    logger.error(f"Critical error logging MCP run for {mcp_name}: {log_e}", exc_info=True)
+
+            logger.info(f"--- Finished MCP: {mcp_name} for assessment {assessment_id} ---")
+
+    # 4. Determine final status
+    if mcp_errors == len(active_mcps):
+        overall_status = "failed" # All MCPs failed
+    elif mcp_errors > 0:
+        overall_status = "partial" # Some MCPs failed
     else:
-        reason = "LLM call failed or returned invalid JSON."
-        logger.error(f"[{assessment_id}] {reason}")
-        update_assessment_with_error(assessment_id, reason)
-        # TODO: Implement retry logic if desired
-        return False
+        overall_status = "success" # All ran without error
 
-# --- Main Execution Logic ---
+    logger.info(f"Finished processing assessment {assessment_id}. Overall status: {overall_status}")
+    return overall_status
 
-def run_interpreter_batch():
+# --- Main Execution Function ---
+
+def run_interpreter_batch() -> None:
     """Fetches and processes a batch of assessments."""
-    logger.info("--- Starting LLM Interpreter Batch Run ---")
+    logger.info("Starting LLM interpreter batch run...")
     assessments_to_process = fetch_assessments_for_llm()
 
     if not assessments_to_process:
-        logger.info("No valid assessments to process in this batch.")
-    else:
-        logger.info(f"Attempting to process {len(assessments_to_process)} assessments...")
+        logger.info("No assessments to process in this batch run.")
+        return
 
-        processed_count = 0
-        succeeded_count = 0
-        failed_count = 0 # Includes skips and errors
-        for assessment in assessments_to_process:
-            assessment_id = assessment.get('id', 'N/A')
+    processed_count = 0
+    failed_count = 0
+    partial_count = 0
+
+    for assessment in assessments_to_process:
+        assessment_id = assessment.get("id", "Unknown ID")
+        logger.info(f"Processing assessment: {assessment_id}")
+        start_time = datetime.now(timezone.utc)
+
+        # Process the assessment using the new MCP-driven logic
+        final_status = process_single_assessment(assessment)
+
+        # Update the assessment status in Supabase
+        update_assessment_status(assessment_id, final_status, processed_at=start_time)
+
+        if final_status == "success":
             processed_count += 1
-            try:
-                success = process_single_assessment(assessment)
-                if success:
-                    succeeded_count += 1
-                else:
-                    failed_count += 1
-            except Exception as e:
-                logger.error(f"[{assessment_id}] Unhandled exception during processing: {e}", exc_info=True)
-                failed_count += 1
-                update_assessment_with_error(assessment_id, f"Unhandled Exception: {e}")
+        elif final_status == "partial":
+            partial_count += 1
+        else: # final_status == "failed"
+            failed_count += 1
 
-        logger.info(f"Batch Summary: Processed={processed_count}, Succeeded={succeeded_count}, Failed/Skipped={failed_count}")
+    logger.info("LLM interpreter batch run finished.")
+    logger.info(f"Summary: Processed={processed_count}, Partial={partial_count}, Failed={failed_count}")
 
-    logger.info("--- Finished LLM Interpreter Batch Run ---")
-
-
+# --- Main entry point for direct execution ---
 if __name__ == "__main__":
-    run_interpreter_batch()
+    logger.info("Running LLM Interpreter directly...")
+    # Make sure Supabase client is available if running directly
+    if not supabase:
+        logger.critical("Supabase client not initialized. Cannot run interpreter. Check .env variables.")
+    else:
+        run_interpreter_batch()
+    logger.info("Interpreter finished direct run.")

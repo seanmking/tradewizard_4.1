@@ -1,0 +1,1351 @@
+2025-04-21 08:22:23,929 - INFO - Scheduler: .env file loaded successfully.
+2025-04-21 08:22:24,393 - INFO - Loaded OpenAI API Key (snippet): sk-proj...kngA
+2025-04-21 08:22:24,393 - INFO - Using Supabase table name: 'Assessments'
+2025-04-21 08:22:24,424 - INFO - Supabase client initialized successfully.
+2025-04-21 08:22:24,424 - INFO - Attempting to initialize OpenAI client with key snippet: sk-proj-...kngA
+2025-04-21 08:22:24,429 - INFO - OpenAI client initialized successfully.
+2025-04-21 08:22:24,429 - INFO - [Anthropic] Attempting to initialize client with key snippet: sk-ant-a...fwAA
+2025-04-21 08:22:24,433 - INFO - [Anthropic] Client initialized successfully.
+2025-04-21 08:22:24,434 - INFO - Scheduler: Successfully imported run_interpreter_batch from interpreter module.
+2025-04-21 08:22:24,434 - INFO - Scheduler: Running interpreter batch every 5 minutes.
+2025-04-21 08:22:24,434 - INFO - Scheduler: Starting main loop. Press Ctrl+C to exit.
+2025-04-21 08:22:24,434 - INFO - Scheduler: Performing initial run of the interpreter batch job...
+2025-04-21 08:22:24,434 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:22:24,434 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:22:25,418 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:22:25,421 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:22:25,421 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:22:25,421 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:22:25,421 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:27:25,440 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:27:25,441 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:27:26,391 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:27:26,392 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:27:26,392 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:27:26,392 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:27:26,392 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:32:26,405 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:32:26,406 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:32:27,367 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:32:27,368 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:32:27,368 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:32:27,368 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:32:27,368 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:37:27,429 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:37:27,430 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:37:28,367 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:37:28,368 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:37:28,368 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:37:28,368 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:37:28,368 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:42:28,393 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:42:28,394 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:42:29,415 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:42:29,416 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:42:29,416 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:42:29,416 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:42:29,416 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:47:29,433 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:47:29,434 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:47:30,387 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:47:30,394 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:47:30,394 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:47:30,394 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:47:30,394 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:52:30,446 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:52:30,446 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:52:31,407 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:52:31,408 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:52:31,408 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:52:31,408 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:52:31,408 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 08:57:31,425 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 08:57:31,425 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 08:57:32,434 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 08:57:32,435 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 08:57:32,435 - INFO - No assessments found matching the query criteria.
+2025-04-21 08:57:32,435 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 08:57:32,435 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:02:32,453 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:02:32,453 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:02:33,062 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:02:33,063 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:02:33,063 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:02:33,063 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:02:33,063 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:08:32,946 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:08:32,946 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:08:33,543 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:08:33,544 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:08:33,544 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:08:33,544 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:08:33,544 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:13:33,567 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:13:33,568 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:13:34,534 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:13:34,534 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:13:34,534 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:13:34,534 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:13:34,534 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:18:34,614 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:18:34,614 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:18:35,589 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:18:35,590 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:18:35,590 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:18:35,590 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:18:35,590 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:23:35,607 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:23:35,611 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:23:36,599 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:23:36,600 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:23:36,600 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:23:36,600 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:23:36,600 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:28:36,618 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:28:36,620 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:28:37,238 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:28:37,239 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:28:37,239 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:28:37,239 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:28:37,239 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:34:37,171 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:34:37,172 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:34:38,138 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:34:38,139 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:34:38,139 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:34:38,139 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:34:38,139 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:39:38,157 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:39:38,157 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:39:39,133 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:39:39,133 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:39:39,133 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:39:39,133 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:39:39,133 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:44:39,143 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:44:39,143 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:44:40,100 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:44:40,100 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:44:40,100 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:44:40,100 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:44:40,101 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:49:40,173 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:49:40,174 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:49:40,820 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:49:40,821 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:49:40,821 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:49:40,821 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:49:40,821 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:54:40,835 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:54:40,836 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:54:41,814 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:54:41,815 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:54:41,815 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:54:41,815 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:54:41,815 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 09:59:41,829 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 09:59:41,829 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 09:59:42,430 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 09:59:42,435 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 09:59:42,435 - INFO - No assessments found matching the query criteria.
+2025-04-21 09:59:42,435 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 09:59:42,435 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 10:04:42,516 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 10:04:42,517 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 10:04:43,120 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 10:04:43,121 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 10:04:43,121 - INFO - No assessments found matching the query criteria.
+2025-04-21 10:04:43,121 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 10:04:43,121 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 10:09:43,161 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 10:09:43,161 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 10:09:44,114 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 10:09:44,115 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 10:09:44,115 - INFO - No assessments found matching the query criteria.
+2025-04-21 10:09:44,115 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 10:09:44,115 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 10:14:44,150 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 10:14:44,152 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 10:14:44,772 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 10:14:44,773 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 10:14:44,773 - INFO - No assessments found matching the query criteria.
+2025-04-21 10:14:44,773 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 10:14:44,773 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 10:32:05,060 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 10:32:05,062 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 10:32:06,048 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 10:32:06,049 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 10:32:06,049 - INFO - No assessments found matching the query criteria.
+2025-04-21 10:32:06,049 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 10:32:06,049 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 11:06:41,359 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 11:06:41,361 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 11:06:42,360 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 11:06:42,362 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 11:06:42,362 - INFO - No assessments found matching the query criteria.
+2025-04-21 11:06:42,362 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 11:06:42,362 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 11:22:42,461 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 11:22:42,462 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 11:22:43,431 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 11:22:43,432 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 11:22:43,432 - INFO - No assessments found matching the query criteria.
+2025-04-21 11:22:43,432 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 11:22:43,433 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 11:39:50,695 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 11:39:50,698 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 11:39:52,013 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 11:39:52,014 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 11:39:52,014 - INFO - No assessments found matching the query criteria.
+2025-04-21 11:39:52,014 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 11:39:52,014 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 11:50:38,868 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 11:50:38,869 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 11:50:39,709 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 11:50:39,710 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 11:50:39,710 - INFO - No assessments found matching the query criteria.
+2025-04-21 11:50:39,710 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 11:50:39,710 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:02:05,706 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:02:05,707 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:02:06,339 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:02:06,341 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 12:02:06,341 - INFO - No assessments found matching the query criteria.
+2025-04-21 12:02:06,341 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:02:06,341 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:34:44,836 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:34:44,837 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:34:45,882 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:34:45,883 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 12:34:45,883 - INFO - No assessments found matching the query criteria.
+2025-04-21 12:34:45,883 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:34:45,884 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:42:16,748 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:42:16,750 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:42:17,815 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:42:17,815 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 12:42:17,816 - INFO - No assessments found matching the query criteria.
+2025-04-21 12:42:17,816 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:42:17,816 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:47:17,838 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:47:17,839 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:47:18,918 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:47:18,918 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 12:47:18,918 - INFO - No assessments found matching the query criteria.
+2025-04-21 12:47:18,918 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:47:18,918 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:52:18,932 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:52:18,933 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:52:19,711 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:52:19,712 - INFO - Fetched 1 assessments ready for LLM processing.
+2025-04-21 12:52:19,712 - INFO - Fetched 1 assessments for processing.
+2025-04-21 12:52:19,712 - WARNING - [test-insert-33ecc3c8] Skipped: Raw content missing or too short (49 chars, required 1000).
+2025-04-21 12:52:19,712 - WARNING - [test-insert-33ecc3c8] Marking assessment as failed LLM processing. Reason: Skipped: Raw content missing or too short (49 chars, required 1000).
+2025-04-21 12:52:20,335 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.test-insert-33ecc3c8 "HTTP/2 200 OK"
+2025-04-21 12:52:20,336 - INFO - Batch Summary: Processed=1, Succeeded=0, Failed/Skipped=1
+2025-04-21 12:52:20,336 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:52:20,336 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 12:57:20,354 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 12:57:20,355 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 12:57:20,813 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 12:57:20,814 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 12:57:20,815 - INFO - No assessments found matching the query criteria.
+2025-04-21 12:57:20,815 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 12:57:20,815 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:02:20,837 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:02:20,838 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:02:21,300 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:02:21,300 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:02:21,300 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:02:21,300 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:02:21,300 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:08:21,196 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:08:21,197 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:08:21,957 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:08:21,960 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:08:21,960 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:08:21,960 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:08:21,960 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:13:21,977 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:13:21,978 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:13:22,756 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:13:22,757 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:13:22,757 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:13:22,757 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:13:22,757 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:18:22,777 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:18:22,777 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:18:23,887 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:18:23,887 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:18:23,887 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:18:23,887 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:18:23,887 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:24:23,807 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:24:23,808 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:24:24,578 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:24:24,579 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:24:24,579 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:24:24,579 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:24:24,579 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:29:24,592 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:29:24,593 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:29:25,356 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:29:25,357 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:29:25,357 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:29:25,357 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:29:25,357 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:34:25,368 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:34:25,369 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:34:26,509 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:34:26,510 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:34:26,510 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:34:26,510 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:34:26,510 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:40:26,437 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:40:26,439 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:40:27,605 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:40:27,606 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:40:27,606 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:40:27,606 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:40:27,606 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:45:27,610 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:45:27,611 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:45:28,392 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:45:28,393 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:45:28,393 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:45:28,393 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:45:28,393 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:50:28,401 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:50:28,402 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:50:29,544 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:50:29,545 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:50:29,545 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:50:29,545 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:50:29,545 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 13:55:29,588 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 13:55:29,589 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 13:55:30,757 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 13:55:30,758 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 13:55:30,758 - INFO - No assessments found matching the query criteria.
+2025-04-21 13:55:30,758 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 13:55:30,758 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:00:30,768 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:00:30,769 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:00:31,894 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:00:31,895 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:00:31,895 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:00:31,895 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:00:31,895 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:05:31,904 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:05:31,904 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:05:33,055 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:05:33,056 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:05:33,057 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:05:33,057 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:05:33,057 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:10:33,132 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:10:33,134 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:10:33,907 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:10:33,908 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:10:33,908 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:10:33,908 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:10:33,908 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:15:33,925 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:15:33,926 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:15:35,428 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:15:35,430 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:15:35,431 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:15:35,431 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:15:35,431 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:20:35,439 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:20:35,439 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:20:36,244 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:20:36,245 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:20:36,245 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:20:36,245 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:20:36,245 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:25:36,256 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:25:36,257 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:25:37,047 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:25:37,048 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:25:37,048 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:25:37,048 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:25:37,048 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:30:37,138 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:30:37,139 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:30:37,905 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:30:37,906 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:30:37,906 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:30:37,906 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:30:37,906 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:35:37,928 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:35:37,928 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:35:39,074 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:35:39,076 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:35:39,076 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:35:39,076 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:35:39,076 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:40:39,098 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:40:39,099 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:40:40,600 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:40:40,604 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:40:40,604 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:40:40,604 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:40:40,604 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:45:40,672 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:45:40,673 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:45:41,801 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:45:41,803 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:45:41,803 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:45:41,803 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:45:41,804 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:50:41,825 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:50:41,827 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:50:42,656 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:50:42,657 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:50:42,657 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:50:42,657 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:50:42,657 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 14:55:42,677 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 14:55:42,678 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 14:55:43,494 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 14:55:43,495 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 14:55:43,495 - INFO - No assessments found matching the query criteria.
+2025-04-21 14:55:43,495 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 14:55:43,495 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:00:43,552 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:00:43,553 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:00:44,379 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:00:44,380 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:00:44,380 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:00:44,380 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:00:44,380 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:05:44,395 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:05:44,397 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:05:45,593 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:05:45,594 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:05:45,594 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:05:45,594 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:05:45,594 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:10:45,610 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:10:45,611 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:10:46,418 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:10:46,419 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:10:46,419 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:10:46,419 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:10:46,419 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:15:46,454 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:15:46,455 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:15:47,600 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:15:47,601 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:15:47,602 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:15:47,602 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:15:47,602 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:20:47,621 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:20:47,623 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:20:48,772 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:20:48,774 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:20:48,775 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:20:48,775 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:20:48,775 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:25:48,795 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:25:48,796 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:25:49,665 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:25:49,666 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:25:49,666 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:25:49,666 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:25:49,666 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:30:49,715 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:30:49,716 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:30:50,909 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:30:50,911 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:30:50,911 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:30:50,911 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:30:50,911 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:35:50,934 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:35:50,935 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:35:52,090 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:35:52,091 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:35:52,091 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:35:52,091 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:35:52,091 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:40:52,115 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:40:52,116 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:40:53,276 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:40:53,278 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:40:53,278 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:40:53,278 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:40:53,278 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:45:53,301 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:45:53,302 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:45:54,090 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:45:54,091 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:45:54,092 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:45:54,092 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:45:54,092 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:50:54,115 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:50:54,117 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:50:55,298 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:50:55,629 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:50:55,630 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:50:55,630 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:50:55,630 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 15:55:55,646 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 15:55:55,649 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 15:55:56,463 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 15:55:56,466 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 15:55:56,466 - INFO - No assessments found matching the query criteria.
+2025-04-21 15:55:56,466 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 15:55:56,466 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:00:56,481 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:00:56,482 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:00:57,641 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:00:57,641 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:00:57,641 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:00:57,641 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:00:57,642 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:05:57,668 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:05:57,670 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:05:59,935 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:05:59,937 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:05:59,938 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:05:59,938 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:05:59,938 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:10:59,967 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:10:59,969 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:11:00,806 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:11:00,812 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:11:00,812 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:11:00,812 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:11:00,812 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:16:00,828 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:16:00,829 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:16:02,014 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:16:02,015 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:16:02,015 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:16:02,015 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:16:02,015 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:21:02,035 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:21:02,038 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:21:02,865 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:21:02,866 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:21:02,867 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:21:02,867 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:21:02,867 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:26:02,894 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:26:02,896 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:26:04,051 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:26:04,051 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:26:04,051 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:26:04,051 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:26:04,051 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:31:04,093 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:31:04,094 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:31:04,898 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:31:04,902 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:31:04,902 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:31:04,902 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:31:04,902 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:36:04,926 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:36:04,928 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:36:06,040 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:36:06,041 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:36:06,041 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:36:06,041 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:36:06,041 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:41:06,088 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:41:06,090 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:41:07,237 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:41:07,239 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:41:07,239 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:41:07,239 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:41:07,239 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 16:47:07,144 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 16:47:07,147 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 16:47:07,959 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 16:47:07,959 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 16:47:07,960 - INFO - No assessments found matching the query criteria.
+2025-04-21 16:47:07,960 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 16:47:07,960 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:22:20,936 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:22:20,937 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:22:22,081 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:22:22,082 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:22:22,083 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:22:22,083 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:22:22,083 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:27:22,099 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:27:22,101 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:27:22,928 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:27:22,930 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:27:22,930 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:27:22,930 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:27:22,931 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:32:22,939 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:32:22,941 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:32:24,095 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:32:24,096 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:32:24,096 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:32:24,096 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:32:24,096 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:37:24,111 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:37:24,114 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:37:25,246 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:37:25,248 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:37:25,248 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:37:25,248 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:37:25,248 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:42:25,319 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:42:25,320 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:42:26,814 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:42:26,814 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:42:26,814 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:42:26,814 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:42:26,814 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:47:26,829 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:47:26,831 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:47:27,635 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:47:27,637 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:47:27,637 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:47:27,637 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:47:27,637 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:52:27,655 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:52:27,658 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:52:28,902 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:52:28,906 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:52:28,906 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:52:28,906 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:52:28,906 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 17:57:29,006 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 17:57:29,008 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 17:57:29,506 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 17:57:29,507 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 17:57:29,507 - INFO - No assessments found matching the query criteria.
+2025-04-21 17:57:29,507 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 17:57:29,507 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:02:29,520 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:02:29,522 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:02:30,661 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:02:30,662 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:02:30,662 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:02:30,662 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:02:30,662 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:07:30,683 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:07:30,685 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:07:31,299 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:07:31,302 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:07:31,302 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:07:31,302 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:07:31,302 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:13:31,215 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:13:31,216 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:13:31,498 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:13:31,504 - INFO - Fetched 2 assessments ready for LLM processing.
+2025-04-21 18:13:31,504 - INFO - Fetched 2 assessments for processing.
+2025-04-21 18:13:31,504 - INFO - Processing assessment ID: d2c9e600-ee9c-402b-b6f0-b0ccac05abb7 (is_mock=False, content_length=12455)
+2025-04-21 18:13:31,504 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] Calling LLM interpreter...
+2025-04-21 18:13:41,539 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-21 18:13:41,550 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] LLM call successful. Raw response received.
+2025-04-21 18:13:41,550 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] Successfully parsed LLM JSON response.
+2025-04-21 18:13:41,550 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] LLM processing and validation successful. Updating Supabase...
+2025-04-21 18:13:41,550 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] Attempting to update Supabase record...
+2025-04-21 18:13:41,811 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.d2c9e600-ee9c-402b-b6f0-b0ccac05abb7 "HTTP/2 200 OK"
+2025-04-21 18:13:41,812 - INFO - [d2c9e600-ee9c-402b-b6f0-b0ccac05abb7] Successfully updated assessment with LLM data.
+2025-04-21 18:13:41,812 - INFO - Processing assessment ID: 4d02744d-f645-49ec-9b1b-4dada82020d3 (is_mock=False, content_length=12455)
+2025-04-21 18:13:41,812 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] Calling LLM interpreter...
+2025-04-21 18:13:47,278 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-21 18:13:47,282 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] LLM call successful. Raw response received.
+2025-04-21 18:13:47,282 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] Successfully parsed LLM JSON response.
+2025-04-21 18:13:47,282 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] LLM processing and validation successful. Updating Supabase...
+2025-04-21 18:13:47,283 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] Attempting to update Supabase record...
+2025-04-21 18:13:47,546 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.4d02744d-f645-49ec-9b1b-4dada82020d3 "HTTP/2 200 OK"
+2025-04-21 18:13:47,547 - INFO - [4d02744d-f645-49ec-9b1b-4dada82020d3] Successfully updated assessment with LLM data.
+2025-04-21 18:13:47,547 - INFO - Batch Summary: Processed=2, Succeeded=2, Failed/Skipped=0
+2025-04-21 18:13:47,547 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:13:47,547 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:18:47,555 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:18:47,555 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:18:47,954 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:18:47,955 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:18:47,955 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:18:47,955 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:18:47,955 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:23:48,095 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:23:48,097 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:23:48,710 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:23:48,711 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:23:48,712 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:23:48,712 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:23:48,712 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:28:48,732 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:28:48,735 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:28:49,509 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:28:49,510 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:28:49,510 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:28:49,510 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:28:49,510 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:33:49,526 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:33:49,528 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:33:50,334 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:33:50,335 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:33:50,335 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:33:50,335 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:33:50,335 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:39:50,295 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:39:50,296 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:39:51,116 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:39:51,117 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:39:51,117 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:39:51,117 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:39:51,117 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 18:44:51,156 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 18:44:51,157 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 18:44:51,798 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 18:44:51,799 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 18:44:51,799 - INFO - No assessments found matching the query criteria.
+2025-04-21 18:44:51,799 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 18:44:51,799 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 19:18:30,252 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 19:18:30,253 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 19:18:31,804 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 19:18:31,805 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 19:18:31,805 - INFO - No assessments found matching the query criteria.
+2025-04-21 19:18:31,805 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 19:18:31,805 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 19:36:17,173 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 19:36:17,176 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 19:36:18,320 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 19:36:18,325 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 19:36:18,325 - INFO - No assessments found matching the query criteria.
+2025-04-21 19:36:18,325 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 19:36:18,325 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 19:52:28,632 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 19:52:28,633 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 19:52:29,701 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 19:52:29,703 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 19:52:29,703 - INFO - No assessments found matching the query criteria.
+2025-04-21 19:52:29,703 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 19:52:29,703 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 20:09:48,362 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 20:09:48,363 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 20:09:49,771 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 20:09:49,772 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 20:09:49,772 - INFO - No assessments found matching the query criteria.
+2025-04-21 20:09:49,772 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 20:09:49,772 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 20:25:50,671 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 20:25:50,672 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 20:25:51,806 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 20:25:51,808 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 20:25:51,808 - INFO - No assessments found matching the query criteria.
+2025-04-21 20:25:51,808 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 20:25:51,808 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 20:49:49,775 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 20:49:49,775 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 20:49:51,056 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 20:49:51,057 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 20:49:51,057 - INFO - No assessments found matching the query criteria.
+2025-04-21 20:49:51,057 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 20:49:51,057 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 21:07:19,675 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 21:07:19,677 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 21:07:20,623 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 21:07:20,624 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 21:07:20,624 - INFO - No assessments found matching the query criteria.
+2025-04-21 21:07:20,625 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 21:07:20,625 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 21:25:57,287 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 21:25:57,288 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 21:25:58,442 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 21:25:58,443 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 21:25:58,443 - INFO - No assessments found matching the query criteria.
+2025-04-21 21:25:58,443 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 21:25:58,444 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 21:33:51,131 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 21:33:51,133 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 21:33:52,127 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 21:33:52,128 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 21:33:52,128 - INFO - No assessments found matching the query criteria.
+2025-04-21 21:33:52,128 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 21:33:52,128 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 22:07:31,344 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 22:07:31,345 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 22:07:32,312 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 22:07:32,313 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 22:07:32,313 - INFO - No assessments found matching the query criteria.
+2025-04-21 22:07:32,313 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 22:07:32,313 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 22:24:11,656 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 22:24:11,658 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 22:24:12,630 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 22:24:12,631 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 22:24:12,631 - INFO - No assessments found matching the query criteria.
+2025-04-21 22:24:12,631 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 22:24:12,631 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 22:34:09,529 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 22:34:09,529 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 22:34:10,515 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 22:34:10,516 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 22:34:10,516 - INFO - No assessments found matching the query criteria.
+2025-04-21 22:34:10,516 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 22:34:10,516 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 22:51:13,353 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 22:51:13,353 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 22:51:14,434 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 22:51:14,435 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 22:51:14,435 - INFO - No assessments found matching the query criteria.
+2025-04-21 22:51:14,435 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 22:51:14,435 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 23:09:25,244 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 23:09:25,246 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 23:09:26,213 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 23:09:26,214 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 23:09:26,214 - INFO - No assessments found matching the query criteria.
+2025-04-21 23:09:26,214 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 23:09:26,214 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 23:27:30,671 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 23:27:30,672 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 23:27:31,647 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 23:27:31,649 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 23:27:31,649 - INFO - No assessments found matching the query criteria.
+2025-04-21 23:27:31,649 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 23:27:31,649 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-21 23:51:34,454 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-21 23:51:34,455 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-21 23:51:35,398 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-21 23:51:35,399 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-21 23:51:35,399 - INFO - No assessments found matching the query criteria.
+2025-04-21 23:51:35,399 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-21 23:51:35,399 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 00:08:31,043 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 00:08:31,044 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 00:08:31,998 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 00:08:31,999 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 00:08:31,999 - INFO - No assessments found matching the query criteria.
+2025-04-22 00:08:31,999 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 00:08:31,999 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 00:29:32,292 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 00:29:32,293 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 00:29:33,251 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 00:29:33,252 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 00:29:33,252 - INFO - No assessments found matching the query criteria.
+2025-04-22 00:29:33,252 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 00:29:33,252 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 00:36:09,731 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 00:36:09,734 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 00:36:10,686 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 00:36:10,688 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 00:36:10,688 - INFO - No assessments found matching the query criteria.
+2025-04-22 00:36:10,688 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 00:36:10,688 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 00:52:27,871 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 00:52:27,873 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 00:52:28,846 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 00:52:28,850 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 00:52:28,850 - INFO - No assessments found matching the query criteria.
+2025-04-22 00:52:28,850 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 00:52:28,850 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 01:09:53,293 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 01:09:53,295 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 01:09:54,260 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 01:09:54,262 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 01:09:54,262 - INFO - No assessments found matching the query criteria.
+2025-04-22 01:09:54,262 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 01:09:54,262 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 01:26:23,208 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 01:26:23,210 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 01:26:24,151 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 01:26:24,152 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 01:26:24,152 - INFO - No assessments found matching the query criteria.
+2025-04-22 01:26:24,152 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 01:26:24,152 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 01:37:27,338 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 01:37:27,339 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 01:37:28,278 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 01:37:28,280 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 01:37:28,280 - INFO - No assessments found matching the query criteria.
+2025-04-22 01:37:28,280 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 01:37:28,280 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 01:55:45,784 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 01:55:45,785 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 01:55:46,722 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 01:55:46,723 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 01:55:46,723 - INFO - No assessments found matching the query criteria.
+2025-04-22 01:55:46,723 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 01:55:46,723 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 02:13:06,347 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 02:13:06,347 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 02:13:07,304 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 02:13:07,306 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 02:13:07,306 - INFO - No assessments found matching the query criteria.
+2025-04-22 02:13:07,306 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 02:13:07,306 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 02:29:56,948 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 02:29:56,950 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 02:29:57,921 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 02:29:57,922 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 02:29:57,922 - INFO - No assessments found matching the query criteria.
+2025-04-22 02:29:57,923 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 02:29:57,923 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 02:47:24,046 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 02:47:24,048 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 02:47:25,021 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 02:47:25,022 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 02:47:25,023 - INFO - No assessments found matching the query criteria.
+2025-04-22 02:47:25,023 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 02:47:25,023 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 03:04:40,173 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 03:04:40,175 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 03:04:41,137 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 03:04:41,139 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 03:04:41,139 - INFO - No assessments found matching the query criteria.
+2025-04-22 03:04:41,139 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 03:04:41,139 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 03:37:36,554 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 03:37:36,555 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 03:37:37,504 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 03:37:37,505 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 03:37:37,505 - INFO - No assessments found matching the query criteria.
+2025-04-22 03:37:37,505 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 03:37:37,505 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 03:53:53,865 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 03:53:53,867 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 03:53:54,808 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 03:53:54,809 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 03:53:54,809 - INFO - No assessments found matching the query criteria.
+2025-04-22 03:53:54,810 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 03:53:54,810 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 04:12:27,975 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 04:12:27,976 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 04:12:28,916 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 04:12:28,918 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 04:12:28,918 - INFO - No assessments found matching the query criteria.
+2025-04-22 04:12:28,918 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 04:12:28,918 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 04:28:40,597 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 04:28:40,599 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 04:28:41,844 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 04:28:41,845 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 04:28:41,846 - INFO - No assessments found matching the query criteria.
+2025-04-22 04:28:41,846 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 04:28:41,846 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 04:44:54,371 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 04:44:54,372 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 04:44:55,308 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 04:44:55,309 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 04:44:55,309 - INFO - No assessments found matching the query criteria.
+2025-04-22 04:44:55,309 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 04:44:55,309 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 05:19:23,434 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 05:19:23,434 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 05:19:24,886 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 05:19:24,887 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 05:19:24,887 - INFO - No assessments found matching the query criteria.
+2025-04-22 05:19:24,887 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 05:19:24,887 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 05:36:08,527 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 05:36:08,529 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 05:36:09,493 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 05:36:09,494 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 05:36:09,494 - INFO - No assessments found matching the query criteria.
+2025-04-22 05:36:09,494 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 05:36:09,494 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 06:01:09,411 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 06:01:09,412 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 06:01:10,371 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 06:01:10,372 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 06:01:10,372 - INFO - No assessments found matching the query criteria.
+2025-04-22 06:01:10,372 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 06:01:10,373 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 06:17:51,238 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 06:17:51,240 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 06:17:52,191 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 06:17:52,192 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 06:17:52,192 - INFO - No assessments found matching the query criteria.
+2025-04-22 06:17:52,192 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 06:17:52,192 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 06:34:27,631 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 06:34:27,632 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 06:34:28,639 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 06:34:28,646 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 06:34:28,646 - INFO - No assessments found matching the query criteria.
+2025-04-22 06:34:28,646 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 06:34:28,646 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 06:51:49,713 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 06:51:49,713 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 06:51:50,579 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 06:51:50,580 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 06:51:50,580 - INFO - No assessments found matching the query criteria.
+2025-04-22 06:51:50,580 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 06:51:50,580 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:12:50,757 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:12:50,757 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:12:51,719 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:12:51,720 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:12:51,720 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:12:51,720 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:12:51,720 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:24:46,134 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:24:46,136 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:24:47,106 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:24:47,107 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:24:47,107 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:24:47,107 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:24:47,108 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:29:47,149 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:29:47,151 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:29:47,757 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:29:47,758 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:29:47,758 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:29:47,758 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:29:47,758 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:34:47,781 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:34:47,782 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:34:48,727 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:34:48,728 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:34:48,728 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:34:48,728 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:34:48,728 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:39:48,749 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:39:48,750 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:39:49,708 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:39:49,710 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:39:49,710 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:39:49,710 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:39:49,710 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:44:49,752 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:44:49,753 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:44:50,375 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:44:50,376 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:44:50,376 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:44:50,376 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:44:50,376 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:49:50,393 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:49:50,394 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:49:51,353 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:49:51,354 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:49:51,354 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:49:51,354 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:49:51,354 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 07:54:51,378 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 07:54:51,380 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 07:54:51,995 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 07:54:51,997 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 07:54:51,997 - INFO - No assessments found matching the query criteria.
+2025-04-22 07:54:51,997 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 07:54:51,997 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:00:51,883 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:00:51,885 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:00:52,549 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:00:52,551 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:00:52,552 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:00:52,552 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:00:52,552 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:05:52,572 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:05:52,574 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:05:53,253 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:05:53,254 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:05:53,254 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:05:53,254 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:05:53,254 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:10:53,268 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:10:53,270 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:10:53,905 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:10:53,906 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:10:53,906 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:10:53,906 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:10:53,906 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:15:53,982 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:15:53,983 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:15:55,014 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:15:55,016 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:15:55,016 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:15:55,016 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:15:55,016 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:20:55,043 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:20:55,044 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:20:56,015 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:20:56,017 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:20:56,017 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:20:56,017 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:20:56,018 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:25:56,039 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:25:56,041 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:25:57,008 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:25:57,009 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:25:57,009 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:25:57,009 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:25:57,009 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:30:57,032 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:30:57,035 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:30:57,671 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:30:57,674 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:30:57,674 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:30:57,675 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:30:57,675 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:35:57,696 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:35:57,699 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:35:58,330 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:35:58,332 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:35:58,332 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:35:58,332 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:35:58,332 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:40:58,357 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:40:58,360 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:40:59,381 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:40:59,387 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:40:59,387 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:40:59,387 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:40:59,387 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:45:59,409 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:45:59,410 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:46:00,117 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:46:00,118 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:46:00,119 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:46:00,119 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:46:00,119 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:51:00,140 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:51:00,141 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:51:01,118 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:51:01,119 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:51:01,119 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:51:01,119 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:51:01,119 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 08:56:01,140 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 08:56:01,141 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 08:56:02,113 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 08:56:02,116 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 08:56:02,116 - INFO - No assessments found matching the query criteria.
+2025-04-22 08:56:02,116 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 08:56:02,116 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:01:02,137 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:01:02,139 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:01:03,167 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:01:03,169 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:01:03,169 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:01:03,169 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:01:03,169 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:06:03,200 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:06:03,202 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:06:04,185 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:06:04,186 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:06:04,186 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:06:04,186 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:06:04,186 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:11:04,210 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:11:04,212 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:11:05,189 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:11:05,190 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:11:05,190 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:11:05,190 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:11:05,190 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:16:05,212 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:16:05,213 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:16:06,198 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:16:06,200 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:16:06,200 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:16:06,200 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:16:06,200 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:21:06,217 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:21:06,219 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:21:06,878 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:21:06,879 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:21:06,879 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:21:06,879 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:21:06,879 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:26:06,909 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:26:06,911 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:26:07,883 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:26:07,884 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:26:07,884 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:26:07,884 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:26:07,884 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:31:07,907 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:31:07,908 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:31:08,508 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:31:08,510 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:31:08,510 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:31:08,510 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:31:08,510 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:36:08,596 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:36:08,597 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:36:09,577 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:36:09,579 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:36:09,579 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:36:09,579 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:36:09,579 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:41:09,604 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:41:09,605 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:41:10,567 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:41:10,568 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:41:10,568 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:41:10,568 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:41:10,568 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:46:10,591 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:46:10,593 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:46:11,555 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:46:11,557 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:46:11,557 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:46:11,557 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:46:11,557 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:51:11,576 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:51:11,577 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:51:12,201 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:51:12,202 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:51:12,202 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:51:12,202 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:51:12,202 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 09:56:12,248 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 09:56:12,250 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 09:56:12,873 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 09:56:12,875 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 09:56:12,878 - INFO - No assessments found matching the query criteria.
+2025-04-22 09:56:12,878 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 09:56:12,878 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:01:12,905 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:01:12,907 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:01:13,542 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:01:13,543 - INFO - Fetched 1 assessments ready for LLM processing.
+2025-04-22 10:01:13,543 - INFO - Fetched 1 assessments for processing.
+2025-04-22 10:01:13,544 - INFO - Processing assessment ID: 4151ef7c-ae47-4225-a2ca-9f5b2fdd4357 (is_mock=False, content_length=5399)
+2025-04-22 10:01:13,544 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] Calling LLM interpreter...
+2025-04-22 10:01:22,860 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:01:22,882 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] LLM call successful. Raw response received.
+2025-04-22 10:01:22,882 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] Successfully parsed LLM JSON response.
+2025-04-22 10:01:22,883 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:01:22,883 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] Attempting to update Supabase record...
+2025-04-22 10:01:23,201 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.4151ef7c-ae47-4225-a2ca-9f5b2fdd4357 "HTTP/2 200 OK"
+2025-04-22 10:01:23,213 - INFO - [4151ef7c-ae47-4225-a2ca-9f5b2fdd4357] Successfully updated assessment with LLM data.
+2025-04-22 10:01:23,213 - INFO - Batch Summary: Processed=1, Succeeded=1, Failed/Skipped=0
+2025-04-22 10:01:23,213 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:01:23,213 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:06:23,241 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:06:23,243 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:06:23,534 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:06:23,537 - INFO - Fetched 2 assessments ready for LLM processing.
+2025-04-22 10:06:23,537 - INFO - Fetched 2 assessments for processing.
+2025-04-22 10:06:23,537 - INFO - Processing assessment ID: b7edddbd-103a-4d78-a65b-6eaedb2e6f81 (is_mock=False, content_length=5399)
+2025-04-22 10:06:23,538 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] Calling LLM interpreter...
+2025-04-22 10:06:31,338 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:06:31,340 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] LLM call successful. Raw response received.
+2025-04-22 10:06:31,340 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] Successfully parsed LLM JSON response.
+2025-04-22 10:06:31,341 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:06:31,341 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] Attempting to update Supabase record...
+2025-04-22 10:06:31,601 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.b7edddbd-103a-4d78-a65b-6eaedb2e6f81 "HTTP/2 200 OK"
+2025-04-22 10:06:31,604 - INFO - [b7edddbd-103a-4d78-a65b-6eaedb2e6f81] Successfully updated assessment with LLM data.
+2025-04-22 10:06:31,604 - INFO - Processing assessment ID: 103cf76d-9482-4338-b058-ec49b2622359 (is_mock=False, content_length=2277)
+2025-04-22 10:06:31,604 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] Calling LLM interpreter...
+2025-04-22 10:06:36,151 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:06:36,152 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] LLM call successful. Raw response received.
+2025-04-22 10:06:36,153 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] Successfully parsed LLM JSON response.
+2025-04-22 10:06:36,154 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:06:36,154 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] Attempting to update Supabase record...
+2025-04-22 10:06:36,390 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.103cf76d-9482-4338-b058-ec49b2622359 "HTTP/2 200 OK"
+2025-04-22 10:06:36,392 - INFO - [103cf76d-9482-4338-b058-ec49b2622359] Successfully updated assessment with LLM data.
+2025-04-22 10:06:36,392 - INFO - Batch Summary: Processed=2, Succeeded=2, Failed/Skipped=0
+2025-04-22 10:06:36,392 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:06:36,392 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:11:36,416 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:11:36,419 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:11:36,706 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:11:36,708 - INFO - Fetched 2 assessments ready for LLM processing.
+2025-04-22 10:11:36,708 - INFO - Fetched 2 assessments for processing.
+2025-04-22 10:11:36,708 - INFO - Processing assessment ID: 0d1d67c0-08db-4262-bd5d-cbd66a0b037e (is_mock=False, content_length=2277)
+2025-04-22 10:11:36,709 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] Calling LLM interpreter...
+2025-04-22 10:11:42,134 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:11:42,136 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] LLM call successful. Raw response received.
+2025-04-22 10:11:42,136 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] Successfully parsed LLM JSON response.
+2025-04-22 10:11:42,136 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:11:42,136 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] Attempting to update Supabase record...
+2025-04-22 10:11:42,413 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.0d1d67c0-08db-4262-bd5d-cbd66a0b037e "HTTP/2 200 OK"
+2025-04-22 10:11:42,415 - INFO - [0d1d67c0-08db-4262-bd5d-cbd66a0b037e] Successfully updated assessment with LLM data.
+2025-04-22 10:11:42,415 - INFO - Processing assessment ID: 570484e2-0455-4a3b-964d-269f310416c1 (is_mock=False, content_length=5399)
+2025-04-22 10:11:42,415 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] Calling LLM interpreter...
+2025-04-22 10:11:47,972 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:11:47,974 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] LLM call successful. Raw response received.
+2025-04-22 10:11:47,974 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] Successfully parsed LLM JSON response.
+2025-04-22 10:11:47,974 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:11:47,974 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] Attempting to update Supabase record...
+2025-04-22 10:11:48,231 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.570484e2-0455-4a3b-964d-269f310416c1 "HTTP/2 200 OK"
+2025-04-22 10:11:48,233 - INFO - [570484e2-0455-4a3b-964d-269f310416c1] Successfully updated assessment with LLM data.
+2025-04-22 10:11:48,233 - INFO - Batch Summary: Processed=2, Succeeded=2, Failed/Skipped=0
+2025-04-22 10:11:48,233 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:11:48,233 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:16:48,258 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:16:48,261 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:16:48,556 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:16:48,557 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 10:16:48,557 - INFO - No assessments found matching the query criteria.
+2025-04-22 10:16:48,557 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:16:48,557 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:22:48,397 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:22:48,399 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:22:48,687 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:22:48,691 - INFO - Fetched 2 assessments ready for LLM processing.
+2025-04-22 10:22:48,691 - INFO - Fetched 2 assessments for processing.
+2025-04-22 10:22:48,692 - INFO - Processing assessment ID: 1095346e-13f6-4693-a8af-939f4cbdbea2 (is_mock=False, content_length=5399)
+2025-04-22 10:22:48,692 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] Calling LLM interpreter...
+2025-04-22 10:22:55,757 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:22:55,760 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] LLM call successful. Raw response received.
+2025-04-22 10:22:55,760 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] Successfully parsed LLM JSON response.
+2025-04-22 10:22:55,761 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:22:55,761 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] Attempting to update Supabase record...
+2025-04-22 10:22:56,034 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.1095346e-13f6-4693-a8af-939f4cbdbea2 "HTTP/2 200 OK"
+2025-04-22 10:22:56,037 - INFO - [1095346e-13f6-4693-a8af-939f4cbdbea2] Successfully updated assessment with LLM data.
+2025-04-22 10:22:56,037 - INFO - Processing assessment ID: ae176275-9a94-489b-8eaa-17bdf60a4365 (is_mock=False, content_length=5399)
+2025-04-22 10:22:56,038 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] Calling LLM interpreter...
+2025-04-22 10:23:02,718 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:23:02,722 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] LLM call successful. Raw response received.
+2025-04-22 10:23:02,722 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] Successfully parsed LLM JSON response.
+2025-04-22 10:23:02,722 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:23:02,722 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] Attempting to update Supabase record...
+2025-04-22 10:23:02,976 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.ae176275-9a94-489b-8eaa-17bdf60a4365 "HTTP/2 200 OK"
+2025-04-22 10:23:02,977 - INFO - [ae176275-9a94-489b-8eaa-17bdf60a4365] Successfully updated assessment with LLM data.
+2025-04-22 10:23:02,978 - INFO - Batch Summary: Processed=2, Succeeded=2, Failed/Skipped=0
+2025-04-22 10:23:02,978 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:23:02,978 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:28:02,995 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:28:02,997 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:28:03,271 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:28:03,273 - INFO - Fetched 1 assessments ready for LLM processing.
+2025-04-22 10:28:03,273 - INFO - Fetched 1 assessments for processing.
+2025-04-22 10:28:03,273 - INFO - Processing assessment ID: 857f7a8d-538c-4360-9ccf-749ae950c3f8 (is_mock=False, content_length=5399)
+2025-04-22 10:28:03,274 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] Calling LLM interpreter...
+2025-04-22 10:28:09,199 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 10:28:09,201 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] LLM call successful. Raw response received.
+2025-04-22 10:28:09,201 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] Successfully parsed LLM JSON response.
+2025-04-22 10:28:09,201 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] LLM processing and validation successful. Updating Supabase...
+2025-04-22 10:28:09,201 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] Attempting to update Supabase record...
+2025-04-22 10:28:09,483 - INFO - HTTP Request: PATCH https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?id=eq.857f7a8d-538c-4360-9ccf-749ae950c3f8 "HTTP/2 200 OK"
+2025-04-22 10:28:09,485 - INFO - [857f7a8d-538c-4360-9ccf-749ae950c3f8] Successfully updated assessment with LLM data.
+2025-04-22 10:28:09,485 - INFO - Batch Summary: Processed=1, Succeeded=1, Failed/Skipped=0
+2025-04-22 10:28:09,485 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:28:09,485 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:33:09,503 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:33:09,508 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:33:09,793 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:33:09,795 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 10:33:09,796 - INFO - No assessments found matching the query criteria.
+2025-04-22 10:33:09,796 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:33:09,796 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:39:09,707 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:39:09,709 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:39:10,009 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:39:10,015 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 10:39:10,015 - INFO - No assessments found matching the query criteria.
+2025-04-22 10:39:10,015 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:39:10,015 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:44:10,026 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:44:10,029 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:44:10,720 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:44:10,722 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 10:44:10,722 - INFO - No assessments found matching the query criteria.
+2025-04-22 10:44:10,722 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:44:10,722 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-22 10:49:10,735 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-22 10:49:10,739 - INFO - --- Starting LLM Interpreter Batch Run ---
+2025-04-22 10:49:11,357 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Cis_mock&llm_ready=eq.True&is_mock=eq.False&raw_content=not.is.null "HTTP/2 200 OK"
+2025-04-22 10:49:11,358 - INFO - No non-mock assessments found ready for LLM processing.
+2025-04-22 10:49:11,358 - INFO - No assessments found matching the query criteria.
+2025-04-22 10:49:11,358 - INFO - --- Finished LLM Interpreter Batch Run ---
+2025-04-22 10:49:11,358 - INFO - Scheduler: Interpreter batch run finished.
