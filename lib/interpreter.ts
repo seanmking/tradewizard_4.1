@@ -14,7 +14,8 @@ export async function runInterpreter(assessmentId: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     try {
       const projectRoot = process.cwd();
-      const pythonExecutablePath = "/usr/local/bin/python3.12"; // Use the correct path from 'which'
+      // Construct path to python executable within the virtual environment
+      const pythonExecutablePath = path.join(projectRoot, '.venv', 'bin', 'python');
       const srcPath = path.join(projectRoot, 'src'); // Path to src directory
 
       // Prepare the environment for the child process

@@ -84,38 +84,50 @@ def extract_products(assessment: Dict[str, Any], mcp_outputs: Dict[str, Dict[str
                     "category": product_info.get("category", "")
                 })
     
-    # If no products from HSCodeMCP, try to extract from raw content
-    if not products and "raw_content" in assessment:
-        try:
-            content_json = json.loads(assessment.get("raw_content", "{}"))
+    # Check WebsiteAnalysisMCP output
+    if "WebsiteAnalysisMCP" in mcp_outputs:
+        website_output = mcp_outputs["WebsiteAnalysisMCP"]
+        # Look for pre-extracted products in the result, not raw_content
+        if "result" in website_output and isinstance(website_output["result"], dict):
+            # Check common keys where products might be placed by the MCP
+            potential_products = website_output["result"].get("products") or website_output["result"].get("aggregated_products")
             
-            # First check for structured extracted products
-            if "extractedProducts" in content_json and content_json["extractedProducts"]:
-                for idx, product in enumerate(content_json["extractedProducts"]):
+            if isinstance(potential_products, list):
+                for i, product_data in enumerate(potential_products):
+                    if isinstance(product_data, dict):
+                        name = product_data.get("name", f"Unnamed Product {i}")
+                        description = product_data.get("description", "")
+                        category = product_data.get("category", "Extracted from website")
+                        # Add more fields if available and needed
+                        products.append({
+                            "name": name,
+                            "description": description,
+                            "category": category
+                        })
+            else:
+                # Log if products aren't found where expected, but don't treat it as an error parsing raw_content
+                logger.debug("No 'products' or 'aggregated_products' list found in WebsiteAnalysisMCP result.")
+        else:
+            logger.debug("No 'result' dictionary found in WebsiteAnalysisMCP output.")
+            
+    # Check if raw_content itself is structured (less common for WebsiteAnalysisMCP)
+    # This part is kept in case raw_content IS structured JSON sometimes, but separated from MCP results
+    raw_content_data = assessment.get("raw_content")
+    if isinstance(raw_content_data, dict) and "aggregated_products" in raw_content_data:
+        logger.debug("Found 'aggregated_products' directly in assessment's raw_content.")
+        for i, product_data in enumerate(raw_content_data["aggregated_products"]):
+             if isinstance(product_data, dict):
+                name = product_data.get("name", f"Unnamed Raw Product {i}")
+                description = product_data.get("description", "")
+                category = product_data.get("category", "Extracted from raw_content")
+                # Avoid duplicates if already added from MCP output (simple check by name)
+                if not any(p['name'] == name for p in products):
                     products.append({
-                        "id": f"product-{idx+1}",
-                        "name": product.get("name", "Unknown Product"),
-                        "description": product.get("description", ""),
-                        "category": product.get("category", "Food Products"),
-                        "estimated_hs_code": ""  # Will be filled by HSCodeMCP later
-                    })
-            # Fallback to productContent if no structured products
-            elif "productContent" in content_json and content_json["productContent"]:
-                # Simple parsing of product content (this would be more sophisticated in production)
-                product_lines = content_json["productContent"].split("Product:")
-                for i, line in enumerate(product_lines[1:], start=1):  # Skip first empty split
-                    parts = line.strip().split("Description:", 1)
-                    name = parts[0].strip() if parts else f"Product {i}"
-                    description = parts[1].strip() if len(parts) > 1 else ""
-                    products.append({
-                        "id": f"extracted_{i}",
                         "name": name,
                         "description": description,
-                        "category": "Extracted from website"
+                        "category": category
                     })
-        except (json.JSONDecodeError, TypeError, KeyError) as e:
-            logger.warning(f"Could not extract products from raw content: {e}")
-    
+
     return products
 
 def extract_certifications(assessment: Dict[str, Any], mcp_outputs: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:

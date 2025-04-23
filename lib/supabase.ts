@@ -1,10 +1,18 @@
 // lib/supabase.ts
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with fallback values for development
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project-url.supabase.co';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseKey;
+// Initialize Supabase client, ensuring environment variables are set
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl) {
+  throw new Error('Missing environment variable: NEXT_PUBLIC_SUPABASE_URL');
+}
+
+if (!supabaseKey) {
+  throw new Error('Missing environment variable: NEXT_PUBLIC_SUPABASE_ANON_KEY');
+}
 
 // Create a mock client for development if no valid URL is provided
 const createMockClient = () => {
@@ -202,6 +210,7 @@ export async function createAssessment({ url, rawContent }: { url: string, rawCo
           source_url: url,
           raw_content: rawContent,
           llm_ready: true,
+          trigger_crawler: true, // Ensure crawler is triggered initially
           created_at: new Date().toISOString()
         })
         .select()

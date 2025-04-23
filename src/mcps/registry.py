@@ -15,8 +15,10 @@ class MCPRegistryEntry(TypedDict):
 MCP_REGISTRY: Dict[str, MCPRegistryEntry] = {
     "WebsiteAnalysisMCP": {
         "mcp_class": WebsiteAnalysisMCP(),
-        # Enable if assessment is marked llm_ready and has raw_content
-        "enabled_if": lambda assessment: assessment.get("llm_ready", False) and assessment.get("raw_content") is not None
+        # Enable if assessment is marked llm_ready and has structured raw_content
+        "enabled_if": lambda assessment: assessment.get("llm_ready", False) and \
+                         isinstance(assessment.get("raw_content"), dict) and \
+                         "aggregated_products" in assessment.get("raw_content", {})
     },
     "ComplianceMCP": {
         "mcp_class": ComplianceMCP(),
