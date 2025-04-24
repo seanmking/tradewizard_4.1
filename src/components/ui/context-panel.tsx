@@ -3,7 +3,7 @@ import { useProductClassification } from '../context/ProductClassificationContex
 import { Info, HelpCircle, TrendingUp, CheckCircle } from 'lucide-react';
 
 const ContextPanel: React.FC = () => {
-  const { products, expandedProductId, classification, classificationStep } = useProductClassification();
+  const { products, expandedProductId } = useProductClassification();
   
   // Find the product currently being viewed
   const selectedProduct = Array.isArray(products) ? products.find(p => p.id === expandedProductId) : undefined;
@@ -43,16 +43,6 @@ const ContextPanel: React.FC = () => {
               <span className="text-sm text-gray-600">Products Classified</span>
               <span className="text-sm font-medium">{Array.isArray(products) ? products.filter(p => p.hsCode).length : 0} of {Array.isArray(products) ? products.length : 0}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Current Step</span>
-              <span className="text-sm font-medium">
-                {classificationStep === 0 && "Not Started"}
-                {classificationStep === 1 && "Chapter Selection"}
-                {classificationStep === 2 && "Heading Selection"}
-                {classificationStep === 3 && "Subheading Selection"}
-                {classificationStep === 4 && "Complete"}
-              </span>
-            </div>
           </div>
           
           {/* Progress bar */}
@@ -86,7 +76,7 @@ const ContextPanel: React.FC = () => {
                     <p className="font-medium">{selectedProduct.hsCode}</p>
                     <CheckCircle size={16} className="ml-2 text-green-500" />
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{selectedProduct.hsCodeDescription}</p>
+                  <p className="text-sm text-gray-600 mt-1">{selectedProduct.hsCode || 'Not classified'}</p>
                 </div>
               )}
             </div>
@@ -115,33 +105,6 @@ const ContextPanel: React.FC = () => {
             </div>
           </div>
         </div>
-        
-        {/* Classification Data */}
-        {classificationStep > 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mt-6">
-            <h3 className="font-medium text-gray-800 mb-3">Current Classification</h3>
-            <div className="space-y-3">
-              {classification.chapter && (
-                <div>
-                  <span className="text-xs text-gray-500">Chapter (2-digit)</span>
-                  <p className="font-medium">{classification.chapter.code} - {classification.chapter.name}</p>
-                </div>
-              )}
-              {classification.heading && (
-                <div>
-                  <span className="text-xs text-gray-500">Heading (4-digit)</span>
-                  <p className="font-medium">{classification.heading.code} - {classification.heading.name}</p>
-                </div>
-              )}
-              {classification.subheading && (
-                <div>
-                  <span className="text-xs text-gray-500">Subheading (6-digit)</span>
-                  <p className="font-medium">{classification.subheading.code} - {classification.subheading.name}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

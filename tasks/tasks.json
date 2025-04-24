@@ -10,13 +10,13 @@
                 {
                     "id": 1,
                     "title": "Build Structured Website Scraper",
-                    "status": "In Progress",
+                    "status": "complete",
                     "details": "Cheerio-based scraper for product selectors, content fallback, heading-based parsing, and contact info extraction."
                 },
                 {
                     "id": 2,
                     "title": "Implement Product Confidence Scoring",
-                    "status": "Pending",
+                    "status": "complete",
                     "details": "Attach a `confidenceScore` (0–1) to each extracted product for frontend and agent UX filtering."
                 },
                 {
@@ -28,13 +28,13 @@
                 {
                     "id": 4,
                     "title": "Containerize Python Interpreter",
-                    "status": "Pending",
+                    "status": "deferred",
                     "details": "Isolate Python logic in `/interpreter/` container/service. No cross-runtime leakage."
                 },
                 {
                     "id": 5,
                     "title": "Begin Parallel TypeScript Rewrite of output_formatter",
-                    "status": "Pending",
+                    "status": "deferred",
                     "details": "Rebuild output formatter logic in `lib/formatters/productFormatter.ts`. Match feature parity before cutover."
                 },
                 {
@@ -55,13 +55,13 @@
                 {
                     "id": 1,
                     "title": "Wrap Interpreter in MCP Execution Pattern",
-                    "status": "In Progress",
+                    "status": "complete",
                     "details": "Register `ProductExtractionMCP` with standard MCP interface. Log to MCPRun. Accept `assessmentId`-scoped input."
                 },
                 {
                     "id": 2,
                     "title": "Standardize LLM Output Schema",
-                    "status": "In Progress",
+                    "status": "complete",
                     "details": "Ensure output matches MCPData contract, including fallback_reason, confidence_score, and next_best_action."
                 },
                 {
@@ -75,8 +75,186 @@
                     "title": "Write Unit Tests for LLM Interpreter",
                     "status": "Pending",
                     "details": "Mock common LLM outputs and test schema validity, field population, and output routing to Supabase."
+                },
+                {
+                    "id": 5,
+                    "title": "Implement Adaptive LLM Extraction Pipeline",
+                    "status": "complete",
+                    "priority": "high",
+                    "dependencies": []
+                },
+                {
+                    "id": 7,
+                    "title": "Prompt Refinement & Few-shot Update",
+                    "status": "complete",
+                    "priority": "medium",
+                    "dependencies": []
                 }
             ]
+        },
+        {
+            "id": 3,
+            "title": "UX Integration Phase – Sarah-Led Guided Assessment Flow",
+            "status": "In Progress",
+            "priority": "high",
+            "dependencies": [2],
+            "details": "Implement the multi-step conversational assessment flow guided by Sarah, capturing user details, online presence, product confirmations, and market preferences.",
+            "subtasks": [
+                {
+                    "id": "3.1",
+                    "title": "Implement AssessmentContext using React Context",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.2",
+                    "title": "Add Step Navigation and Step Rendering to WebsiteAnalysisCenter",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.3",
+                    "title": "Implement Step 1 – Sarah Introduction and User Identity Capture",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.4",
+                    "title": "Implement Step 2 – Online Presence Inputs (URL, socials, uploads)",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.5",
+                    "title": "Implement Step 3 – Analysis Progress UI with Sarah Messages",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.6",
+                    "title": "Implement Step 4 – Review Company Summary & Certifications",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.7",
+                    "title": "Implement Step 5 – Product Confirmation with Inline Edits & Additions",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.8",
+                    "title": "Implement Step 6 – Market Selection (Max 3, Hardcoded Options)",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.9",
+                    "title": "Enable dynamic HS code lookup and inline classification for confirmed products",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.10",
+                    "title": "Implement Step 7 – Assessment Summary",
+                    "status": "Complete",
+                    "description": "Build the final summary screen displaying all gathered information.",
+                    "subtasks": []
+                },
+                {
+                    "id": "3.11",
+                    "title": "Implement Add Product Functionality in Step 5",
+                    "status": "Complete"
+                },
+                {
+                    "id": "3.12",
+                    "title": "Handle Step 3 Error States and Sarah Recovery Dialogue",
+                    "status": "Pending"
+                },
+                {
+                    "id": "3.13",
+                    "title": "Submit Text-Based Wireframe for Step 4: Product Confirmation",
+                    "status": "Pending"
+                },
+                {
+                    "id": "3.14",
+                    "title": "Wire Finish Button to Dashboard",
+                    "status": "In Progress",
+                    "description": "Connect the 'Finish Assessment' button to update Supabase and navigate to the dashboard.",
+                    "subtasks": []
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "API & Backend Enhancements",
+            "status": "In Progress",
+            "description": "Improve API endpoints and backend logic to support richer frontend interactions and data persistence.",
+            "subtasks": [
+                {
+                    "id": "4.1",
+                    "title": "Scaffold Product API Routes (POST/PATCH)",
+                    "status": "Complete"
+                },
+                {
+                    "id": "4.2",
+                    "title": "Integrate Supabase Client for Product CRUD",
+                    "status": "Complete"
+                },
+                {
+                    "id": "4.3",
+                    "title": "Update Products Table Schema (user_hidden, source, etc.)",
+                    "status": "Complete"
+                },
+                {
+                    "id": "4.4",
+                    "title": "Implement Assessment API Endpoint (PATCH for updates)",
+                    "status": "Pending"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Frontend API Integration",
+            "status": "In Progress",
+            "description": "Connect frontend components to the backend API endpoints for data persistence.",
+            "subtasks": [
+                {
+                    "id": "5.1",
+                    "title": "Save New Product (Dialog Integration)",
+                    "status": "Complete"
+                },
+                {
+                    "id": "5.2",
+                    "title": "Edit Product Inline",
+                    "status": "Complete"
+                },
+                {
+                    "id": "5.3",
+                    "title": "Handle Deselect (Soft Delete)",
+                    "status": "Complete"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "title": "Polish Market Selection (Step 6)",
+            "status": "Complete",
+            "description": "Refine UI/UX for market selection, enforcing limits and adding feedback.",
+            "subtasks": []
+        },
+        {
+            "id": 7,
+            "title": "UX Polish and Bug Fixing",
+            "status": "Complete",
+            "description": "Polish the overall UX, fix bugs, and ensure a seamless user experience.",
+            "subtasks": []
+        },
+        {
+            "id": 8,
+            "title": "Wire Finish Button to Dashboard",
+            "status": "In Progress",
+            "description": "Connect the 'Finish Assessment' button to update Supabase and navigate to the dashboard.",
+            "subtasks": []
+        },
+        {
+          "id": "TASK-ANALYSIS-TRIGGER",
+          "title": "Trigger WebsiteAnalysisMCP and Support Polling",
+          "description": "Automatically invoke MCP after assessment creation, persist results, and expose a status-checking endpoint for frontend polling in Step 3.",
+          "status": "Complete",
+          "priority": "P1",
+          "owner": "windsurf"
         }
     ],
     "metadata": {

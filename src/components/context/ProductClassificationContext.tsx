@@ -116,8 +116,6 @@ export const ProductClassificationProvider = ({ children }: { children: ReactNod
   const selectProduct = (id: number | null) => {
     setSelectedProductId(id);
     setExpandedProductId(id);
-    setClassificationStep(1);
-    setClassification({ chapter: null, heading: null, subheading: null });
   };
 
   const toggleProductExpansion = (id: number) => {

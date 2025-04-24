@@ -1,7 +1,6 @@
 // lib/scraper.ts
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { URL } from 'url'; // Add URL for validation
 
 // Define a more detailed product interface including confidence score
 interface ExtractedProduct {
@@ -300,7 +299,7 @@ export async function scrapeWebsite(url: string): Promise<string> {
                      // Capitalize first letter for display
                      const displayPlatform = platformName.charAt(0).toUpperCase() + platformName.slice(1);
                      // Avoid adding multiple links for the same platform
-                     if (!foundPlatforms.has(displayPlatform)) {
+                     if (normalizedHref && !foundPlatforms.has(displayPlatform)) {
                         normalizedSocialLinks.push({ platform: displayPlatform, url: normalizedHref });
                         foundPlatforms.add(displayPlatform); // Mark platform as found
                      }
@@ -324,26 +323,4 @@ export async function scrapeWebsite(url: string): Promise<string> {
     // Return structured error response
     return JSON.stringify(scrapedData, null, 2);
   }
-}
-
-// --- Debug Runner ---
-if (require.main === module) {
-  const testUrl = process.argv[2]; // Get URL from command line argument
-  if (!testUrl) {
-    console.error('Please provide a URL as a command line argument.');
-    process.exit(1);
-  }
-  console.log(`Running scraper directly for: ${testUrl}`);
-  scrapeWebsite(testUrl)
-    .then(output => {
-      console.log('--- Scraper Output ---');
-      console.log(output);
-      console.log('----------------------');
-    })
-    .catch(error => {
-      console.error('--- Scraper Error ---');
-      console.error(error);
-      console.log('---------------------');
-      process.exit(1);
-    });
 }

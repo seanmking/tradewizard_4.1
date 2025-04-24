@@ -1,11 +1,9 @@
 "use client"
 
 import React from 'react'
+import { useAssessmentContext } from '@/contexts/AssessmentContext';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { CheckCircle, Circle, Dot } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-// Example state - you'll need to manage this based on application logic
-const currentStep = 1; // 0: Enter Website, 1: Review Products, 2: Confirm Certs
 
 const steps = [
   { name: "Enter Website", id: 0 },
@@ -14,6 +12,9 @@ const steps = [
 ];
 
 export function WebsiteAnalysisLeft() {
+  const { state } = useAssessmentContext();
+  const { currentStep } = state;
+
   return (
     <Card className="h-full bg-muted/50 border border-muted shadow-sm rounded-xl">
       <CardHeader>

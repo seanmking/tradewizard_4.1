@@ -3,7 +3,9 @@ import LeftPanel from './LeftPanel';
 import CenterPanel from './CenterPanel';
 import RightPanel from './RightPanel';
 
-interface LayoutProps {}
+interface LayoutProps {
+  children: React.ReactNode;
+}
 
 import ThreePanelLayout from './ThreePanelLayout';
 
