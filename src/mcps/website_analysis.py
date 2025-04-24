@@ -2,12 +2,14 @@
 
 import json
 import logging
+import os
 from typing import Dict, Any, Optional, List
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
+from dotenv import load_dotenv # Add import
 
-from .base import BaseMCP, MCPOutput
+from .base import BaseMCP, MCPOutput, StandardizedMCPData
 from llm_interpreter.llm_client import call_llm # Assuming LLM client is here
 # Import crawler function if MCP triggers it directly (otherwise remove)
 # from ..scrapers.crawler_integration import crawl_and_prepare_content
@@ -25,50 +27,49 @@ class WebsiteAnalysisMCP(BaseMCP):
         return {
             "assessment_id": assessment_data.get("id"),
             "url": assessment_data.get("url"),
-            "raw_content": assessment_data.get("raw_content"), # This should be the structured JSON
+            "crawler_data": assessment_data.get("crawler_data"), # This should be the structured JSON
             "trigger_crawler": assessment_data.get("trigger_crawler", False) # Flag if crawl needed
         }
 
     async def run(self, payload: Dict[str, Any]) -> MCPOutput:
         """Analyzes website content (structured JSON) using an LLM."""
+        load_dotenv() # Call load_dotenv at the start
+        
         assessment_id = payload.get("assessment_id")
         url = payload.get("url")
-        raw_content_input = payload.get("raw_content")
+        crawler_data_dict = payload.get("crawler_data") # Expecting a dict here now
         # Note: We assume trigger_crawler logic happens *before* this MCP runs,
-        # and raw_content is populated correctly with the structured JSON.
+        # and crawler_data is populated correctly with the structured JSON.
 
-        if not raw_content_input:
-            logger.warning(f"Assessment {assessment_id}: No raw_content provided for website analysis.")
-            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error="Missing raw_content")
+        if not crawler_data_dict:
+            logger.warning(f"Assessment {assessment_id}: No crawler_data provided for website analysis.")
+            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error="Missing crawler_data", result={})
 
-        # --- Step 1: Parse raw_content (assuming it might be a JSON string) ---
+        # --- Step 1: Parse crawler_data (assuming it might be a JSON string) ---
         try:
-            if isinstance(raw_content_input, str):
-                structured_content = json.loads(raw_content_input)
-            elif isinstance(raw_content_input, dict): # Already a dict
-                structured_content = raw_content_input
+            if isinstance(crawler_data_dict, str):
+                # Attempt to parse if it's a string, keep as dict otherwise
+                crawler_data_dict = json.loads(crawler_data_dict)
+                if not isinstance(crawler_data_dict, dict):
+                    raise ValueError("Parsed JSON is not a dictionary")
+            elif isinstance(crawler_data_dict, dict): # Already a dict
+                pass # Already a dict, no action needed
             else:
-                raise ValueError("raw_content is not a valid JSON string or dictionary")
+                raise ValueError("crawler_data is not a valid JSON string or dictionary")
         except (json.JSONDecodeError, ValueError) as e:
-            logger.error(f"Assessment {assessment_id}: Failed to parse raw_content JSON: {e}")
-            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error=f"Invalid raw_content format: {e}")
+            logger.error(f"Assessment {assessment_id}: Failed to parse crawler_data JSON: {e}")
+            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error=f"Invalid crawler_data format: {e}", result={})
 
         # --- Step 2: Check Crawler Status & Handle Errors ---
-        metadata = structured_content.get("metadata", {})
+        metadata = crawler_data_dict.get("metadata", {})
         crawl_status = metadata.get("crawl_status", "unknown")
         crawl_error = metadata.get("error")
 
         if crawl_status == "failed":
             logger.error(f"Assessment {assessment_id}: Crawler failed for {url}. Error: {crawl_error}. Halting WebsiteAnalysisMCP.")
             # Optionally update assessment status here via _db_patch
-            return MCPOutput(
-                assessment_id=assessment_id,
-                mcp_name=self.name,
-                status="error",
-                error=f"Crawler failed: {crawl_error}"
-                # Add db_patch here if you want to update the main assessment status to 'error'
-                # _db_patch={"llm_status": "error", "llm_error": f"Crawler failed: {crawl_error}"}
-            )
+            db_patch = self._prepare_db_patch(assessment_id, crawler_data_dict, None) # Prepare patch even on crawl failure
+            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error=f"Crawler failed: {crawl_error}", _db_patch=db_patch, result={})
         
         analysis_warnings = []
         if crawl_status in ["partial", "completed_with_errors"]:
@@ -79,7 +80,7 @@ class WebsiteAnalysisMCP(BaseMCP):
         # --- Step 3: Extract Data for DB Patch --- 
         db_patch = {}
         assessment_updates = {} # Dictionary for updates to the main assessment record
-        extracted_products = structured_content.get("aggregated_products", [])
+        extracted_products = crawler_data_dict.get("aggregated_products", [])
         contact_info = metadata.get("contact_info", {})
         confidence_score = metadata.get("confidence_score")
 
@@ -101,15 +102,24 @@ class WebsiteAnalysisMCP(BaseMCP):
             # Ensure the structure exists even if initially empty, so we can add llm_summary later
             db_patch["Assessments"] = { assessment_id: {} }
 
+        # --- Step 3: Check API Key --- 
+        api_key = os.getenv('OPENAI_API_KEY') # Get key after load_dotenv
+        if not api_key:
+            logger.error(f"Assessment {assessment_id}: OpenAI API key is not configured.")
+            # Ensure the db_patch reflects the 'pending' status correctly before returning
+            db_patch["Assessments"][assessment_id]['llm_status'] = 'pending' 
+            db_patch["extracted_products"] = [] # Ensure no products are added
+            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error="OpenAI API key not configured", _db_patch=db_patch, result={})
+
         # --- Step 4: Prepare Input for LLM (using structured data) --- 
         # This part replaces the old `format_content_for_llm` logic.
         # It should create a textual summary/prompt for the LLM to generate insights (e.g., summary).
+        analysis_warnings = [] # Placeholder for warnings during this MCP's analysis (not crawler warnings)
         try:
-            llm_input_text = self._generate_llm_prompt_from_structured(structured_content, analysis_warnings)
+            llm_input_text = self._generate_llm_prompt_from_structured(assessment_id, crawler_data_dict, analysis_warnings)
         except Exception as e:
-             logger.error(f"Assessment {assessment_id}: Error generating LLM prompt: {e}")
-             # Decide whether to proceed without LLM or return error
-             return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error=f"Prompt generation failed: {e}", _db_patch=db_patch) # Return patch with crawler data even if prompt fails
+            logger.error(f"Assessment {assessment_id}: Error generating LLM prompt: {e}", exc_info=True)
+            return MCPOutput(assessment_id=assessment_id, mcp_name=self.name, status="error", error=f"Prompt generation failed: {e}", _db_patch=db_patch, result={}) # Return patch with crawler data even if prompt fails
 
         # --- Step 5: Call LLM --- 
         llm_response_data = None # Initialize here
@@ -171,22 +181,28 @@ class WebsiteAnalysisMCP(BaseMCP):
 
         # --- Step 6: Construct Final MCP Output --- 
         status = "error" if llm_error else "completed"
+        try:
+            final_db_patch = self._prepare_db_patch(assessment_id, crawler_data_dict, llm_response_data)
+        except Exception as e:
+             logger.error(f"Assessment {assessment_id}: Error preparing final DB patch: {e}", exc_info=True)
+             # Decide: still return 'completed' but log error, or return 'error'? Let's log and complete.
         return MCPOutput(
             assessment_id=assessment_id,
             mcp_name=self.name,
             status=status,
             error=llm_error,
-            output=llm_response_data, # Include parsed LLM output if available
-            _db_patch=db_patch # Include the patch with potential crawler & LLM data
+            result=llm_response_data, # Include parsed LLM output if available
+            _db_patch=final_db_patch # Include the patch with potential crawler & LLM data
         )
 
-    def _generate_llm_prompt_from_structured(self, content: Dict[str, Any], warnings: List[str]) -> str:
-        """Generates a text prompt for the LLM based on the structured crawler output."""
-        metadata = content.get("metadata", {})
+    def _generate_llm_prompt_from_structured(self, assessment_id: str, crawler_data_dict: Dict[str, Any], warnings: List[str]) -> str:
+        logger.debug(f"Entering _generate_llm_prompt_from_structured for assessment: {assessment_id}")
+        """Generates a text prompt for the LLM based on the structured crawler data."""
+        metadata = crawler_data_dict.get("metadata", {})
         contact_info = metadata.get("contact_info", {})
-        products = content.get("aggregated_products", [])
-        pages = content.get("pages", [])
-        
+        products = crawler_data_dict.get("aggregated_products", [])
+        pages = crawler_data_dict.get("pages", [])
+         
         prompt_lines = [
             "### Website Analysis Report ###",
             f"Source URL: {metadata.get('start_url', 'N/A')}",
@@ -254,22 +270,64 @@ class WebsiteAnalysisMCP(BaseMCP):
             "Example JSON format: {\"summary\": \"This company sells...\", \"products\": [{\"name\": \"Product A\", \"category\": \"Category 1\"}, {\"name\": \"Service B\"}]}",
         ])
 
-        return "\n".join(prompt_lines)
+        final_prompt = "\n".join(prompt_lines)
+        logger.debug(f"Exiting _generate_llm_prompt_from_structured for assessment: {assessment_id}. Prompt length: {len(final_prompt)}")
+        return final_prompt
 
-# Example usage (if running standalone for testing)
-# async def test_mcp():
-#     test_payload = {
-#         "assessment_id": "test-123",
-#         "url": "http://example.com",
-#         "raw_content": json.dumps({
-#             "metadata": { "start_url": "http://example.com", "crawl_status": "completed", "confidence_score": 0.8, "contact_info": {"emails": ["test@example.com"]}},
-#             "pages": [],
-#             "aggregated_products": [{"name": "Test Product"}]
-#         })
-#     }
-#     mcp = WebsiteAnalysisMCP()
-#     result = await mcp.run(test_payload)
-#     print(json.dumps(result, indent=2))
-#
-# if __name__ == "__main__":
-#     asyncio.run(test_mcp())
+    def _prepare_db_patch(self, assessment_id: str, crawler_data_dict: Optional[Dict[str, Any]], llm_analysis_data: Optional[Dict]) -> Dict:
+        """ 
+        Prepares the dictionary object used to patch the database Assessment record
+        and potentially create related records (e.g., extracted_products).
+        """
+        patch = {"Assessments": {assessment_id: {}}, "extracted_products": []}
+        assessment_patch = patch["Assessments"][assessment_id]
+        assessment_patch['llm_status'] = 'pending' 
+
+        # --- Include Crawler Data in Patch (if available) ---
+        if crawler_data_dict: 
+            metadata = crawler_data_dict.get("metadata", {})
+            products = crawler_data_dict.get("aggregated_products", [])
+
+            # Update assessment fields from metadata
+            if metadata.get('title'): assessment_patch['site_title'] = metadata.get('title')
+            if metadata.get('description'): assessment_patch['site_description'] = metadata.get('description')
+            if metadata.get('contact_info'): assessment_patch['contact_info'] = metadata.get('contact_info')
+            if metadata.get('confidence_score') is not None: assessment_patch['crawl_confidence_score'] = metadata.get('confidence_score')
+            assessment_patch['crawl_status'] = metadata.get('crawl_status', 'unknown')
+
+            # Add products extracted by the *crawler* initially. This might be overwritten by LLM products later.
+            if products: # Use crawler products if available
+                patch["extracted_products"] = products
+            else:
+                patch["extracted_products"] = [] # Ensure key exists
+
+        # --- Include LLM Analysis Data in Patch (if available) ---
+        if llm_analysis_data: 
+            assessment_patch['llm_processed_at'] = datetime.now(timezone.utc).isoformat()
+            assessment_patch['llm_status'] = 'completed'
+            if llm_analysis_data.get('summary'):
+                assessment_patch['llm_summary'] = llm_analysis_data['summary']
+            if llm_analysis_data.get('confidence_score') is not None:
+                assessment_patch['llm_confidence_score'] = llm_analysis_data['confidence_score']
+            # Overwrite extracted_products with the list from LLM analysis
+            patch["extracted_products"] = llm_analysis_data.get('products', []) 
+        else:
+            # If no LLM data, update status based on why (e.g., pending, skipped, error)
+            # This status might have been set earlier (e.g., no API key -> pending)
+            # If it's still 'pending' here, it means LLM wasn't called for other reasons.
+            # We might need more context passed into this function to set a more specific 'skipped' reason.
+            # For now, if it reaches here without llm_data, and status is still 'pending', let's mark it skipped.
+            if assessment_patch['llm_status'] == 'pending':
+                # Infer status based on crawler status if available, otherwise default to skipped
+                crawler_status = assessment_patch.get('crawl_status', 'unknown')
+                if crawler_status == 'failed':
+                    assessment_patch['llm_status'] = 'skipped_crawler_failed'
+                elif crawler_status == 'error':
+                    assessment_patch['llm_status'] = 'skipped_crawler_error'
+                else:
+                    assessment_patch['llm_status'] = 'skipped' # Generic skipped if no LLM data
+            # Ensure llm_processed_at is set even if skipped/error
+            if 'llm_processed_at' not in assessment_patch:
+                assessment_patch['llm_processed_at'] = datetime.now(timezone.utc).isoformat()
+
+        return patch

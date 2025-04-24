@@ -7,9 +7,18 @@ Test script for the Playwright-based website crawler.
 
 import asyncio
 import json
+import pytest
 from src.scrapers.crawler_integration import crawl_url_for_assessment
 
-async def test_crawler(url, max_pages=5):
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "url, max_pages, min_expected_pages",
+    [
+        ("https://globalcuisine.co.za", 3, 1), 
+        # ("https://toscrape.com/", 2, 2), 
+    ]
+)
+async def test_crawler(url, max_pages, min_expected_pages):
     """Test the crawler on a given URL."""
     print(f"Testing crawler on {url} with max_pages={max_pages}")
     
@@ -17,8 +26,10 @@ async def test_crawler(url, max_pages=5):
     result = await crawl_url_for_assessment(url, max_pages=max_pages)
     
     # Print basic stats
-    pages = result["raw_content"]["pages"]
+    pages = result["pages"]
     print(f"Pages crawled: {len(pages)}")
+    assert len(pages) >= min_expected_pages, f"Expected at least {min_expected_pages} page(s), found {len(pages)}"
+    assert isinstance(result.get("aggregated_products"), list), "Aggregated products should be a list (even if empty)"
     
     # Collect all products
     products = []
@@ -31,7 +42,7 @@ async def test_crawler(url, max_pages=5):
     # Print sample products
     if products:
         print("\nSample products:")
-        for p in products[:10]:  # Show up to 10 products
+        for p in products[:10]:  
             print(f"- {p.get('name', 'Unknown')} | {p.get('price', 'No price')}")
     
     # Print page types
@@ -43,20 +54,3 @@ async def test_crawler(url, max_pages=5):
     print("\nPage types found:")
     for page_type, count in page_types.items():
         print(f"- {page_type}: {count}")
-    
-    return result
-
-if __name__ == "__main__":
-    import sys
-    
-    # Default to Global Cuisine if no URL provided
-    url = sys.argv[1] if len(sys.argv) > 1 else "https://globalcuisine.co.za"
-    max_pages = int(sys.argv[2]) if len(sys.argv) > 2 else 5
-    
-    result = asyncio.run(test_crawler(url, max_pages))
-    
-    # Optionally save the full result to a file
-    with open("crawler_result.json", "w") as f:
-        json.dump(result["raw_content"], f, indent=2)
-    
-    print(f"\nFull result saved to crawler_result.json")

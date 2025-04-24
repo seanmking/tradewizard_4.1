@@ -5,6 +5,7 @@ python-dotenv>=1.0.0
 
 # Supabase client (used by both scraper pipeline and interpreter)
 supabase>=1.0.0 # Use v1 or later for async/sync consistency if needed
+# supabase-py>=2.0.0 # Removed incorrect/duplicate package
 
 # LLM Interpreter dependencies
 openai>=1.0.0 # For OpenAI API access
@@ -16,6 +17,11 @@ SQLAlchemy>=2.0.0 # ORM
 psycopg2-binary>=2.9.5 # PostgreSQL adapter for Supabase
 pydantic>=2.0.0 # Data validation (used by FastAPI)
 
+# Web Scraping / HTML Processing
+beautifulsoup4>=4.12.0
+requests>=2.30.0
+playwright>=1.40.0 # Added for JS rendering
+
 # LLM Interpreter Helpers
 tenacity>=8.2.0 # For retry logic
 
@@ -23,6 +29,10 @@ tenacity>=8.2.0 # For retry logic
 schedule>=1.1.0 # For running the interpreter periodically
 
 # Testing Dependencies
-pytest>=7.0.0 # For running unit and integration tests
+pytest>=8.0.0 # For running unit and integration tests
 
 # Add other project-specific dependencies below as needed
+rich
+# Development/Testing Dependencies
+pytest-asyncio
+respx

@@ -1,0 +1,100 @@
+id: product_extraction_v1
+description: "Extracts structured product information from webpage HTML content."
+version: "1.1.0"
+
+content: |
+  Analyze the following HTML content from the webpage at {{website_url}}.
+  Your task is to identify all distinct products listed on the page and extract the specified details for each product.
+  
+  **IMPORTANT INSTRUCTIONS:**
+  1.  **Focus ONLY on sections that appear to list products.** Ignore navigation menus, headers, footers, sidebars, forms, related articles, or user comments.
+  2.  Extract the product details accurately.
+  3.  If a detail (like SKU, brand, size, description, or image_url) is not clearly present for a product, omit the corresponding key or set its value to null.
+  4.  Ensure the `price` field is a valid number (float or integer), without any currency symbols or text. Extract the currency symbol or code separately into the `currency` field.
+  5.  Provide a `confidence_score` between 0.0 and 1.0 for each extracted product, representing your certainty that the extracted item is indeed a distinct, purchasable product based on the provided HTML. A score of 1.0 means high confidence, 0.0 means low confidence.
+  6.  Format the output STRICTLY as a JSON list (`[...]`) where each element is a JSON object representing a single product. Do NOT include any explanatory text before or after the JSON list. Use the exact field names specified below.
+
+  **Required JSON Output Fields per Product:**
+  - `name`: (String) The full name of the product.
+  - `price`: (Number, float or int) The numerical price. Null if not found.
+  - `currency`: (String) The currency symbol or code (e.g., "$", "£", "ZAR"). Null if not found.
+  - `description`: (String) A brief description. Null if not found.
+  - `sku`: (String) Stock Keeping Unit or product code. Null if not found.
+  - `image_url`: (String) Full URL of the main product image. Null if not found.
+  - `product_url`: (String) The direct URL to the product's own page, if available within the item's context. Null if not clearly identifiable.
+  - `brand`: (String) The brand name. Null if not found.
+  - `size`: (String) Size information (e.g., "500g", "Large", "1L"). Null if not found.
+  - `confidence_score`: (Number, float) Your confidence score (0.0-1.0).
+
+  **Example Scenarios (Illustrative - focus on structure and filtering noise):**
+  
+  *Example 1: Noisy HTML Snippet*
+  ```html
+  <header>...</header>
+  <nav>...</nav>
+  <main>
+    <h2>Our Products</h2>
+    <div class='product-item'>
+      <img src='/img/gadget.jpg'>
+      <h3>Super Gadget</h3>
+      <span class='price'>$49.99</span>
+      <p>A really cool gadget.</p>
+      <a href='/products/sg123'>View Details</a>
+    </div>
+    <div class='product-item'>... another product ...</div>
+  </main>
+  <aside>Related Links...</aside>
+  <footer>...</footer>
+  ```
+  *Desired Output Snippet for Example 1:*
+  ```json
+  [
+    {{
+      "name": "Super Gadget",
+      "price": 49.99,
+      "currency": "$",
+      "description": "A really cool gadget.",
+      "sku": null,
+      "image_url": "/img/gadget.jpg", 
+      "product_url": "/products/sg123",
+      "brand": null,
+      "size": null,
+      "confidence_score": 0.95
+    }},
+    {{ ... another product ... }}
+  ]
+  ```
+  
+  *Example 2: Ambiguous Section*
+  ```html
+  <div>
+      <h4>Blog Post Title</h4>
+      <p>Talks about the New Widget X which costs R250.</p>
+      <img src='widget.png'> 
+  </div>
+  ```
+  *Desired Output Snippet for Example 2 (Low Confidence or Omit):*
+  ```json
+  [
+    {{
+      "name": "New Widget X", 
+      "price": 250.00, 
+      "currency": "R",
+      "description": "Mentioned in blog post.",
+      "sku": null, 
+      "image_url": "widget.png",
+      "product_url": null,
+      "brand": null,
+      "size": null,
+      "confidence_score": 0.4 
+    }}
+  ]
+  ``` 
+  (Alternatively, if confidence is very low, the LLM might return an empty list `[]` if the context doesn't strongly imply it's a product listing.)
+
+  **HTML Content to Analyze:**
+  ```html
+  {{page_content}}
+  ```
+
+  **JSON Output:**

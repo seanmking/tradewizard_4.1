@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Chili Infused Olive Oil",
+    "description": "Spicy and flavorful, perfect for dressings.",
+    "source_url": null, 
+    "image_url": "https://example.com/images/chili-oil.jpg",
+    "category": "Oils",
+    "confidence_score": 0.95,
+    "extraction_method": "llm"
+  }
+]
