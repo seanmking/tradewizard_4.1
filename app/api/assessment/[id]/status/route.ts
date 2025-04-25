@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase'; // Use the admin client helper
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic'; // Force dynamic rendering
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const assessmentId = params.id;
-  const cookieStore = cookies();
+  // Asynchronous dynamic route parameters
+  const { id: assessmentId } = await params;
+  // Asynchronous cookies API
+  const cookieStore = await cookies();
   // Use the admin client for server-side operations
   const client = supabaseAdmin();
 

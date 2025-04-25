@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, ReactNode, Dispatch, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, Dispatch, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter
 import { toast } from 'sonner'; // Import toast
 
@@ -55,8 +55,10 @@ interface AssessmentState {
   productPdfPath?: string;   // Path from Supabase Storage
   companyProfilePath?: string; // Path from Supabase Storage
   // Step 3 data
-  exportIntent: string; // Why exporting?
+  exportIntent?: string; // Why exporting?
   exportExperience?: string; // Previous experience details
+  exportVisionOptions: string[]; // Selected checkbox reasons
+  exportVisionOtherText: string; // Custom text reason
   // Step 4 data
   products: Product[]; 
   // Step 5 data
@@ -65,7 +67,6 @@ interface AssessmentState {
   socialLinks: Record<string, string | null> | null;
   certifications: Array<{ name: string; required_for?: string[] }> | null;
   // Step 6 data
-  exportVision?: string;
   // Data from analysis
   companySummary?: string;
 }
@@ -95,7 +96,9 @@ type Action =
     }
   | { type: 'SET_ASSESSMENT_STATUS'; payload: AssessmentStatus } // Update status from polling
   | { type: 'START_POLLING'; payload: { assessmentId: string } } // Start polling
-  | { type: 'STOP_POLLING' }; // Stop polling
+  | { type: 'STOP_POLLING' } // Stop polling
+  | { type: 'TOGGLE_EXPORT_VISION_OPTION'; payload: string } // Toggle checkbox option
+  | { type: 'UPDATE_EXPORT_VISION_TEXT'; payload: string }; // Update free text
 
 // --- Initial State --- 
 const initialState: AssessmentState = {
@@ -119,6 +122,8 @@ const initialState: AssessmentState = {
   selectedMarkets: [], // Initialize selectedMarkets
   socialLinks: null,
   certifications: null,
+  exportVisionOptions: [], // Initialize as empty array
+  exportVisionOtherText: '', // Initialize as empty string
 };
 
 // --- Reducer Function ---
@@ -244,6 +249,15 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
       // We might stop loading depending on the *reason* for stopping (e.g., completion vs. manual navigation)
       // Let SET_ASSESSMENT_STATUS handle loading for completion/failure.
       return { ...state, pollingIntervalId: null }; 
+    case 'TOGGLE_EXPORT_VISION_OPTION':
+      const option = action.payload;
+      const currentOptions = state.exportVisionOptions;
+      const newOptions = currentOptions.includes(option)
+        ? currentOptions.filter(item => item !== option)
+        : [...currentOptions, option];
+      return { ...state, exportVisionOptions: newOptions };
+    case 'UPDATE_EXPORT_VISION_TEXT':
+        return { ...state, exportVisionOtherText: action.payload };
     default:
       return state;
   }
@@ -276,83 +290,98 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
   const [state, dispatch] = useReducer(assessmentReducer, initialState);
   const router = useRouter(); // Initialize router
 
-  const pollingIntervalRef = useRef<number | null>(null);
+  const pollingIntervalIdRef = useRef<NodeJS.Timeout | null>(null); // Use NodeJS.Timeout for Node.js/Next.js
+  const pollingCountRef = useRef<number>(0);
 
-  const stopPolling = () => {
-    if (pollingIntervalRef.current) {
-      clearInterval(pollingIntervalRef.current);
-      pollingIntervalRef.current = null;
+  // --- Polling Functions (Memoized) ---
+  const stopPolling = useCallback(() => {
+    if (pollingIntervalIdRef.current) {
+      clearInterval(pollingIntervalIdRef.current);
+      pollingIntervalIdRef.current = null;
       console.log('Polling stopped.');
-      // Dispatch STOP_POLLING action to update state if needed (e.g., clear intervalId)
-      // dispatch({ type: 'STOP_POLLING' }); // Can be redundant if status change handles it
+      // Update state to reflect polling stopped if needed
+      // dispatch({ type: 'STOP_POLLING' }); // Dispatching here might be redundant if useEffect cleanup handles it
     }
-  };
+  }, [pollingIntervalIdRef]); // No external dependencies needed if it only uses refs/dispatch
 
+  const checkStatus = useCallback(async () => {
+    const currentAssessmentId = state.assessmentId; // Capture ID at the time of check
+    if (!currentAssessmentId) {
+      console.log('checkStatus called without assessmentId, stopping.');
+      stopPolling();
+      return;
+    }
+    console.log(`Polling: Checking status for ${currentAssessmentId}...`);
+    try {
+      const response = await fetch(`/api/assessment/${currentAssessmentId}/status`);
+      if (!response.ok) {
+        // Handle non-2xx responses (e.g., 404, 500)
+        const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
+        console.error(`Polling Error (${response.status}):`, errorData.error || response.statusText);
+        dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: 'failed' }); // Set status to failed on error
+        dispatch({ type: 'SET_ERROR', payload: `Polling failed: ${errorData.error || response.statusText}` });
+        stopPolling();
+        return;
+      }
+      const data: { status: AssessmentStatus } = await response.json();
+      console.log(`Polling: Received status: ${data.status}`);
+      dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: data.status });
+
+      // If assessment is completed or failed, stop polling
+      if (data.status === 'completed' || data.status === 'failed') {
+        stopPolling();
+        if (data.status === 'completed') {
+          // Optionally fetch full results here before moving step
+          console.log('Assessment completed, moving to next step.');
+          goToNextStep(); // Move to Step 4
+        } else {
+           console.log('Assessment failed.');
+           // Error should already be set by the reducer/fetch error handling
+        }
+      }
+    } catch (error: any) {
+      console.error('Polling: Network or unexpected error:', error);
+      dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: 'failed' });
+      dispatch({ type: 'SET_ERROR', payload: `Polling error: ${error.message}` });
+      stopPolling();
+    }
+  }, [state.assessmentId, dispatch, stopPolling]); // Dependencies: id, dispatch, stopPolling
+
+  // --- Effects ---
+
+  // Effect to start/stop polling based on assessment ID and step
   useEffect(() => {
-    // Start polling only when we have an assessmentId and no interval is running
-    if (state.assessmentId && !pollingIntervalRef.current && state.assessmentStatus !== 'completed' && state.assessmentStatus !== 'failed') {
-      console.log(`Starting polling for assessment ID: ${state.assessmentId}`);
-      
-      const checkStatus = async () => {
-        if (!state.assessmentId) {
-          stopPolling();
-          return;
+    if (state.assessmentId && state.currentStep === 3) {
+      console.log(`Polling started for assessment ID: ${state.assessmentId}`);
+      // Reset attempt counter
+      pollingCountRef.current = 0;
+      stopPolling(); // Clear any existing interval before starting a new one
+      checkStatus(); // Initial check immediately
+      // Poll every 5 seconds with a max attempts fallback
+      pollingIntervalIdRef.current = setInterval(() => {
+        pollingCountRef.current += 1;
+        if (pollingCountRef.current >= 6) {
+          console.warn(`Polling: max attempts reached (${pollingCountRef.current}), stopping and advancing step.`);
+          clearInterval(pollingIntervalIdRef.current!);
+          pollingIntervalIdRef.current = null;
+          // Advance to next step to avoid infinite loading
+          dispatch({ type: 'SET_STEP', payload: state.currentStep + 1 });
+        } else {
+          checkStatus();
         }
-        console.log(`Polling: Checking status for ${state.assessmentId}...`);
-        try {
-          const response = await fetch(`/api/assessment/${state.assessmentId}/status`);
-          if (!response.ok) {
-            // Handle non-2xx responses (e.g., 404, 500)
-            const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
-            console.error(`Polling Error (${response.status}):`, errorData.error || response.statusText);
-            dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: 'failed' }); // Set status to failed on error
-            dispatch({ type: 'SET_ERROR', payload: `Polling failed: ${errorData.error || response.statusText}` });
-            stopPolling();
-            return;
-          }
-          const data: { status: AssessmentStatus } = await response.json();
-          console.log(`Polling: Received status: ${data.status}`);
-          dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: data.status });
+      }, 5000);
 
-          // If assessment is completed or failed, stop polling
-          if (data.status === 'completed' || data.status === 'failed') {
-            stopPolling();
-            if (data.status === 'completed') {
-              // Optionally fetch full results here before moving step
-              console.log('Assessment completed, moving to next step.');
-              goToNextStep(); // Move to Step 4
-            } else {
-               console.log('Assessment failed.');
-               // Error should already be set by the reducer/fetch error handling
-            }
-          }
-        } catch (error: any) {
-          console.error('Polling: Network or unexpected error:', error);
-          dispatch({ type: 'SET_ASSESSMENT_STATUS', payload: 'failed' });
-          dispatch({ type: 'SET_ERROR', payload: `Polling error: ${error.message}` });
-          stopPolling();
-        }
+      // Cleanup function
+      return () => {
+        stopPolling();
       };
-
-      // Initial check immediately
-      checkStatus(); 
-      
-      // Set interval for subsequent checks
-      pollingIntervalRef.current = setInterval(checkStatus, 5000); // Poll every 5 seconds
-
-    } else if ((state.assessmentStatus === 'completed' || state.assessmentStatus === 'failed') && pollingIntervalRef.current) {
-      // Stop polling if status becomes completed/failed while interval is running
-       console.log(`Polling: Stopping due to final status: ${state.assessmentStatus}`);
-      stopPolling();
     }
+  }, [state.assessmentId, state.currentStep, checkStatus, stopPolling]);
 
-    // Cleanup function: clear interval when component unmounts or assessmentId changes
-    return () => {
-       console.log('Polling: Cleanup effect running.');
-      stopPolling();
-    };
-    // Dependencies: Only re-run when assessmentId or final status changes
-  }, [state.assessmentId, state.assessmentStatus]); 
+  // Effect to handle step changes based on assessment status
+  useEffect(() => {
+    // Logic to move to next step based on assessment status
+  }, [state.assessmentStatus]);
 
   const goToNextStep = () => {
     // Allow going up to step 7 (Summary)

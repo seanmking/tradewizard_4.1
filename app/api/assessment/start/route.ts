@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
                 // Add other fields from payload as needed
                 // facebook_url: payload.facebookUrl,
                 // ... other fields
-                status: 'pending_scrape', // Initial status before processing
-                llm_ready: false,
+                status: 'pending_analysis', // Initial status before processing
+                llm_ready: true,
                 // created_at and updated_at are handled by Supabase defaults
             })
             .select('id') // Select the ID of the newly created assessment
@@ -68,11 +68,9 @@ export async function POST(request: NextRequest) {
         console.log(`API: New assessment created with ID: ${assessmentId}`);
 
         // ---------------------------------------------------------------------
-        // TODO: TASK-ANALYSIS-TRIGGER - Trigger WebsiteAnalysisMCP asynchronously here
-        // This should likely involve adding a job to a queue (e.g., BullMQ, Celery)
-        // or calling another internal API/serverless function.
-        // The MCP process will run in the background and update the assessment status.
-        // Example: triggerBackgroundAnalysis(newAssessment.id, payload.websiteUrl);
+        // MCP Trigger: Setting llm_ready=true above signals the LLM interpreter
+        // module (monitoring Supabase) to pick up this assessment for processing.
+        // No explicit trigger call is needed here if that monitor is active.
         // ---------------------------------------------------------------------
 
         // Return the ID of the newly created assessment

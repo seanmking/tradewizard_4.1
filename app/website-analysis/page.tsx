@@ -1,19 +1,30 @@
+'use client'
+
 import React from 'react'
+import { AssessmentProvider, useAssessmentContext } from '@/contexts/AssessmentContext'
 import { WebsiteAnalysisLeft } from '@/components/website-analysis-left'
 import { WebsiteAnalysisCenter } from '@/components/website-analysis-center'
 import { WebsiteAnalysisRight } from '@/components/website-analysis-right'
-import { AssessmentProvider } from '@/contexts/AssessmentContext'
+
+const WebsiteAnalysisContent = () => {
+  const { state } = useAssessmentContext();
+  const { currentStep } = state;
+
+  return (
+    <div className="min-h-screen bg-muted/50 p-6 md:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-[20%_55%_25%] gap-6 md:gap-8">
+        <WebsiteAnalysisLeft />
+        <WebsiteAnalysisCenter />
+        <WebsiteAnalysisRight currentStep={currentStep} /> 
+      </div>
+    </div>
+  );
+}
 
 export default function WebsiteAnalysisPage() {
   return (
     <AssessmentProvider>
-      <div className="min-h-screen bg-muted/50 p-6 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-[20%_55%_25%] gap-6 md:gap-8">
-          <WebsiteAnalysisLeft />
-          <WebsiteAnalysisCenter />
-          <WebsiteAnalysisRight />
-        </div>
-      </div>
+      <WebsiteAnalysisContent /> 
     </AssessmentProvider>
   )
 }

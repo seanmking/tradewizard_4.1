@@ -2,15 +2,113 @@
 
 import React from 'react'
 import { HelpCircle, FileText, ExternalLink, LightbulbIcon, LifeBuoy } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from "@/components/ui/input"; // Use Input
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-export function WebsiteAnalysisRight() {
-    return (
-        <div className="flex flex-col space-y-5 md:space-y-6 h-full"> {/* Adjusted spacing */}
-            {/* Title Removed */}
+interface WebsiteAnalysisRightProps {
+  currentStep: number;
+}
+
+export function WebsiteAnalysisRight({ currentStep }: WebsiteAnalysisRightProps) {
+
+  // Function to render content based on the current step
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />
+                Step 1: Business Basics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <p>Tell us your company name, your role, and the website URL.</p>
+              <p>This helps us understand your business context.</p>
+            </CardContent>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />
+                Step 2: More Details
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <p>Social media links and document uploads (like product PDFs) give deeper insights.</p>
+            </CardContent>
+          </>
+        );
+      case 3: // Analysis In Progress & Export Vision
+        return (
+          <>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />
+                Step 3: Analysis & Vision
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <p>Analysis is running. Your export goals help customize the results.</p>
+            </CardContent>
+          </>
+        );
+      // Add cases for steps 4, 5, 6 as the UI is built
+      case 4:
+        return (
+            <>
+                <CardHeader><CardTitle className="flex items-center"><LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />Step 4: Product Review</CardTitle></CardHeader>
+                <CardContent className="text-sm"><p>Review the products identified from your site.</p></CardContent>
+            </>
+        );
+      case 5:
+         return (
+            <>
+                <CardHeader><CardTitle className="flex items-center"><LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />Step 5: Market Selection</CardTitle></CardHeader>
+                <CardContent className="text-sm"><p>Choose your target export markets.</p></CardContent>
+            </>
+        );
+       case 6:
+         return (
+            <>
+                <CardHeader><CardTitle className="flex items-center"><LightbulbIcon className="mr-2 h-5 w-5 text-yellow-500" />Step 6: Summary</CardTitle></CardHeader>
+                <CardContent className="text-sm"><p>Review your complete export readiness snapshot.</p></CardContent>
+            </>
+        );
+      default:
+        return (
+          <>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <HelpCircle className="mr-2 h-5 w-5 text-blue-500" />
+                Getting Started
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <p>Follow the steps in the main panel.</p>
+            </CardContent>
+          </>
+        );
+    }
+  };
+
+  return (
+    <div className="flex flex-col space-y-6 h-full">
+       {/* Top Card: Contextual Help - Placeholder for now */}
+       <Card className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 border-blue-200 shadow-sm">
+        {renderStepContent()} {/* Render content based on step */}
+         <CardFooter>
+           <p className="text-xs text-muted-foreground italic">
+             Tip: The more accurate information you provide, the better insights I can offer.
+           </p>
+         </CardFooter>
+       </Card>
 
             {/* Ask Sarah Card */}
             <Card className="bg-muted/50 border border-muted shadow-sm rounded-xl">

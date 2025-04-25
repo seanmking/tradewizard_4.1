@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Loader2 } from 'lucide-react'; 
 import { Badge } from '@/components/ui/badge'; 
@@ -26,6 +27,7 @@ import {
     DialogClose
 } from "@/components/ui/dialog"; // Import Dialog components
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'; // Import Tooltip components
+import { CheckedState } from '@radix-ui/react-checkbox'; // Import CheckedState type
 
 const Step1_Welcome = () => {
   const { state, dispatch, goToNextStep } = useAssessmentContext();
@@ -189,14 +191,32 @@ const Step2_OnlinePresence = () => {
 };
 
 const Step3_AnalysisInProgress = () => {
-  const { state } = useAssessmentContext();
+  const { state, dispatch } = useAssessmentContext(); // Added dispatch
+  const { 
+    assessmentId, 
+    assessmentStatus, 
+    exportVisionOptions, 
+    exportVisionOtherText 
+  } = state; // Get current exportVision or default to empty string
   console.log('Rendering Step 3 - Analysis In Progress. Current State:', state);
 
+  const handleCheckboxChange = (checked: CheckedState, option: string) => {
+    // We only care about the boolean state for toggling
+    if (typeof checked === 'boolean') { 
+      dispatch({ type: 'TOGGLE_EXPORT_VISION_OPTION', payload: option });
+    }
+    // Handle 'Other' interaction if necessary - now handled by separate textarea
+    // dispatch({ type: 'UPDATE_EXPORT_VISION', payload: value });
+  };
+
+  const handleOtherTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch({ type: 'UPDATE_EXPORT_VISION_TEXT', payload: e.target.value });
+  };
+
   return (
-    <div className="p-4 border rounded bg-background h-full flex flex-col items-center justify-center space-y-6 text-center">
-      {/* Sarah's Dialogue Area */}
-      <div className="flex flex-col items-center space-y-4 p-4">
-        {/* Use the abstract avatar with the correct 'processing' state */}
+    <div className="p-4 border rounded bg-background h-full flex flex-col space-y-6">
+      {/* Top Section: Analysis Indicator */}
+      <div className="flex flex-col items-center justify-center space-y-4 p-4 text-center">
         <SarahAvatarAbstract size="lg" state="processing" />
         <p className="text-lg font-medium text-foreground">
           Got it! I'm now analyzing the information you provided...
@@ -204,99 +224,67 @@ const Step3_AnalysisInProgress = () => {
         <p className="text-sm text-muted-foreground">
           This might take a minute or two. Please wait while I gather insights about your business.
         </p>
+        <div className="flex items-center justify-center space-x-2 pt-2">
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+          <span className="text-muted-foreground text-sm">Analyzing...</span>
+        </div>
       </div>
 
-      {/* Loading Indicator */}
-      <div className="flex items-center justify-center space-x-2 pt-4">
-         <Loader2 className="h-6 w-6 animate-spin text-primary" />
-         <span className="text-muted-foreground">Analyzing...</span>
-      </div>
-      
-      {/* No navigation buttons needed here, handled by context logic */}
-    </div>
-  );
-};
-
-const Step4_ReviewFindings = () => {
-  const { state, goToNextStep, goToPreviousStep } = useAssessmentContext();
-  const { companySummary, certifications, isLoading, fullName } = state;
-  console.log('Rendering Step 4 - Review Findings. Current State:', state);
-
-  // Basic check if data is loaded (adjust if needed based on actual loading state)
-  const isDataLoaded = !!companySummary || (certifications && certifications.length > 0);
-
-  return (
-    <div className="p-4 border rounded bg-background h-full flex flex-col space-y-6">
-       {/* Sarah's Dialogue Area */}
-       <div className="flex items-start space-x-4 p-4 bg-muted/50 rounded-lg">
-          <SarahAvatarAbstract size="md" state="idle" />
-          <div className="flex-1 pt-1">
-            <p className="text-sm text-foreground">
-                Okay {fullName || 'User'}, I've analyzed the information. Please review the company summary and potential certifications I found. Let me know if this looks correct before we move on to products.
+      {/* Middle Section: Export Vision Prompt */}
+      <div className="flex-grow overflow-y-auto px-4 space-y-4 border-t pt-4">
+        <div className="flex items-start space-x-3 p-3 bg-muted/30 rounded-md border">
+          <SarahAvatarAbstract size="sm" state="idle" /> 
+          <div className="flex-1 space-y-3">
+            <p className="text-sm font-medium text-foreground">
+              While I’m working, can I ask — why do you want to export?
             </p>
+            <div className="space-y-2"> {/* Container for checkboxes */} 
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="vision-revenue" 
+                  checked={exportVisionOptions.includes('Increase Revenue')}
+                  onCheckedChange={(checked) => handleCheckboxChange(checked, 'Increase Revenue')}
+                />
+                <Label htmlFor="vision-revenue" className="font-normal">Increase Revenue</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="vision-brand" 
+                  checked={exportVisionOptions.includes('Build Brand')}
+                  onCheckedChange={(checked) => handleCheckboxChange(checked, 'Build Brand')}
+                />
+                <Label htmlFor="vision-brand" className="font-normal">Build Brand</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="vision-markets" 
+                  checked={exportVisionOptions.includes('Access New Markets')}
+                  onCheckedChange={(checked) => handleCheckboxChange(checked, 'Access New Markets')}
+                />
+                <Label htmlFor="vision-markets" className="font-normal">Access New Markets</Label>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Label htmlFor="vision-other-text" className="font-normal block mb-1 text-sm">Other reason(s):</Label>
+              <Textarea
+                id="vision-other-text"
+                placeholder="Please specify your reason..."
+                value={exportVisionOtherText}
+                onChange={handleOtherTextChange}
+                className="mt-2"
+                rows={3}
+              />
+            </div>
           </div>
-       </div>
+        </div>
+      </div>
 
-       {/* Findings Display Area */}
-       <div className="flex-grow space-y-4 overflow-y-auto pr-2">
-           {/* Company Summary Card */}
-           <Card>
-              <CardHeader>
-                 <CardTitle>Company Summary</CardTitle>
-                 <CardDescription>A brief overview generated from the provided information.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                 {companySummary ? (
-                    <p className="text-sm">{companySummary}</p>
-                 ) : (
-                    <p className="text-sm text-muted-foreground">No company summary was generated.</p>
-                 )}
-              </CardContent>
-           </Card>
-
-            {/* Certifications Card */}
-           <Card>
-              <CardHeader>
-                 <CardTitle>Potential Certifications</CardTitle>
-                 <CardDescription>Certifications that might be relevant based on the analysis.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                 {certifications && certifications.length > 0 ? (
-                    <ul className="space-y-2">
-                       {certifications.map((cert, index) => (
-                          <li key={index} className="text-sm flex items-center justify-between">
-                             <span>{cert.name}</span>
-                             {cert.required_for && cert.required_for.length > 0 && (
-                                <div className="flex space-x-1">
-                                   {cert.required_for.map((country: string) => (
-                                       <Badge key={country} variant="secondary">{country}</Badge>
-                                   ))}
-                                </div>
-                             )}
-                          </li>
-                       ))}
-                    </ul>
-                 ) : (
-                    <p className="text-sm text-muted-foreground">No specific certifications were identified.</p>
-                 )}
-              </CardContent>
-           </Card>
-       </div>
-
-       {/* Navigation Area */}
-       <div className="mt-auto flex justify-between pt-4 border-t">
-           <Button variant="outline" onClick={goToPreviousStep} disabled={isLoading}>
-              Previous
-           </Button>
-           <Button onClick={goToNextStep} disabled={isLoading || !isDataLoaded}> 
-              {isLoading ? 'Loading...' : 'Next: Review Products'}
-           </Button>
-       </div>
+      {/* No navigation buttons needed here, handled by context polling logic */}
     </div>
   );
 };
 
-const Step5_ProductConfirmation = () => {
+const Step4_ProductConfirmation = () => {
   const { state, dispatch, goToNextStep, goToPreviousStep } = useAssessmentContext();
   const { products, isLoading, fullName } = state;
   // Add local state for managing which HS code is being edited
@@ -310,7 +298,7 @@ const Step5_ProductConfirmation = () => {
   const [editFormData, setEditFormData] = React.useState({ name: '', category: '' });
 
 
-  console.log('Rendering Step 5 - Product Confirmation. Current State:', state);
+  console.log('Rendering Step 4 - Product Confirmation. Current State:', state);
 
   // Filter products to display (exclude hidden)
   const productsList = state.products.filter(p => !p.user_hidden);
@@ -632,7 +620,7 @@ const Step5_ProductConfirmation = () => {
                             <DialogClose asChild>
                                 <Button type="button" variant="secondary">Cancel</Button>
                             </DialogClose>
-                            <Button type="button" onClick={handleSaveNewProduct}>Save Product</Button>
+                            <Button type="submit" disabled={isLoading || !newProductData.name.trim()}>Add Product</Button>
                         </DialogFooter>
                     </DialogContent>
                  </Dialog>
@@ -776,10 +764,10 @@ const Step5_ProductConfirmation = () => {
        {/* Navigation Area */}
        <div className="mt-auto flex justify-between pt-4 border-t">
            <Button variant="outline" onClick={goToPreviousStep} disabled={isLoading}>
-              Previous
+               Previous
            </Button>
            {/* Might disable Next if no products? Or allow proceeding? For now, allow. */}
-           <Button onClick={goToNextStep} disabled={isLoading}> 
+           <Button onClick={goToNextStep} disabled={isLoading || !hasProducts}> 
               {isLoading ? 'Loading...' : 'Next: Select Target Markets'}
            </Button>
        </div>
@@ -787,9 +775,9 @@ const Step5_ProductConfirmation = () => {
   );
 };
 
-const Step6_MarketSelect = () => {
-  const { state, dispatch } = useAssessmentContext();
-  const { selectedMarkets = [] } = state;
+const Step5_MarketSelect = () => {
+  const { state, dispatch, goToNextStep, goToPreviousStep } = useAssessmentContext(); // Add goToNextStep and goToPreviousStep
+  const { selectedMarkets = [], isLoading } = state; // Add isLoading
   const maxMarkets = 3;
 
   // Mock market options - Replace with dynamic data later
@@ -829,6 +817,8 @@ const Step6_MarketSelect = () => {
   } else if (selectionCount === maxMarkets) {
     sarahPrompt = `Perfect, you've selected the maximum of ${maxMarkets} markets! Ready for the next step?`;
   }
+
+  console.log('Rendering Step 5 - Market Select. Current State:', state);
 
   return (
     <div className="p-4 border rounded bg-background h-full flex flex-col space-y-6">
@@ -887,9 +877,98 @@ const Step6_MarketSelect = () => {
          </TooltipProvider>
       </div>
 
+      {/* Navigation Area */}
+      <div className="mt-auto flex justify-between pt-4 border-t">
+          <Button variant="outline" onClick={goToPreviousStep} disabled={isLoading}>
+              Previous
+          </Button>
+          <Button onClick={goToNextStep} disabled={isLoading || selectedMarkets.length === 0}> 
+              {isLoading ? 'Loading...' : 'Next: Review Summary'}
+          </Button>
+      </div>
+
     </div>
   );
 }
+
+const Step6_ReviewFindings = () => {
+  const { state, goToNextStep, goToPreviousStep } = useAssessmentContext();
+  const { companySummary, certifications, isLoading, fullName } = state;
+  console.log('Rendering Step 6 - Review Findings. Current State:', state);
+
+  // Basic check if data is loaded (adjust if needed based on actual loading state)
+  const isDataLoaded = !!companySummary || (certifications && certifications.length > 0);
+
+  return (
+    <div className="p-4 border rounded bg-background h-full flex flex-col space-y-6">
+       {/* Sarah's Dialogue Area */}
+       <div className="flex items-start space-x-4 p-4 bg-muted/50 rounded-lg">
+          <SarahAvatarAbstract size="md" state="idle" />
+          <div className="flex-1 pt-1">
+            <p className="text-sm text-foreground">
+                Okay {fullName || 'User'}, we've reviewed the products and markets. Please review the company summary and potential certifications I found. This is the last review step before the final summary.
+            </p>
+          </div>
+       </div>
+
+       {/* Findings Display Area */}
+       <div className="flex-grow space-y-4 overflow-y-auto pr-2">
+           {/* Company Summary Card */}
+           <Card>
+              <CardHeader>
+                 <CardTitle>Company Summary</CardTitle>
+                 <CardDescription>A brief overview generated from the provided information.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 {companySummary ? (
+                    <p className="text-sm">{companySummary}</p>
+                 ) : (
+                    <p className="text-sm text-muted-foreground">No company summary was generated.</p>
+                 )}
+              </CardContent>
+           </Card>
+
+            {/* Certifications Card */}
+           <Card>
+              <CardHeader>
+                 <CardTitle>Potential Certifications</CardTitle>
+                 <CardDescription>Certifications that might be relevant based on the analysis.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 {certifications && certifications.length > 0 ? (
+                    <ul className="space-y-2">
+                       {certifications.map((cert, index) => (
+                          <li key={index} className="text-sm flex items-center justify-between">
+                             <span>{cert.name}</span>
+                             {cert.required_for && cert.required_for.length > 0 && (
+                                <div className="flex space-x-1">
+                                   {cert.required_for.map((country: string) => (
+                                       <Badge key={country} variant="secondary">{country}</Badge>
+                                   ))}
+                                </div>
+                             )}
+                          </li>
+                       ))}
+                    </ul>
+                 ) : (
+                    <p className="text-sm text-muted-foreground">No specific certifications were identified.</p>
+                 )}
+              </CardContent>
+           </Card>
+       </div>
+
+       {/* Navigation Area */}
+       <div className="mt-auto flex justify-between pt-4 border-t">
+           <Button variant="outline" onClick={goToPreviousStep} disabled={isLoading}>
+              Previous
+           </Button>
+           <Button onClick={goToNextStep} disabled={isLoading || !isDataLoaded}> 
+              {isLoading ? 'Loading...' : 'Next: Final Summary'}
+           </Button>
+       </div>
+    </div>
+  );
+};
 
 const Step7_AssessmentSummary: React.FC = () => {
   const { state, dispatch, goToPreviousStep, finishAssessment } = useAssessmentContext(); // Get context state and actions
@@ -942,7 +1021,7 @@ const Step7_AssessmentSummary: React.FC = () => {
     
     const validCertifications = certifications.map((cert, index: number) => (
         <li key={index} className="text-sm">
-          <span className="font-medium">{cert.name || 'Unnamed Certification'}</span>
+          <span className="font-medium">{cert.name}</span>
           {Array.isArray(cert.required_for) && cert.required_for.length > 0 && (
             <span className="text-muted-foreground text-xs"> (Required for: {cert.required_for.join(', ')})</span>
           )}
@@ -1137,11 +1216,11 @@ export function WebsiteAnalysisCenter() {
       case 3: 
         return <Step3_AnalysisInProgress />;
       case 4:
-        return <Step4_ReviewFindings />;
+        return <Step4_ProductConfirmation />;
       case 5:
-        return <Step5_ProductConfirmation />;
+        return <Step5_MarketSelect />;
       case 6:
-        return <Step6_MarketSelect />;
+        return <Step6_ReviewFindings />;
       case 7:
         return <Step7_AssessmentSummary />;
       default:

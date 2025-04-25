@@ -84,6 +84,12 @@
                     "dependencies": []
                 },
                 {
+                    "id": 6,
+                    "title": "Implement Python LLM Interpreter Service",
+                    "status": "Complete",
+                    "details": "Phase 1 Python interpreter that polls Supabase, runs OpenAI, and updates assessment records."
+                },
+                {
                     "id": 7,
                     "title": "Prompt Refinement & Few-shot Update",
                     "status": "complete",
@@ -254,6 +260,14 @@
           "description": "Automatically invoke MCP after assessment creation, persist results, and expose a status-checking endpoint for frontend polling in Step 3.",
           "status": "Complete",
           "priority": "P1",
+          "owner": "windsurf"
+        },
+        {
+          "id": "TASK-FLOW-REORDER-EXPORT-VISION",
+          "title": "Refactor Step Order and Add Export Vision Prompt",
+          "description": "Move Product Review to Step 4 and push Summary/Certs to later. Add a Sarah prompt in Step 3 asking the user to share their export vision.",
+          "priority": "P1",
+          "status": "In Progress",
           "owner": "windsurf"
         }
     ],
