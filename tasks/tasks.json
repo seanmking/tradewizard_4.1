@@ -73,7 +73,7 @@
                 {
                     "id": 4,
                     "title": "Write Unit Tests for LLM Interpreter",
-                    "status": "Pending",
+                    "status": "Complete",
                     "details": "Mock common LLM outputs and test schema validity, field population, and output routing to Supabase."
                 },
                 {
