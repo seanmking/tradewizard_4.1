@@ -22,7 +22,15 @@ sb = create_client(SUPABASE_URL, SUPABASE_KEY)
 openai.api_key = OPENAI_API_KEY
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+log_file = os.path.join(os.path.dirname(__file__), '..', 'interpreter.log')
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(log_file),
+        logging.StreamHandler()
+    ]
+)
 
 # Constants
 MAX_RETRIES = 3
@@ -130,6 +138,20 @@ def process_assessment(record: dict) -> None:
             "fallback_reason": str(e)
         }).eq("id", assessment_id).execute()
 
+def run_interpreter_batch() -> None:
+    """Process a single batch of assessments ready for LLM processing."""
+    result = (
+        sb.table("Assessments")
+          .select("id, raw_content, test_mode")
+          .eq("llm_ready", True)
+          .not_.is_("raw_content", None)
+          .limit(BATCH_SIZE)
+          .execute()
+    )
+    records = result.data or []
+    for record in records:
+        process_assessment(record)
+
 def main_loop() -> None:
     logging.info("Starting LLM Interpreter Service...")
     while True:
@@ -154,6 +176,7 @@ def main_loop() -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="LLM Interpreter Service")
     parser.add_argument("--id", dest="process_id", help="Assessment ID to process once and exit")
+    parser.add_argument("--batch", action="store_true", help="Process a batch and exit")
     args = parser.parse_args()
     if args.process_id:
         logging.info(f"Processing single assessment via CLI: {args.process_id}")
@@ -163,5 +186,8 @@ if __name__ == "__main__":
             process_assessment(recs[0])
         else:
             logging.error(f"No assessment found with id {args.process_id}")
+    elif args.batch:
+        logging.info("Processing batch via CLI")
+        run_interpreter_batch()
     else:
         main_loop()

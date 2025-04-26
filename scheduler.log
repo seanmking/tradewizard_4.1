@@ -4516,3 +4516,14 @@ postgrest.exceptions.APIError: {'message': 'Invalid API key', 'hint': 'Double ch
 2025-04-23 13:38:49,330 - INFO - No assessments found matching the query criteria.
 2025-04-23 13:38:49,330 - INFO - --- Finished LLM Interpreter Batch Run ---
 2025-04-23 13:38:49,330 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-26 04:56:02,688 - INFO - Scheduler: .env file loaded successfully.
+2025-04-26 04:56:03,613 - INFO - Scheduler: Successfully imported run_interpreter_batch from interpreter module.
+2025-04-26 04:56:03,614 - INFO - Scheduler: Running interpreter batch every 5 minutes.
+2025-04-26 04:56:03,614 - INFO - Scheduler: Starting main loop. Press Ctrl+C to exit.
+2025-04-26 04:56:03,614 - INFO - Scheduler: Performing initial run of the interpreter batch job...
+2025-04-26 04:56:03,614 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-26 04:56:05,398 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Ctest_mode&llm_ready=eq.True&raw_content=not.is.null&limit=5 "HTTP/2 200 OK"
+2025-04-26 04:56:05,401 - INFO - Scheduler: Interpreter batch run finished.
+2025-04-26 05:01:05,414 - INFO - Scheduler: Starting scheduled interpreter batch run...
+2025-04-26 05:01:06,368 - INFO - HTTP Request: GET https://nacyqxgpisjpbnaizjyk.supabase.co/rest/v1/Assessments?select=id%2Craw_content%2Ctest_mode&llm_ready=eq.True&raw_content=not.is.null&limit=5 "HTTP/2 200 OK"
+2025-04-26 05:01:06,369 - INFO - Scheduler: Interpreter batch run finished.
