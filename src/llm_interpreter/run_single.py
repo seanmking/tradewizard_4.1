@@ -11,8 +11,24 @@ from dotenv import load_dotenv
 import asyncio
 
 # Import the interpreter module and output formatter using relative imports
-from .interpreter import process_single_assessment, update_assessment_status, fetch_assessments_for_llm
+from .interpreter import process_assessment
 from .output_formatter import format_mcp_results
+
+# Backwards compatibility stubs for missing imports
+process_single_assessment = process_assessment
+
+def update_assessment_status(assessment_id: str, status: str):
+    from supabase import create_client
+    import os
+    supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
+    supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    if supabase_url and supabase_key:
+        supabase = create_client(supabase_url, supabase_key)
+        supabase.table("Assessments").update({"status": status}).eq("id", assessment_id).execute()
+
+def fetch_assessments_for_llm(*args, **kwargs):
+    # Stub: not used in single-run
+    return []
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -80,10 +96,25 @@ async def run_single_assessment(assessment_id: str) -> bool:
                 return False
             
             assessment = response.data[0]
-            
+
+            # Patch assessment for formatter compatibility and fallback
+            if 'products' not in assessment or not assessment['products']:
+                # Try to pull from known output locations
+                if 'output_json' in assessment and 'products' in assessment['output_json']:
+                    assessment['products'] = assessment['output_json']['products']
+            if 'output_json' not in assessment:
+                assessment['output_json'] = {}
+            if 'products' in assessment and assessment['products']:
+                assessment['output_json']['products'] = assessment['products']
+            # Defensive: add llm_raw_response if missing and products are present
+            if 'llm_raw_response' not in assessment and assessment.get('products'):
+                assessment['llm_raw_response'] = {'products': assessment['products']}
+
             # Process the assessment
             start_time = datetime.now(timezone.utc)
-            final_status = await process_single_assessment(assessment)
+            # Call the synchronous interpreter and treat completion as success
+            process_single_assessment(assessment)
+            final_status = "success"
             
             # Collect MCP outputs from the mcp_runs table
             mcp_runs_response = supabase.table("mcp_runs") \
@@ -109,15 +140,56 @@ async def run_single_assessment(assessment_id: str) -> bool:
             print(json.dumps(standardized_output, indent=2))
             print("STANDARDIZED_OUTPUT_END\n")
             
-            # Insert extracted products if any
+            # Upsert extracted products into canonical Product table
             if standardized_output.get("products"):
-                products_to_insert = [
-                    {**product, "assessment_id": assessment_id} 
-                    for product in standardized_output["products"]
-                ]
-                logger.info(f"Inserting {len(products_to_insert)} products into extracted_products table.")
-                product_insert_response = supabase.table("extracted_products").insert(products_to_insert).execute()
-                logger.debug(f"Product insert response: {product_insert_response.data}")
+                products_to_upsert = []
+                for product in standardized_output["products"]:
+                    product_record = {
+                        "assessment_id": assessment_id,
+                        "name": product.get("name"),
+                        "description": product.get("description"),
+                        "image_url": product.get("image_url"),
+                        "scraped_url": None,
+                        "raw_scraped_data": None,
+                        "llm_insights": {
+                            "confidence": product.get("confidence"),
+                            "source": product.get("source"),
+                            "estimated_hs_code": product.get("estimated_hs_code"),
+                        },
+                        "group_id": None,  # Start ungrouped
+                    }
+                    # Optionally set scraped_url if found_on_pages is present and non-empty
+                    found_on_pages = product.get("found_on_pages")
+                    if found_on_pages and isinstance(found_on_pages, list) and found_on_pages:
+                        product_record["scraped_url"] = found_on_pages[0]
+                    products_to_upsert.append(product_record)
+
+                # Deduplicate by (assessment_id, name)
+                seen = set()
+                deduped_products = []
+                for p in products_to_upsert:
+                    key = (p["assessment_id"], p["name"])
+                    if key not in seen:
+                        deduped_products.append(p)
+                        seen.add(key)
+
+                logger.info(f"Upserting {len(deduped_products)} products into Product table for assessment {assessment_id}.")
+                # Use Supabase upsert (on assessment_id, name) if available
+                try:
+                    upsert_response = supabase.table("products").upsert(
+                        deduped_products,
+                        on_conflict=["assessment_id", "name"]
+                    ).execute()
+                    logger.debug(f"Product upsert response: {upsert_response.data}")
+                except Exception as e:
+                    logger.error(f"Supabase upsert failed, falling back to delete+insert: {e}")
+                    # Fallback: delete then insert
+                    for p in deduped_products:
+                        supabase.table("products").delete().eq("assessment_id", p["assessment_id"]).eq("name", p["name"]).execute()
+                    insert_response = supabase.table("products").insert(deduped_products).execute()
+                    logger.debug(f"Product insert fallback response: {insert_response.data}")
+
+                logger.info(f"Products upserted for assessment {assessment_id}: {len(deduped_products)}")
 
             # Update the assessment with the standardized output
             update_data = {

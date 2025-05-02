@@ -117,6 +117,12 @@ def process_assessment(record: dict) -> None:
             if field not in parsed_output:
                 raise ValueError(f"Missing expected field: {field}")
 
+        # PATCH: Write products into record for formatter compatibility
+        record['products'] = parsed_output.get('products', [])
+        record['output_json'] = record.get('output_json', {})
+        record['output_json']['products'] = parsed_output.get('products', [])
+        record['llm_raw_response'] = parsed_output
+
         # Prepare update
         update_data = {
             **parsed_output,

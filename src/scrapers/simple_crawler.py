@@ -282,20 +282,71 @@ class SimpleCrawler:
 
         return crawlable_links, all_found_links
 
-    async def _extract_products(self, page: Page) -> str:
+    async def _extract_products(self, page: Page) -> list:
         """
-        Extract product information from the page. (Temporarily modified to get body HTML)
-        
-        Args:
-            page: Playwright page
-            
-        Returns:
-            Body HTML as a string
+        Extract product information from the page using BeautifulSoup and regex heuristics.
+        Returns a list of product dicts with keys: name, category, price, image_url, description, found_on_pages
         """
-        # --- TEMPORARY MODIFICATION: Get body innerHTML for debugging --- 
-        body_html = await page.evaluate("() => document.body.innerHTML")
-        return body_html
-        # --- END TEMPORARY MODIFICATION ---
+        html = await page.content()
+        soup = BeautifulSoup(html, 'html.parser')
+        products = []
+        found_on_page = getattr(page, 'url', None) or None
+
+        # Heuristic 1: Common product containers
+        product_selectors = [
+            '[class*="product"]', '[id*="product"]', '[class*="item"]', '[class*="menu"]', '[class*="food"]', '[class*="dish"]',
+            'li', 'article', 'section'
+        ]
+        containers = []
+        for selector in product_selectors:
+            containers.extend(soup.select(selector))
+
+        seen_names = set()
+        for container in containers:
+            # Name
+            name = None
+            for tag in ['h1','h2','h3','h4','h5','h6','.title','.name']:
+                el = container.select_one(tag) or container.find(class_='title') or container.find(class_='name')
+                if el and el.get_text(strip=True):
+                    name = el.get_text(strip=True)
+                    break
+            if not name:
+                continue
+            norm_name = name.lower().strip().rstrip('.,:;\u2022\u00b7')
+            if norm_name in seen_names:
+                continue
+            seen_names.add(norm_name)
+
+            # Category
+            cat_el = container.find(class_='category') or container.find(class_='cat')
+            category = cat_el.get_text(strip=True) if cat_el else None
+            # Price
+            price = None
+            price_el = container.find(class_='price') or container.find(class_='cost')
+            if price_el and price_el.get_text():
+                price = price_el.get_text(strip=True)
+            else:
+                # Look for price pattern in text
+                price_match = re.search(r'R\s*[\d,.]+', container.get_text())
+                price = price_match.group(0) if price_match else None
+            # Image
+            img_el = container.find('img')
+            image_url = img_el['src'] if img_el and img_el.has_attr('src') else None
+            # Description
+            desc_el = container.find('p')
+            description = desc_el.get_text(strip=True) if desc_el else None
+            # Found on pages
+            found_on_pages = [found_on_page] if found_on_page else []
+
+            products.append({
+                "name": name,
+                "category": category,
+                "price": price,
+                "image_url": image_url,
+                "description": description,
+                "found_on_pages": found_on_pages
+            })
+        return products
     
     def _classify_page_type(self, url: str, title: str) -> str:
         """

@@ -331,7 +331,20 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
       if (data.status === 'completed' || data.status === 'failed') {
         stopPolling();
         if (data.status === 'completed') {
-          // Optionally fetch full results here before moving step
+          // Fetch full results before moving to next step
+          try {
+            const resultsRes = await fetch(`/api/assessment/${currentAssessmentId}/status`);
+            if (resultsRes.ok) {
+              const resultsJson = await resultsRes.json();
+              // Prefer top-level products, fallback to assessment.products
+              const products = resultsJson.products && resultsJson.products.length > 0
+                ? resultsJson.products
+                : (resultsJson.assessment && resultsJson.assessment.products ? resultsJson.assessment.products : []);
+              dispatch({ type: 'LOAD_PRODUCTS', payload: products });
+            }
+          } catch (err) {
+            console.error('Failed to fetch assessment results for products:', err);
+          }
           console.log('Assessment completed, moving to next step.');
           goToNextStep(); // Move to Step 4
         } else {

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase'; // Assuming you have an admin client
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { scrapeWebsite } from '@/lib/scraper';
+import { runInterpreter } from '@/lib/interpreter';
 
 // Define the expected payload from the frontend
 interface StartAssessmentPayload {
@@ -28,6 +30,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: 'Website URL is required' }, { status: 400 });
         }
 
+        // Normalize and validate URL
+        let normalizedUrl = payload.websiteUrl.trim();
+        if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
+            normalizedUrl = 'https://' + normalizedUrl;
+        }
+
         // --- User Authentication/Identification (Placeholder) ---
         // In a real app, you'd get the user ID from the session/auth context
         // const { data: { user } } = await supabase.auth.getUser();
@@ -43,7 +51,7 @@ export async function POST(request: NextRequest) {
             .from('Assessments')
             .insert({
                 // user_id: userId, // Associate with the user if logged in
-                source_url: payload.websiteUrl, // Use the correct column name
+                source_url: normalizedUrl, // Use the correct column name
                 // Add other fields from payload as needed
                 // facebook_url: payload.facebookUrl,
                 // ... other fields
@@ -66,6 +74,16 @@ export async function POST(request: NextRequest) {
 
         const assessmentId = newAssessment.id;
         console.log(`API: New assessment created with ID: ${assessmentId}`);
+
+        // Scrape website and save raw content
+        const rawContent = await scrapeWebsite(normalizedUrl);
+        const { error: updateError } = await client
+            .from('Assessments')
+            .update({ raw_content: rawContent, llm_ready: true })
+            .eq('id', assessmentId);
+        if (updateError) console.error('API: Error saving scraped content:', updateError);
+        // Run interpreter
+        await runInterpreter(assessmentId);
 
         // ---------------------------------------------------------------------
         // MCP Trigger: Setting llm_ready=true above signals the LLM interpreter

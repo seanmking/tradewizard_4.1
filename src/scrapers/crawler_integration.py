@@ -206,15 +206,82 @@ async def crawl_and_prepare_content(url: str, max_pages: int = 20, retry_count: 
                 # If crawler ran but we didn't successfully process text from any page
                 result["metadata"]["crawl_status"] = "processed_no_content"
 
-            # Simple deduplication of products based on name (can be enhanced)
-            seen_products = set()
-            unique_products = []
-            for product in all_products:
-                prod_name = product.get('name', '').strip().lower()
-                if prod_name and prod_name not in seen_products:
-                    unique_products.append(product)
-                    seen_products.add(prod_name)
-            result["aggregated_products"] = unique_products
+            # --- Dual Extraction Aggregation ---
+            # Separate products by source if present
+            llm_products = [p for p in all_products if p.get('source') == 'llm']
+            regex_products = [p for p in all_products if p.get('source') == 'regex']
+            both_products = []
+            merged_products = []
+            seen = {}
+
+            def normalize_name(name):
+                if not name:
+                    return ''
+                return name.lower().strip().rstrip('.,:;•·')
+
+            # Index by normalized name for deduplication
+            for p in regex_products:
+                key = normalize_name(p.get('name'))
+                if key:
+                    seen[key] = {"regex": p, "llm": None}
+            for p in llm_products:
+                key = normalize_name(p.get('name'))
+                if key in seen:
+                    seen[key]["llm"] = p
+                else:
+                    seen[key] = {"regex": None, "llm": p}
+
+            # Merge, tag, and assign confidence
+            for key, val in seen.items():
+                regex_p = val["regex"]
+                llm_p = val["llm"]
+                if regex_p and llm_p:
+                    merged = {
+                        "name": regex_p.get("name") or llm_p.get("name"),
+                        "category": regex_p.get("category") or llm_p.get("category"),
+                        "price": regex_p.get("price") or llm_p.get("price"),
+                        "image_url": regex_p.get("image_url") or llm_p.get("image_url"),
+                        "description": llm_p.get("description") or regex_p.get("description"),
+                        "found_on_pages": list(set((regex_p.get("found_on_pages") or []) + (llm_p.get("found_on_pages") or []))),
+                        "source": "both",
+                        "confidence": 1.0
+                    }
+                    merged_products.append(merged)
+                elif regex_p:
+                    merged = {
+                        "name": regex_p.get("name"),
+                        "category": regex_p.get("category"),
+                        "price": regex_p.get("price"),
+                        "image_url": regex_p.get("image_url"),
+                        "description": regex_p.get("description"),
+                        "found_on_pages": regex_p.get("found_on_pages", []),
+                        "source": "regex",
+                        "confidence": 0.7
+                    }
+                    merged_products.append(merged)
+                elif llm_p:
+                    merged = {
+                        "name": llm_p.get("name"),
+                        "category": llm_p.get("category"),
+                        "price": llm_p.get("price"),
+                        "image_url": llm_p.get("image_url"),
+                        "description": llm_p.get("description"),
+                        "found_on_pages": llm_p.get("found_on_pages", []),
+                        "source": "llm",
+                        "confidence": 0.8
+                    }
+                    merged_products.append(merged)
+
+            # Fallback: If only one extractor returns results
+            if not merged_products:
+                merged_products = all_products
+                for p in merged_products:
+                    p["source"] = p.get("source", "unknown")
+                    p["confidence"] = 0.6
+
+            result["aggregated_products"] = merged_products
+            result["products"] = merged_products
+
 
             # --- Task 1: Add aggregated contacts to metadata --- 
             result["metadata"]["contact_info"] = {k: list(v) for k, v in aggregated_contacts.items()}
