@@ -13,7 +13,7 @@ class MCPRegistryEntry(TypedDict):
 
 # MCP Registry
 MCP_REGISTRY: Dict[str, MCPRegistryEntry] = {
-    WebsiteAnalysisModule.name: {
+    WebsiteAnalysisModule.NAME: {
         "mcp_class": WebsiteAnalysisModule(),
         # Enable if assessment is marked llm_ready and has structured raw_content
         "enabled_if": lambda assessment: assessment.get("llm_ready", False) and \

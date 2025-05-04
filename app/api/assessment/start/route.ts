@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase'; // Assuming you have an admin client
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { scrapeWebsite } from '@/lib/scraper';
 import { runInterpreter } from '@/lib/interpreter';
 
 // Define the expected payload from the frontend
@@ -75,20 +74,13 @@ export async function POST(request: NextRequest) {
         const assessmentId = newAssessment.id;
         console.log(`API: New assessment created with ID: ${assessmentId}`);
 
-        // Scrape website and save raw content
-        const rawContent = await scrapeWebsite(normalizedUrl);
-        const { error: updateError } = await client
-            .from('Assessments')
-            .update({ raw_content: rawContent, llm_ready: true })
-            .eq('id', assessmentId);
-        if (updateError) console.error('API: Error saving scraped content:', updateError);
-        // Run interpreter
+        // Run interpreter (This should now handle the multi-page crawl and content saving via Python)
         await runInterpreter(assessmentId);
 
         // ---------------------------------------------------------------------
-        // MCP Trigger: Setting llm_ready=true above signals the LLM interpreter
-        // module (monitoring Supabase) to pick up this assessment for processing.
-        // No explicit trigger call is needed here if that monitor is active.
+        // MCP Trigger: The Python crawler should update the status and potentially
+        // llm_ready=true AFTER it finishes crawling and saving aggregated content.
+        // The subsequent LLM analysis module would then pick it up.
         // ---------------------------------------------------------------------
 
         // Return the ID of the newly created assessment

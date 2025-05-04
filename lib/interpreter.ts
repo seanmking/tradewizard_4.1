@@ -39,7 +39,7 @@ export async function runInterpreter(assessmentId: string): Promise<boolean> {
 
       const pythonProcess = spawn(
         pythonExecutablePath,
-        ['-m', 'src.llm_interpreter.run_single', assessmentId], // Use -m to run module
+        ['-m', 'src.llm_interpreter.run_single', '--assessment_id', assessmentId], // Use -m to run module
         {
           cwd: projectRoot, // Still run from project root
           env: env, // Pass the cleaned environment

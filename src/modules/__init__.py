@@ -29,7 +29,7 @@ from .pipeline import MCP_REGISTRY as Module_REGISTRY, get_active_mcps
 REGISTERED_ModuleS: Dict[str, Type[BaseModule]] = {
     ComplianceModule.name: ComplianceModule,
     HSCodeMCP.name: HSCodeMCP,
-    WebsiteAnalysisModule.name: WebsiteAnalysisModule,
+    WebsiteAnalysisModule.NAME: WebsiteAnalysisModule,
     # Add other Modules here as they are created, e.g.:
     # HSCodeModule.name: HSCodeModule,
 }

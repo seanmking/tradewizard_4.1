@@ -3,6 +3,7 @@
 import logging
 import datetime
 import os
+import json
 from typing import Optional, Dict, Any
 from supabase import Client, create_client
 from .base import MCPOutput # Import MCPOutput for type hinting
@@ -111,72 +112,79 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
 
     if not db_patch:
         logger.info("No _db_patch found in MCP output. Skipping database update.")
-        return False
+        return True
 
-    assessment_id = mcp_output.get("assessment_id") # Get assessment_id for foreign key
-    if not assessment_id:
-        logger.error("Could not find assessment_id in MCP output. Cannot apply patches requiring it.")
-        # Decide if this is a critical error or just prevents certain patches
-        # For now, let's prevent proceeding if assessment_id is missing and needed.
-        # return False # Option: Stop if assessment_id missing
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+         logger.error("Supabase client not available. Cannot apply _db_patch.")
+         return False
 
-    logger.info(f"Applying _db_patch: {db_patch} for assessment {assessment_id}")
+    # Attempt to get assessment_id from the MCP output root first, if available
+    # This might be useful if the patch doesn't include the Assessments table update
+    assessment_id_from_output = mcp_output.get("result", {}).get("assessment_id") or \
+                                mcp_output.get("debug_info", {}).get("assessment_id")
+
+    logger.debug(f"Applying _db_patch: {json.dumps(db_patch, indent=2)} for assessment_id (from output): {assessment_id_from_output}")
     success = True
+    processed_assessment_id = None # Store the ID processed in the Assessments table
     try:
-        for table, data in db_patch.items(): # Rename 'updates' to 'data' for clarity
-            # Check if the data is a list (indicating insertion)
-            if isinstance(data, list):
-                if data: # Only insert if the list is not empty
-                    # --- Modification Start ---
-                    # If inserting into extracted_products, ensure assessment_id is added
-                    if table == "extracted_products":
-                        if not assessment_id:
-                            logger.error(f"Cannot insert into '{table}' without assessment_id.")
-                            success = False # Mark as failed for this table
-                            continue # Skip this table
-                        
-                        # Add assessment_id to each record
-                        for record in data:
-                            if isinstance(record, dict):
-                                record['assessment_id'] = assessment_id
-                            else:
-                                logger.warning(f"Skipping non-dict item in list for table '{table}': {record}")
-                        # Filter out any non-dict items just in case
-                        data_to_insert = [r for r in data if isinstance(r, dict)]
-                        if not data_to_insert:
-                            logger.warning(f"No valid dict records found to insert into '{table}' after filtering.")
-                            continue # Skip if nothing valid left
-                    else:
-                        data_to_insert = data # Use original data for other tables
-                    # --- Modification End ---
-
-                    logger.info(f"Inserting {len(data_to_insert)} records into table '{table}'...")
-                    insert_response = supabase.table(table).insert(data_to_insert).execute()
-                    # Add basic logging for insert response
-                    logger.debug(f"Insert response for {table}: {insert_response.data}")
-                    if not insert_response.data:
-                         logger.warning(f"Possible issue inserting into {table}. Response data is empty.")
+        for table, records in db_patch.items():
+            if table == "Assessments": # Special handling for the main assessment record
+                # Expecting only one record_id (assessment_id) here
+                if len(records) == 1:
+                    record_id = list(records.keys())[0]
+                    processed_assessment_id = record_id # Store the ID
+                    patch_data = records[record_id]
+                    logger.info(f"Updating table '{table}', record '{record_id}' with patch: {patch_data}")
+                    try:
+                        supabase_client.table(table).update(patch_data).eq("id", record_id).execute()
+                    except Exception as e: # Catch any exception during update
+                        logger.error(f"Error applying _db_patch for {table}/{record_id}: {e}")
+                        success = False
                 else:
-                    logger.info(f"Skipping insert for table '{table}' as data list is empty.")
-            # Assume it's a dictionary for updates otherwise
-            elif isinstance(data, dict):
-                for record_id, patch_data in data.items():
-                    if patch_data: # Only update if there's data
-                        logger.info(f"Updating table '{table}', record '{record_id}' with patch: {patch_data}")
-                        logger.debug(f"Supabase update payload for {table}/{record_id}: {patch_data}")
-                        update_response = supabase.table(table).update(patch_data).eq("id", record_id).execute()
-                        logger.debug(f"Update response for {table}/{record_id}: {update_response.data}")
-                        if not update_response.data:
-                            logger.warning(f"Possible issue updating {table}/{record_id}. Response data is empty.")
+                    logger.warning(f"Expected exactly one record ID under 'Assessments' in db_patch, found {len(records)}. Skipping Assessments update.")
+                continue # Move to next table after handling Assessments
+
+            # --- Handle related tables (Products, ProductVariants, Certifications) --- 
+            
+            # Determine the correct assessment_id to use for relations
+            # Prefer the one processed from the Assessments table patch, fallback to the one from output
+            current_assessment_id = processed_assessment_id or assessment_id_from_output
+            
+            if not current_assessment_id:
+                # Removed the premature error log. Error will be logged per-record if needed.
+                # logger.error("Could not determine assessment_id. Cannot apply patches for related tables.")
+                logger.warning(f"Skipping table '{table}' processing as assessment_id could not be determined.")
+                continue # Skip this table if assessment_id is missing
+                
+            for record_id, patch_data in records.items():
+                # Ensure assessment_id is in the patch data for related tables
+                if 'assessment_id' not in patch_data:
+                    patch_data['assessment_id'] = current_assessment_id
+                
+                # Check if assessment_id matches the one we expect
+                if patch_data['assessment_id'] != current_assessment_id:
+                     logger.warning(f"Mismatch: assessment_id in patch data ({patch_data['assessment_id']}) differs from expected ({current_assessment_id}) for {table}/{record_id}. Using ID from patch data.")
+
+                logger.info(f"Upserting table '{table}', record '{record_id}' with data: {patch_data}")
+                try:
+                    # Use upsert to handle both inserts and updates
+                    response = supabase_client.table(table).upsert(patch_data).execute()
+                    
+                    # Check response - upsert might return empty data on success
+                    if not response.data:
+                         # Changed Warning to Info - Empty data is often expected on upsert
+                         logger.info(f"Upsert operation on {table}/{record_id} completed. Response data is empty (this might be expected).")
                     else:
-                         logger.info(f"Skipping update for table '{table}', record '{record_id}' as patch data is empty.")
-            else:
-                 logger.warning(f"Skipping patch for table '{table}'. Unexpected data type: {type(data)}")
+                        logger.debug(f"Upsert response data for {table}/{record_id}: {response.data}")
+
+                except Exception as e: # Catch specific Supabase API errors if possible, fallback to general
+                    logger.error(f"Error upserting data for {table}/{record_id}: {e}")
+                    success = False
 
     except Exception as e:
-        logger.error(f"Error applying _db_patch: {e}", exc_info=True)
-        success = False # Indicate patch application failed
-
+        logger.error(f"General error applying _db_patch: {e}", exc_info=True)
+        success = False
     return success # Return whether patch application was attempted
 
 # Placeholder for future prompt templating helpers
@@ -186,3 +194,18 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
 # Placeholder for token budgeting helpers
 # def check_token_limit(text: str, limit: int) -> bool:
 #     ...
+
+def get_supabase_client():
+    if supabase:
+        return supabase
+    else:
+        supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
+        supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        if supabase_url and supabase_key:
+            try:
+                return create_client(supabase_url, supabase_key)
+            except Exception as e:
+                logger.error(f"Failed to create Supabase client: {e}")
+        else:
+            logger.error("Supabase URL or key not set. Cannot create client.")
+        return None

@@ -7,14 +7,12 @@ export const dynamic = 'force-dynamic'; // Force dynamic rendering
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  // Asynchronous dynamic route parameters
-  const { id: assessmentId } = await params;
+  // Synchronous dynamic route parameters
+  const assessmentId = params.id;
   // Asynchronous cookies API
-  const cookieStore = await cookies();
-  // Use the admin client for server-side operations
-  const client = supabaseAdmin();
+  const cookieStore = cookies();
 
   if (!assessmentId) {
     return NextResponse.json({ error: 'Assessment ID is required' }, { status: 400 });
@@ -24,7 +22,7 @@ export async function GET(
     console.log(`API: Received GET request to /api/assessment/${assessmentId}/status`);
 
     // Fetch the full assessment record (including products, summary, certifications, etc.)
-    const { data, error } = await client
+    const { data, error } = await supabaseAdmin()
       .from('Assessments')
       .select('*')
       .eq('id', assessmentId)

@@ -82,6 +82,8 @@ interface AssessmentState {
   // Step 6 data
   // Data from analysis
   companySummary?: string;
+  summary?: string;
+  fallbackReason?: string;
 }
 
 // --- Action Types --- (using useReducer)
@@ -113,7 +115,8 @@ type Action =
   | { type: 'TOGGLE_EXPORT_VISION_OPTION'; payload: string } // Toggle checkbox option
   | { type: 'UPDATE_EXPORT_VISION_TEXT'; payload: string }
   | { type: 'LOAD_GROUPS'; payload: Group[] }
-  | { type: 'UPDATE_PRODUCT_GROUP'; payload: { productId: string; groupId: string | null } };
+  | { type: 'UPDATE_PRODUCT_GROUP'; payload: { productId: string; groupId: string | null } }
+  | { type: 'SET_DATA'; payload: { summary: string; products: Product[]; certifications: Array<{ name: string; required_for?: string[] }> | null; fallbackReason: string } };
 
 // --- Initial State --- 
 const initialState: AssessmentState = {
@@ -140,6 +143,8 @@ const initialState: AssessmentState = {
   certifications: null,
   exportVisionOptions: [], // Initialize as empty array
   exportVisionOtherText: '', // Initialize as empty string
+  summary: undefined,
+  fallbackReason: undefined,
 };
 
 // --- Reducer Function ---
@@ -294,6 +299,14 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
             : p
         ),
       };
+    case 'SET_DATA':
+      return {
+        ...state,
+        summary: action.payload.summary,
+        products: action.payload.products,
+        certifications: action.payload.certifications,
+        fallbackReason: action.payload.fallbackReason,
+      };
     default:
       return state;
   }
@@ -368,20 +381,34 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
       if (data.status === 'completed' || data.status === 'failed') {
         stopPolling();
         if (data.status === 'completed') {
-          // Fetch full results before moving to next step
+          // Fetch full assessment data including products, not just status
           try {
-            const resultsRes = await fetch(`/api/assessment/${currentAssessmentId}/status`);
+            const resultsRes = await fetch(`/api/assessment/${currentAssessmentId}`);
             if (resultsRes.ok) {
-              const resultsJson = await resultsRes.json();
-              const products = Array.isArray(resultsJson.products)
-                ? resultsJson.products
-                : Array.isArray(resultsJson.assessment?.products)
-                  ? resultsJson.assessment.products
-                  : [];
-              dispatch({ type: 'LOAD_PRODUCTS', payload: products });
+              const fullAssessmentData = await resultsRes.json();
+              // Assuming the API returns an object like { assessment: { ..., products: [...], certifications: [...] } }
+              // Adjust the property access based on the actual API response structure
+              const assessmentDetails = fullAssessmentData.assessment || fullAssessmentData;
+
+              // Dispatch SET_DATA with the relevant fields
+              dispatch({
+                type: 'SET_DATA',
+                payload: {
+                  summary: assessmentDetails.summary,
+                  // Use capitalized names matching the API response from Supabase relation
+                  products: assessmentDetails.Products || [], 
+                  certifications: assessmentDetails.Certifications || [],
+                  fallbackReason: assessmentDetails.fallback_reason,
+                  // Add other fields from assessmentDetails if needed by the state
+                }
+              });
+            } else {
+              console.error(`Failed to fetch full assessment results: ${resultsRes.status} ${resultsRes.statusText}`);
+              // Handle error - maybe set an error state?
             }
           } catch (err) {
-            console.error('Failed to fetch assessment results for products:', err);
+            console.error('Error fetching/processing full assessment results:', err);
+            // Handle error
           }
           console.log('Assessment completed, moving to next step.');
           goToNextStep(); // Move to Step 4

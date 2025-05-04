@@ -175,7 +175,7 @@ class PlaywrightCrawler:
         
         try:
             # Navigate to the page with timeout
-            response = await page.goto(url, timeout=self.timeout, wait_until="networkidle")
+            response = await page.goto(url, timeout=60000, wait_until="domcontentloaded")
             
             # Wait additional time for JS to settle
             await page.wait_for_timeout(self.wait_for_idle)
@@ -227,87 +227,36 @@ class PlaywrightCrawler:
         Returns:
             Extracted text content
         """
-        # Use a simpler approach to extract text
-        text_content = await page.evaluate("""
-        () => {
-            // Helper function to get visible text
-            function getVisibleText(element) {
-                if (!element) return '';
-                
-                // Skip hidden elements
-                const style = window.getComputedStyle(element);
-                if (style && (style.display === 'none' || style.visibility === 'hidden')) {
-                    return '';
-                }
-                
-                // Skip script and style elements
-                if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE' || 
-                    element.tagName === 'NOSCRIPT' || element.tagName === 'IFRAME') {
-                    return '';
-                }
-                
-                // If it's a text node, return its text
-                if (element.nodeType === Node.TEXT_NODE) {
-                    return element.textContent.trim();
-                }
-                
-                // For headings, add markdown-style formatting
-                if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
-                    const level = element.tagName[1];
-                    return '\n' + '#'.repeat(parseInt(level)) + ' ' + element.textContent.trim() + '\n';
-                }
-                
-                // For paragraphs, add a newline after
-                if (element.tagName === 'P') {
-                    return element.textContent.trim() + '\n';
-                }
-                
-                // For list items, add a bullet
-                if (element.tagName === 'LI') {
-                    return '- ' + element.textContent.trim() + '\n';
-                }
-                
-                // For other elements, just return their text
-                let result = '';
-                if (element.childNodes && element.childNodes.length > 0) {
-                    for (const child of element.childNodes) {
-                        result += getVisibleText(child) + ' ';
+        # Use JavaScript's querySelectorAll to find all relevant elements
+        # and extract their text content, then join them.
+        js_code = """
+            () => {
+                const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, td, th, div, span, a, button, label');
+                let text = '';
+                elements.forEach(el => {
+                    // Check if the element is visible
+                    const style = window.getComputedStyle(el);
+                    if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+                        // Attempt to get text content, preferring innerText for rendered text
+                        let elementText = el.innerText || el.textContent || '';
+                        // Normalize whitespace: replace multiple spaces/newlines with a single space
+                        elementText = elementText.replace(new RegExp('\\s+', 'g'), ' ').trim();
+                        if (elementText) {
+                            text += elementText + ' ';
+                        }
                     }
-                } else {
-                    result = element.textContent.trim();
-                }
-                
-                return result.trim();
+                });
+                // Final trim to remove leading/trailing space from concatenation
+                return text.trim();
             }
-            
-            // Get all elements that typically contain meaningful text
-            const textContainers = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, td, th, div, span, a, button, label');
-            
-            // Extract and format the text
-            let extractedText = '';
-            for (const container of textContainers) {
-                // Skip if parent is already processed to avoid duplication
-                if (container.parentElement && 
-                    (container.parentElement.tagName === 'LI' || 
-                     container.parentElement.tagName === 'P')) {
-                    continue;
-                }
-                
-                const text = getVisibleText(container);
-                if (text) {
-                    extractedText += text + ' ';
-                }
-            }
-            
-            // Clean up the text
-            return extractedText
-                .replace(/\s+/g, ' ')  // Replace multiple spaces with a single space
-                .replace(/\n\s+/g, '\n')  // Clean up newlines
-                .trim();
-        }
-        """)
-        
-        return text_content
+        """
+        try:
+            content = await page.evaluate(js_code)
+            logger.debug(f"Extracted content length: {len(content)}")
+            return content
+        except Exception as e:
+            logger.error(f"Error extracting text content: {e}")
+            return ""
     
     async def _extract_links(self, page: Page, base_url: str) -> List[str]:
         """
@@ -341,7 +290,7 @@ class PlaywrightCrawler:
                 
             # Skip common non-content pages
             skip_patterns = [
-                r'/cart', r'/checkout', r'/my-account', r'/login', r'/register',
+                r'/(shop|store|products?|buy)', r'/cart', r'/checkout', r'/my-account', r'/login', r'/register',
                 r'\?add-to-cart=', r'/wp-admin', r'/wp-login', r'/feed', r'/xmlrpc'
             ]
             if any(re.search(pattern, parsed_link.path, re.IGNORECASE) for pattern in skip_patterns):
