@@ -6,6 +6,7 @@ from supabase import create_client
 import openai
 from dotenv import load_dotenv
 import argparse  # for CLI override
+from .taxo_engine import classify_products  # taxonomy integration
 
 # Load environment variables
 load_dotenv()
@@ -121,6 +122,8 @@ def process_assessment(record: dict) -> None:
         record['products'] = parsed_output.get('products', [])
         record['output_json'] = record.get('output_json', {})
         record['output_json']['products'] = parsed_output.get('products', [])
+        # run taxonomy on leaf products
+        record['taxonomy'] = classify_products(record['products'])
         record['llm_raw_response'] = parsed_output
 
         # Prepare update

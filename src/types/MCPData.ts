@@ -1,10 +1,10 @@
-// src/types/MCPData.ts
+// src/types/ModuleData.ts
 
 /**
- * Defines the structure for the combined scraped data conforming to the MCP schema.
+ * Defines the structure for the combined scraped data conforming to the Module schema.
  * This is a placeholder structure and should be refined based on actual scraped fields.
  */
-export interface MCPData {
+export interface ModuleData {
   assessmentId: string;
   sourceUrl: string; // The primary URL scraped (e.g., company website)
   scrapeTimestamp: string; // ISO 8601 timestamp

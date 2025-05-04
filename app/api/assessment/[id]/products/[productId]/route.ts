@@ -98,7 +98,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         }
 
         console.log(`API: Product ${productId} updated successfully in assessment ${assessmentId}. Update result:`, updateData);
-        return NextResponse.json(updatedProduct, { status: 200 }); // Return the updated product
+        // Return the updated product with group_id
+        return NextResponse.json({ ...updatedProduct, group_id: updatedProduct.group_id ?? null }, { status: 200 });
 
     } catch (error: any) {
         console.error('API: Error processing PATCH request:', error);

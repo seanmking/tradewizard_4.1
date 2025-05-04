@@ -1,6 +1,6 @@
 import logging
 import json
-from output_formatter import format_mcp_results
+from llm_interpreter.output_formatter import format_mcp_results
 
 def test_format_mcp_results():
     # Simulate assessment and MCP outputs

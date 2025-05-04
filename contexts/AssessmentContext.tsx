@@ -15,12 +15,17 @@ export interface Product {
   estimated_hs_code?: string;
   confirmed_hs_code?: string;
   confidence_score?: number;
+  classification_confidence?: number;
+  materials?: string[];
+  parent_id?: string;
+  variants?: string[];
   created_at: string;
   updated_at: string;
   // --- Fields for UX --- 
   user_hidden?: boolean;
   source?: 'llm' | 'manual';
   isEditing?: boolean; // UI state flag
+  group_id?: string | null;
 }
 
 // Add Certification type (basic example)
@@ -30,6 +35,13 @@ interface Certification {
   name: string;
   required_for?: string[]; // Optional array of country codes/names
   // Add other relevant fields
+}
+
+// Add Group type
+export interface Group {
+  id: string;
+  name: string;
+  productIds: string[];
 }
 
 // Define possible assessment statuses
@@ -61,6 +73,7 @@ interface AssessmentState {
   exportVisionOtherText: string; // Custom text reason
   // Step 4 data
   products: Product[]; 
+  groups: Group[];
   // Step 5 data
   targetMarkets: string[]; // e.g., ['USA', 'UAE', 'SADC Region']
   selectedMarkets: string[]; // Add state for selected market codes
@@ -98,7 +111,9 @@ type Action =
   | { type: 'START_POLLING'; payload: { assessmentId: string } } // Start polling
   | { type: 'STOP_POLLING' } // Stop polling
   | { type: 'TOGGLE_EXPORT_VISION_OPTION'; payload: string } // Toggle checkbox option
-  | { type: 'UPDATE_EXPORT_VISION_TEXT'; payload: string }; // Update free text
+  | { type: 'UPDATE_EXPORT_VISION_TEXT'; payload: string }
+  | { type: 'LOAD_GROUPS'; payload: Group[] }
+  | { type: 'UPDATE_PRODUCT_GROUP'; payload: { productId: string; groupId: string | null } };
 
 // --- Initial State --- 
 const initialState: AssessmentState = {
@@ -118,6 +133,7 @@ const initialState: AssessmentState = {
   linkedinUrl: '',
   exportIntent: '',
   products: [],
+  groups: [],
   targetMarkets: [],
   selectedMarkets: [], // Initialize selectedMarkets
   socialLinks: null,
@@ -140,9 +156,15 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
     case 'UPDATE_FIELD':
       return { ...state, [action.payload.field]: action.payload.value };
     case 'LOAD_PRODUCTS':
-      // Ensure LLM products don't overwrite manual ones if re-fetching later
-      // For now, simple replace
-      return { ...state, products: action.payload.map(p => ({ ...p, source: p.source || 'llm' })) }; 
+      return {
+        ...state,
+        products: action.payload.map((p: any) => ({
+          ...p,
+          id: p.id || crypto.randomUUID(),
+          source: p.source || 'llm',
+          group_id: p.group_id ?? null,
+        })),
+      };
     case 'UPDATE_PRODUCT':
       return {
         ...state,
@@ -227,7 +249,10 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
     case 'LOAD_ANALYSIS_RESULTS':
       return {
         ...state,
-        products: action.payload.products ?? state.products, 
+        // Use payload.products from action instead of undefined resultsJson
+        products: Array.isArray(action.payload.products)
+          ? action.payload.products
+          : state.products,
         companySummary: action.payload.summary ?? state.companySummary,
         certifications: action.payload.certifications ?? state.certifications, 
         isLoading: false, // Assume loading finishes when results are loaded
@@ -258,6 +283,17 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
       return { ...state, exportVisionOptions: newOptions };
     case 'UPDATE_EXPORT_VISION_TEXT':
         return { ...state, exportVisionOtherText: action.payload };
+    case 'LOAD_GROUPS':
+      return { ...state, groups: action.payload };
+    case 'UPDATE_PRODUCT_GROUP':
+      return {
+        ...state,
+        products: state.products.map(p =>
+          p.id === action.payload.productId
+            ? { ...p, group_id: action.payload.groupId }
+            : p
+        ),
+      };
     default:
       return state;
   }
@@ -273,6 +309,7 @@ interface AssessmentContextProps {
   // --- Async Actions ---
   triggerAnalysis: () => Promise<void>; // Placeholder for now
   finishAssessment: () => Promise<void>; // Add finishAssessment action
+  loadGroups: () => Promise<void>;
   // Placeholder for async actions - will be implemented later
   // Example:
   // triggerAnalysis: () => Promise<void>;
@@ -336,10 +373,11 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
             const resultsRes = await fetch(`/api/assessment/${currentAssessmentId}/status`);
             if (resultsRes.ok) {
               const resultsJson = await resultsRes.json();
-              // Prefer top-level products, fallback to assessment.products
-              const products = resultsJson.products && resultsJson.products.length > 0
+              const products = Array.isArray(resultsJson.products)
                 ? resultsJson.products
-                : (resultsJson.assessment && resultsJson.assessment.products ? resultsJson.assessment.products : []);
+                : Array.isArray(resultsJson.assessment?.products)
+                  ? resultsJson.assessment.products
+                  : [];
               dispatch({ type: 'LOAD_PRODUCTS', payload: products });
             }
           } catch (err) {
@@ -505,6 +543,12 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
     }
   };
 
+  const loadGroups = async () => {
+    if (!state.assessmentId) return;
+    const res = await fetch(`/api/classification/groups?assessment_id=${state.assessmentId}`);
+    const data: Group[] = await res.json();
+    dispatch({ type: 'LOAD_GROUPS', payload: data });
+  };
 
   const value = {
     state,
@@ -513,8 +557,7 @@ export function AssessmentProvider({ children }: AssessmentProviderProps) {
     goToPreviousStep,
     triggerAnalysis, // Provide the async function
     finishAssessment, // Provide the finish function
-    // triggerAnalysis, // Pass actions here
-    // addProduct,
+    loadGroups,
   };
 
   return (

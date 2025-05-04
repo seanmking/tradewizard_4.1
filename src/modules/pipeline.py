@@ -1,7 +1,7 @@
 from typing import Dict, Any, Callable, TYPE_CHECKING, TypedDict
-from .compliance import ComplianceMCP
-from .hscode import HSCodeMCP
-from .website_analysis import WebsiteAnalysisMCP
+from .compliance_module import ComplianceModule
+from .hscode_module import HSCodeMCP
+from .website_analysis_module import WebsiteAnalysisModule
 
 if TYPE_CHECKING:
     from .base import BaseMCP # Avoid circular import
@@ -13,20 +13,20 @@ class MCPRegistryEntry(TypedDict):
 
 # MCP Registry
 MCP_REGISTRY: Dict[str, MCPRegistryEntry] = {
-    "WebsiteAnalysisMCP": {
-        "mcp_class": WebsiteAnalysisMCP(),
+    WebsiteAnalysisModule.name: {
+        "mcp_class": WebsiteAnalysisModule(),
         # Enable if assessment is marked llm_ready and has structured raw_content
         "enabled_if": lambda assessment: assessment.get("llm_ready", False) and \
                          isinstance(assessment.get("raw_content"), dict) and \
                          "aggregated_products" in assessment.get("raw_content", {})
     },
-    "ComplianceMCP": {
-        "mcp_class": ComplianceMCP(),
+    ComplianceModule.name: {
+        "mcp_class": ComplianceModule(),
         # Example: Enable if status requires compliance check or is in final review
         # TODO: Update this based on actual workflow status fields
         "enabled_if": lambda classification: classification.get("status") in ["compliance", "review"]
     },
-    "HSCodeMCP": {
+    HSCodeMCP.name: {
         "mcp_class": HSCodeMCP(),
         # Example: Enable if status requires HS coding or is in final review
         # TODO: Update this based on actual workflow status fields

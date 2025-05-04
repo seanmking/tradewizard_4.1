@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { formatMCPResults } from '@/utils/output_formatter';
+import { formatModuleResults } from '@/utils/output_formatter';
 import { supabaseAdmin } from '@/lib/supabase'; // Use the admin client helper
 import { cookies } from 'next/headers';
 
@@ -55,17 +55,10 @@ export async function GET(
     // Attempt to load the standardized output (assume it is stored in a column or reformat as needed)
     let standardizedOutput = null;
     try {
-      // If the assessment has a column with standardized output, use it; otherwise, reconstruct
-      if (data.standardized_output) {
-        standardizedOutput = data.standardized_output;
-        console.log(`API: Loaded standardized output from DB for assessment ${assessmentId}`);
-      } else {
-        // Use the new TypeScript formatter utility
-        // Import at the top: import { formatMCPResults } from '@/utils/output_formatter';
-        const mcpOutputs = data.mcp_outputs || {};
-        standardizedOutput = formatMCPResults(data, mcpOutputs);
-        console.log(`API: Computed standardized output for assessment ${assessmentId}`);
-      }
+      // Force recompute standardized output, ignore DB cache
+      const mcpOutputs = data.mcp_outputs || {};
+      standardizedOutput = formatModuleResults(data, mcpOutputs);
+      console.log(`API: Computed standardized output for assessment ${assessmentId}`);
     } catch (err) {
       console.error(`API: Error formatting MCP results for assessment ${assessmentId}:`, err);
       return NextResponse.json({

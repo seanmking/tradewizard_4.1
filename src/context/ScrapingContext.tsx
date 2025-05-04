@@ -3,12 +3,12 @@
 import React, { createContext, useState, useEffect, useCallback, useContext, ReactNode } from 'react';
 import type { SupabaseClient, RealtimeChannel } from '@supabase/supabase-js';
 import { fetchLatestScrapedData, triggerNewScrape, subscribeToAssessmentData } from '../services/scrapingApiService';
-import type { MCPData } from '../types/MCPData';
+import type { ModuleData } from '../types/ModuleData';
 import type { ScrapingError } from '../types/ScrapingError';
 
 // --- Context Definition ---
 interface IScrapingContext {
-  scrapedData: MCPData | null;
+  scrapedData: ModuleData | null;
   isLoading: boolean;
   error: ScrapingError | null;
   isInitialState: boolean; // Flag for empty/initial state (no data fetched or available yet)
@@ -27,7 +27,7 @@ interface ScrapingProviderProps {
 
 // --- Provider Implementation ---
 export const ScrapingProvider: React.FC<ScrapingProviderProps> = ({ children, assessmentId, supabaseClient }) => {
-  const [scrapedData, setScrapedData] = useState<MCPData | null>(null);
+  const [scrapedData, setScrapedData] = useState<ModuleData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Start loading initially
   const [error, setError] = useState<ScrapingError | null>(null);
   const [isInitialState, setIsInitialState] = useState<boolean>(true); // Assume initial state until data loads or fails

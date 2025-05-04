@@ -3,8 +3,8 @@ import uuid
 from typing import Dict, Any, List
 
 # Assuming the mcps package is installable or PYTHONPATH is set
-from mcps.compliance import ComplianceMCP
-from mcps.base import MCPOutput
+from modules.compliance import ComplianceMCP
+from modules.base import MCPOutput
 
 # --- Test Data ---
 

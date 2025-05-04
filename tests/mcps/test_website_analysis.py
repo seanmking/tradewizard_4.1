@@ -8,9 +8,9 @@ from typing import Dict, Any
 
 # Assuming StandardizedMCPData and related types are accessible
 # Adjust the import path as necessary based on your project structure
-from src.mcps.base import MCPOutput
-from src.mcps.website_analysis import WebsiteAnalysisMCP
-from src.mcps.registry import MCP_REGISTRY  # To get the class if needed
+from modules.base import MCPOutput
+from modules.website_analysis import WebsiteAnalysisMCP
+from modules.registry import MCP_REGISTRY  # To get the class if needed
 from openai._base_client import SyncHttpxClientWrapper
 
 # Store the original wrapper to call it
@@ -154,8 +154,8 @@ MOCK_LLM_RESPONSE_DICT = {
 MOCK_LLM_RESPONSE_JSON = json.dumps(MOCK_LLM_RESPONSE_DICT)
 
 @pytest.mark.asyncio
-@patch('src.mcps.website_analysis.load_dotenv') # Keep this patch
-@patch('src.mcps.website_analysis.call_llm') # Correct patch target
+@patch('modules.website_analysis.load_dotenv') # Keep this patch
+@patch('modules.website_analysis.call_llm') # Correct patch target
 @patch('os.getenv') # Add patch for os.getenv
 async def test_run_method_success(mock_os_getenv, mock_call_llm, mock_load_dotenv, mcp_instance, sample_payload): # Added sample_payload fixture
     """Test the run method with a successful API call and valid JSON response."""
@@ -207,7 +207,7 @@ async def test_run_method_success(mock_os_getenv, mock_call_llm, mock_load_doten
     assert patch_data['extracted_products'] == parsed_expected['products']
 
 @pytest.mark.asyncio
-@patch('src.mcps.website_analysis.load_dotenv') # Add this patch back
+@patch('modules.website_analysis.load_dotenv') # Add this patch back
 @patch('os.getenv') # Patch os.getenv directly
 async def test_run_method_no_api_key(mock_os_getenv, mock_load_dotenv, mcp_instance, sample_payload): # Added sample_payload
     """Test the run method when the OpenAI API key is missing."""

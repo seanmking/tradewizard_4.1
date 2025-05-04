@@ -57,6 +57,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
             user_hidden: false,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
+            group_id: null, // Initialize group_id for grouping
         };
 
         // 4. Append the new product to the array
@@ -79,7 +80,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
         }
 
         console.log(`API: Product added successfully to assessment ${assessmentId}. Update result:`, updateData);
-        return NextResponse.json(newProduct, { status: 201 }); // Return the newly created product
+        // Return the newly created product with group_id
+        return NextResponse.json({ ...newProduct, group_id: null }, { status: 201 });
 
     } catch (error: any) {
         console.error('API: Error processing POST request:', error);

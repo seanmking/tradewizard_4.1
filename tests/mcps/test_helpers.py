@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import patch, MagicMock
 import uuid
-from mcps.helpers import handle_mcp_result
-from mcps.base import MCPOutput
+from modules.helpers import handle_mcp_result
+from modules.base import MCPOutput
 
 @patch('mcps.helpers.supabase', new_callable=MagicMock)
 def test_handle_mcp_result_applies_patch(mock_supabase_client):

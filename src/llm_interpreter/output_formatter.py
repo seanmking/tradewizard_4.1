@@ -4,6 +4,7 @@
 import json
 import logging
 from typing import Dict, Any, List, Optional
+from .taxo_engine import classify_products, merge_classification_into_products
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -18,7 +19,18 @@ def format_mcp_results(assessment: Dict[str, Any], mcp_outputs: Dict[str, Dict[s
         logger.info("[format_mcp_results] Starting output aggregation for assessment %s", assessment.get("id"))
         summary = extract_summary(assessment, mcp_outputs)
         logger.info("[format_mcp_results] Extracted summary: %r", summary)
-        products = extract_products(assessment, mcp_outputs)
+        # Consume precomputed taxonomy clusters from WebsiteAnalysisModule
+        module_res = mcp_outputs.get("website_analysis", {}).get("result", {})
+        # raw leaf-level variants
+        raw_products = module_res.get("products", []) or assessment.get("products", [])
+        # try merging upstream clusters, else fallback to raw list
+        taxonomy_clusters = module_res.get("taxonomy_clusters") or assessment.get("taxonomy", [])
+        products = []
+        if taxonomy_clusters:
+            products = merge_classification_into_products(taxonomy_clusters, raw_products)
+        # fallback: use raw products if merge yields nothing
+        if not products:
+            products = raw_products
         logger.info("[format_mcp_results] Extracted products: %r", products)
         certifications = extract_certifications(assessment, mcp_outputs)
         logger.info("[format_mcp_results] Extracted certifications: %r", certifications)

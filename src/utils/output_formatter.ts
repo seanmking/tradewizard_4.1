@@ -1,4 +1,6 @@
-// TypeScript utility for formatting MCP results and assessment data for the frontend
+// TypeScript utility for formatting Module results and assessment data for the frontend
+
+import { randomUUID } from 'crypto';
 
 export interface Product {
   name: string;
@@ -31,7 +33,7 @@ export interface SocialLinks {
   [key: string]: unknown;
 }
 
-export interface MCPOutput {
+export interface ModuleOutput {
   summary?: string;
   products?: Product[];
   certifications?: Certification[];
@@ -48,7 +50,7 @@ export interface Assessment {
   contacts?: Contacts;
   confidence_score?: number;
   social_links?: SocialLinks;
-  mcp_outputs?: Record<string, MCPOutput>;
+  mcp_outputs?: Record<string, ModuleOutput>;
   [key: string]: unknown;
 }
 
@@ -65,15 +67,15 @@ export interface FormattedAssessment {
 
 
 /**
- * Aggregates and formats MCP output and assessment record for frontend consumption.
- * Prioritizes MCP data, falls back to assessment fields if needed.
+ * Aggregates and formats Module output and assessment record for frontend consumption.
+ * Prioritizes Module data, falls back to assessment fields if needed.
  */
-export function formatMCPResults(
+export function formatModuleResults(
   assessment: Assessment,
-  mcpOutputs?: Record<string, MCPOutput>
+  mcpOutputs?: Record<string, ModuleOutput>
 ): FormattedAssessment {
-  // Helper to extract a field from MCPs or assessment
-  function extractField<T extends keyof MCPOutput>(field: T, fallback: MCPOutput[T] = undefined) {
+  // Helper to extract a field from Modules or assessment
+  function extractField<T extends keyof ModuleOutput>(field: T, fallback: ModuleOutput[T] = undefined) {
     if (mcpOutputs) {
       for (const key in mcpOutputs) {
         if (mcpOutputs[key] && mcpOutputs[key][field] !== undefined && mcpOutputs[key][field] !== null) {
@@ -84,7 +86,7 @@ export function formatMCPResults(
     return assessment && assessment[field] !== undefined ? assessment[field] : fallback;
   }
 
-  // Extract products (aggregate from all MCPs, fallback to assessment)
+  // Extract products (aggregate from all Modules, fallback to assessment)
   let products: Product[] = [];
   if (mcpOutputs) {
     for (const key in mcpOutputs) {
@@ -97,7 +99,44 @@ export function formatMCPResults(
     products = assessment.products as Product[];
   }
 
-  // Extract certifications (aggregate from all MCPs, fallback to assessment)
+  // Insert taxonomy override for known product families
+  const CATEGORY_TAXONOMY: Record<string, string> = {
+    "corn dog": "Frozen Snacks",
+    "corndog": "Frozen Snacks",
+    "snack pocket": "Prepared Meals",
+    "cheeseburger": "Prepared Meals",
+    "chicken pops": "Meat Snacks",
+  };
+  const normalizeCategory = (name: string): string => {
+    const lower = name.toLowerCase();
+    for (const key in CATEGORY_TAXONOMY) {
+      if (lower.includes(key)) return CATEGORY_TAXONOMY[key];
+    }
+    return "Misc";
+  };
+  products = products.map(p => ({
+    ...p,
+    category: normalizeCategory(p.name),
+  }));
+
+  // Assign stable IDs and grouping by normalized category
+  products = products.map(p => ({
+    ...p,
+    id: (p as any).id || randomUUID(),
+  }));
+  const groupedMap: Record<string, { groupId: string; items: Product[] }> = {};
+  products.forEach(p => {
+    const key = (p.category || p.name).toLowerCase().trim();
+    if (!groupedMap[key]) {
+      groupedMap[key] = { groupId: randomUUID(), items: [] };
+    }
+    groupedMap[key].items.push(p);
+  });
+  products = Object.values(groupedMap).flatMap(group =>
+    group.items.map(item => ({ ...item, group_id: group.groupId }))
+  );
+
+  // Extract certifications (aggregate from all Modules, fallback to assessment)
   let certifications: Certification[] = [];
   if (mcpOutputs) {
     for (const key in mcpOutputs) {

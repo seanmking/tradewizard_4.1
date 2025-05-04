@@ -1,14 +1,14 @@
 # src/mcps/compliance.py
 from typing import Any, Dict, List, Optional
-from .base import BaseMCP, MCPOutput
+from .base import BaseModule, ModuleOutput
 
-class ComplianceMCP(BaseMCP):
+class ComplianceModule(BaseModule):
     """Runs compliance checks based on product and market."""
-    name = "ComplianceMCP"
+    name = "ComplianceModule"
     version = "1.0.1" # Incremented version
 
     def build_payload(self, classification: Dict[str, Any], products: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Builds the payload for the Compliance MCP."""
+        """Builds the payload for the Compliance Module."""
         # Example: Taking the first product for simplicity
         # In a real scenario, might need to aggregate or handle multiple products.
         first_product = products[0] if products else {}
@@ -24,8 +24,8 @@ class ComplianceMCP(BaseMCP):
             # Add other relevant fields from classification or products as needed
         }
 
-    def run(self, payload: Dict[str, Any]) -> MCPOutput:
-        """Runs the Compliance MCP logic (Placeholder)."""
+    def run(self, payload: Dict[str, Any]) -> ModuleOutput:
+        """Runs the Compliance Module logic (Placeholder)."""
         # Placeholder: Replace with actual LLM call and logic
         print(f"[{self.name}] Running with payload: {payload}") # Debug print
         product_id = payload.get("product_id")
@@ -56,7 +56,7 @@ class ComplianceMCP(BaseMCP):
                             "estimated_cost": estimated_cost,
                             "estimated_time": estimated_time,
                             "mcp_confidence": confidence, # Store confidence within the data
-                            "mcp_version": self.version # Store MCP version
+                            "mcp_version": self.version # Store Module version
                         }
                     }
                 }
@@ -65,8 +65,8 @@ class ComplianceMCP(BaseMCP):
             print(f"[{self.name}] Warning: No product_id found in payload, cannot create _db_patch.")
 
 
-        # Return the standardized MCPOutput
-        return MCPOutput(
+        # Return the standardized ModuleOutput
+        return ModuleOutput(
             result=result_data,
             confidence=confidence,
             llm_input_prompt=None, # Placeholder
