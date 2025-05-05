@@ -90,13 +90,16 @@ async def call_llm(
     logger.info(f"Calling OpenAI model '{model}' with prompt (truncated): {prompt_log_snippet}...")
 
     try:
+        print(f"DEBUG: Making OpenAI API call (model={model}, timeout=120s)...", flush=True) 
         completion = await client.chat.completions.create(
             model=model,
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
+            timeout=120.0, 
             # response_format={"type": "json_object"} # Use only if guaranteed JSON needed and model supports
         )
+        print("DEBUG: OpenAI API call returned.", flush=True) 
         
         raw_response = completion.choices[0].message.content
         response_log_snippet = (raw_response or "")[:1000] # Truncate

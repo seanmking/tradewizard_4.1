@@ -84,6 +84,7 @@ interface AssessmentState {
   companySummary?: string;
   summary?: string;
   fallbackReason?: string;
+  confidence_score: number | null; // Added overall confidence score
 }
 
 // --- Action Types --- (using useReducer)
@@ -107,6 +108,7 @@ type Action =
         products: Product[]; 
         summary?: string; 
         certifications?: Array<{ name: string; required_for?: string[] }> | null; 
+        confidence_score?: number | null; // Added confidence score to payload
       }
     }
   | { type: 'SET_ASSESSMENT_STATUS'; payload: AssessmentStatus } // Update status from polling
@@ -129,26 +131,28 @@ const initialState: AssessmentState = {
   companyName: null,
   role: null,
   websiteUrl: null,
-  fullName: '',
-  roleInBusiness: '',
+  fullName: '', // Initialize fullName
+  roleInBusiness: '', // Initialize roleInBusiness
   facebookUrl: '',
   instagramUrl: '',
   linkedinUrl: '',
   exportIntent: '',
-  products: [],
-  groups: [],
-  targetMarkets: [],
-  selectedMarkets: [], // Initialize selectedMarkets
+  products: [], // Initialize products array
+  groups: [],   // Initialize groups array
+  targetMarkets: [], // Initialize targetMarkets array
+  selectedMarkets: [], // Initialize selectedMarkets array
   socialLinks: null,
   certifications: null,
   exportVisionOptions: [], // Initialize as empty array
   exportVisionOtherText: '', // Initialize as empty string
   summary: undefined,
   fallbackReason: undefined,
+  confidence_score: null, // Initialize confidence_score
 };
 
 // --- Reducer Function ---
 function assessmentReducer(state: AssessmentState, action: Action): AssessmentState {
+  console.log('Reducer Action:', action.type, 'Payload:', 'payload' in action ? action.payload : 'N/A'); // Add this line
   switch (action.type) {
     case 'SET_STEP':
       return { ...state, currentStep: action.payload };
@@ -254,14 +258,12 @@ function assessmentReducer(state: AssessmentState, action: Action): AssessmentSt
     case 'LOAD_ANALYSIS_RESULTS':
       return {
         ...state,
-        // Use payload.products from action instead of undefined resultsJson
-        products: Array.isArray(action.payload.products)
-          ? action.payload.products
-          : state.products,
-        companySummary: action.payload.summary ?? state.companySummary,
-        certifications: action.payload.certifications ?? state.certifications, 
-        isLoading: false, // Assume loading finishes when results are loaded
-        error: null,
+        products: action.payload.products || state.products, // Keep existing if payload is empty
+        summary: action.payload.summary || state.summary, // Keep existing if payload is empty
+        certifications: action.payload.certifications === undefined ? state.certifications : action.payload.certifications, // Handle null explicitly
+        confidence_score: action.payload.confidence_score === undefined ? state.confidence_score : action.payload.confidence_score, // Add confidence score handling
+        isLoading: false, // Assuming loading finishes when results are loaded
+        error: null, // Clear any previous error
       };
     case 'SET_ASSESSMENT_STATUS':
       // If status is completed or failed, stop loading (unless already stopped by failed)

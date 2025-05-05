@@ -18,7 +18,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
  */
 const Step4_ProductConfirmation: React.FC = () => {
   const { state, dispatch, goToNextStep, goToPreviousStep } = useAssessmentContext();
-  const { products, isLoading, fullName } = state;
+  const { products, isLoading, fullName, summary, confidence_score } = state;
 
   // Debug: dump products payload to console for grouping inspection
   useEffect(() => {
@@ -144,88 +144,111 @@ const Step4_ProductConfirmation: React.FC = () => {
 
   return (
     <div className="p-4 border rounded bg-background h-full flex flex-col space-y-6">
-      <div className="flex items-start space-x-4 p-4 bg-muted/50 rounded-lg">
-        <SarahAvatarAbstract size="md" state="idle" />
-        <p className="flex-1 text-sm">
-          Alright {fullName || 'User'}, review and confirm HS Codes for each product.
-        </p>
-      </div>
-      <div className="flex-grow overflow-y-auto space-y-4">
+      <div className="max-w-4xl mx-auto">
         <Card>
-          <CardHeader className="flex justify-between items-center pb-2">
-            <CardTitle>Products & HS Codes</CardTitle>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Confirm Products</CardTitle>
+              {confidence_score !== null && (
+                <Badge variant={confidence_score >= 0.9 ? 'default' : confidence_score >= 0.7 ? 'secondary' : 'destructive'}>
+                  Overall Confidence: {Math.round(confidence_score * 100)}%
+                </Badge>
+              )}
+            </div>
+            {summary && (
+              <CardDescription className="pt-2">
+                <span className="font-semibold">Assessment Summary:</span> {summary}
+              </CardDescription>
+            )}
           </CardHeader>
           <CardContent>
-            <Accordion type="multiple" className="space-y-2">
-              {groupedProducts.map(group => (
-                <AccordionItem key={group.parent.id} value={group.parent.id}>
-                  <div className="flex justify-between w-full items-center">
-                    <AccordionTrigger className="flex items-center flex-1 space-x-2">
-                      <span className="font-medium">
-                        {group.parent.name}
-                        {getGroupClassificationConfidence(group.parent.id) < 90 && (
-                          <span className="ml-1 text-yellow-600">⚠️</span>
-                        )}
-                      </span>
-                      <Badge variant={getGroupClassificationConfidence(group.parent.id) < 90 ? 'destructive' : 'default'}>
-                        {`${getGroupClassificationConfidence(group.parent.id)}%`}
-                      </Badge>
-                      <Badge variant={getGroupConfidence(group.parent.id) < 90 ? 'destructive' : 'default'}>
-                        {`${getGroupConfidence(group.parent.id)}%`}
-                        {getGroupConfidence(group.parent.id) < 90 && ' ⚠️'}
-                      </Badge>
-                    </AccordionTrigger>
-                    <div className="flex items-center space-x-2">
-                      {editingGroupId === group.parent.id ? (
-                        <div className="flex space-x-2">
-                          <Input
-                            value={tempGroupHsCode}
-                            onChange={e => setTempGroupHsCode(e.target.value)}
-                            placeholder="HS Code"
-                            className="w-24"
-                          />
-                          <Button size="sm" onClick={() => handleGroupSaveHsCode(group.parent.id)}><Check /></Button>
-                          <Button size="sm" variant="ghost" onClick={handleGroupCancelEdit}><X /></Button>
-                        </div>
-                      ) : (
-                        <Button size="sm" variant="ghost" onClick={() => handleGroupEditHsCode(group.parent.id)}>
-                          {getGroupConfirmedCode(group.parent.id) || 'Assign HS Code'}
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  <AccordionContent>
-                    <div className="space-y-2">
-                      {[group.parent, ...group.variants].map(prod => (
-                        <div key={prod.id} className="flex justify-between items-center p-2 border rounded">
-                          <div>
-                            <p className="font-semibold">{prod.name}</p>
-                            <div className="flex space-x-2 text-sm">
-                              <Badge variant="outline">{prod.source}</Badge>
-                              <Badge variant="secondary">{prod.confidence_score || 0}%</Badge>
-                              <Badge variant="outline">
-                                Taxo: {prod.classification_confidence ? `${Math.round(prod.classification_confidence * 100)}%` : '0%'}
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-start space-x-4 p-4 bg-muted/50 rounded-lg">
+                <SarahAvatarAbstract size="md" state="idle" />
+                <p className="flex-1 text-sm">
+                  Alright {fullName || 'User'}, review and confirm HS Codes for each product.
+                </p>
+              </div>
+              <div className="flex-grow overflow-y-auto space-y-4">
+                <Card>
+                  <CardHeader className="flex justify-between items-center pb-2">
+                    <CardTitle>Products & HS Codes</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Accordion type="multiple" className="space-y-2">
+                      {groupedProducts.map(group => (
+                        <AccordionItem key={group.parent.id} value={group.parent.id}>
+                          <div className="flex justify-between w-full items-center">
+                            <AccordionTrigger className="flex items-center flex-1 space-x-2">
+                              <span className="font-medium">
+                                {group.parent.name}
+                                {getGroupClassificationConfidence(group.parent.id) < 90 && (
+                                  <span className="ml-1 text-yellow-600">⚠️</span>
+                                )}
+                              </span>
+                              <Badge variant={getGroupClassificationConfidence(group.parent.id) < 90 ? 'destructive' : 'default'}>
+                                {`${getGroupClassificationConfidence(group.parent.id)}%`}
                               </Badge>
+                              <Badge variant={getGroupConfidence(group.parent.id) < 90 ? 'destructive' : 'default'}>
+                                {`${getGroupConfidence(group.parent.id)}%`}
+                                {getGroupConfidence(group.parent.id) < 90 && ' ⚠️'}
+                              </Badge>
+                            </AccordionTrigger>
+                            <div className="flex items-center space-x-2">
+                              {editingGroupId === group.parent.id ? (
+                                <div className="flex space-x-2">
+                                  <Input
+                                    value={tempGroupHsCode}
+                                    onChange={e => setTempGroupHsCode(e.target.value)}
+                                    placeholder="HS Code"
+                                    className="w-24"
+                                  />
+                                  <Button size="sm" onClick={() => handleGroupSaveHsCode(group.parent.id)}><Check /></Button>
+                                  <Button size="sm" variant="ghost" onClick={handleGroupCancelEdit}><X /></Button>
+                                </div>
+                              ) : (
+                                <Button size="sm" variant="ghost" onClick={() => handleGroupEditHsCode(group.parent.id)}>
+                                  {getGroupConfirmedCode(group.parent.id) || 'Assign HS Code'}
+                                </Button>
+                              )}
                             </div>
-                            {Array.isArray(prod.materials) && prod.materials.length > 0 && (
-                              <div className="mt-1 flex flex-wrap space-x-1 text-xs">
-                                {prod.materials.map((mat: string) => (
-                                  <Badge key={mat} variant="secondary">{mat}</Badge>
-                                ))}
-                              </div>
-                            )}
                           </div>
-                          <div className="flex space-x-2">
-                            <Button size="sm" variant="outline" onClick={() => handleEditClick(prod)}><Pencil /></Button>
-                            <Button size="sm" variant="outline" onClick={() => handleSoftDeleteProduct(prod.id)}><Trash2 /></Button>
-                          </div>
-                        </div>
+                          <AccordionContent>
+                            <div className="space-y-2">
+                              {[group.parent, ...group.variants].map(prod => (
+                                <div key={prod.id} className="flex justify-between items-center p-2 border rounded">
+                                  <div>
+                                    <p className="font-semibold">{prod.name}</p>
+                                    <div className="flex space-x-2 text-sm">
+                                      <Badge variant="outline">{prod.source}</Badge>
+                                      <Badge variant="secondary">{prod.confidence_score || 0}%</Badge>
+                                      <Badge variant="outline">
+                                        Taxo: {prod.classification_confidence ? `${Math.round(prod.classification_confidence * 100)}%` : '0%'}
+                                      </Badge>
+                                    </div>
+                                    {Array.isArray(prod.materials) && prod.materials.length > 0 && (
+                                      <div className="mt-1 flex flex-wrap space-x-1 text-xs">
+                                        {prod.materials.map((mat: string) => (
+                                          <Badge key={mat} variant="secondary">{mat}</Badge>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex space-x-2">
+                                    <Button size="sm" variant="outline" onClick={() => handleEditClick(prod)}><Pencil /></Button>
+                                    <Button size="sm" variant="outline" onClick={() => handleSoftDeleteProduct(prod.id)}><Trash2 /></Button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
                       ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                    </Accordion>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

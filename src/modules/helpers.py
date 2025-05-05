@@ -23,6 +23,14 @@ else:
 # Initialize logger for MCP helpers
 logger = logging.getLogger(__name__)
 
+# --- Custom JSON Encoder ---
+class CustomJSONEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle non-serializable types like datetime."""
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
 def log_mcp_run(
     mcp_name: str,
     mcp_version: str,
@@ -32,67 +40,98 @@ def log_mcp_run(
     llm_input_prompt: Optional[str] = None,
     llm_raw_output: Optional[str] = None,
     error: Optional[str] = None,
-    started_at: datetime.datetime = None,
-    completed_at: datetime.datetime = None,
     classification_id: Optional[str] = None,
     supabase_client: Client = supabase,
 ) -> None:
-    """Logs the details of an MCP execution to the 'mcp_runs' table in Supabase.
-
-    Args:
-        supabase_client: Initialized Supabase client instance.
-        mcp_name: Name of the MCP.
-        mcp_version: Version of the MCP.
-        payload: Input payload given to the MCP.
-        result: Structured result from the MCP (or None if error).
-        confidence: Confidence score from the MCP (or None if error/not applicable).
-        llm_input_prompt: Prompt sent to LLM, if any.
-        llm_raw_output: Raw output from LLM, if any.
-        error: Error message if the MCP run failed.
-        started_at: Timestamp when the MCP execution started.
-        completed_at: Timestamp when the MCP execution completed.
-        classification_id: Optional ID of the related Classification session.
-    """
-    if not started_at:
-        started_at = datetime.datetime.now(datetime.timezone.utc) # Default if not provided
-    if not completed_at:
-         completed_at = datetime.datetime.now(datetime.timezone.utc) # Assume completion now if not given
-
-    # Construct the comprehensive output object to be stored in the 'mcp_output' column
-    mcp_output_data = {
-        "result": result,
-        "confidence": confidence,
-        "llm_input_prompt": llm_input_prompt,
-        "llm_raw_output": llm_raw_output,
-        "error": error,
-        "started_at": started_at.isoformat() if started_at else None,
-        "completed_at": completed_at.isoformat() if completed_at else None,
-    }
-
-    # Filter out None values from the mcp_output_data
-    mcp_output_data = {k: v for k, v in mcp_output_data.items() if v is not None}
-
-    log_entry = {
-        "classification_id": classification_id,
-        "mcp_name": mcp_name,
-        "mcp_version": mcp_version,
-        "payload": payload, # Keep the original input payload
-        "mcp_output": mcp_output_data, # Store the comprehensive object
-        # Note: Supabase client automatically adds created_at
-    }
-
-    # Filter out None values from the main log_entry (specifically for classification_id)
-    log_entry = {k: v for k, v in log_entry.items() if v is not None}
-
+    """Logs the details of an MCP execution to the 'mcp_runs' table."""
+    logger.debug(f"--- Entered log_mcp_run for {mcp_name} v{mcp_version}, classification {classification_id} ---")
     try:
-        response = supabase_client.table("mcp_runs").insert(log_entry).execute()
-        logger.info(f"Successfully logged MCP run for {mcp_name} v{mcp_version}.")
-        # Optional: Check response for errors if needed
-        # if response.error:
-        #     logger.error(f"Supabase error logging MCP run: {response.error}")
+        # --- Payload Summary for Logging --- 
+        # Avoid logging potentially huge raw_content directly
+        payload_summary = {}
+        if payload:
+            # Simplified summary
+            payload_summary = {k: type(v).__name__ for k, v in payload.items() if k != 'raw_content'}
+            if 'raw_content' in payload:
+                payload_summary['raw_content'] = f"<present, len={len(payload['raw_content']) if payload['raw_content'] else 0}>"
+        else:
+            payload_summary = "<payload_was_none_or_empty>"
+        # --- End Payload Summary --- 
+
+        # Prepare result data, handling potential non-serializable types
+        mcp_output_data = None
+        if result:
+            try:
+                # Serialize the entire result dictionary using the custom encoder
+                mcp_output_data_str = json.dumps(result, cls=CustomJSONEncoder, indent=2)
+                mcp_output_data = json.loads(mcp_output_data_str) # Load back into dict for Supabase
+                logger.debug("Successfully serialized 'result' dictionary in log_mcp_run.")
+            except Exception as serialization_error:
+                logger.error(f"Error serializing result in log_mcp_run: {serialization_error}", exc_info=True)
+                mcp_output_data = {"error": f"Serialization failed: {str(serialization_error)}", "original_keys": list(result.keys())}
+
+        log_entry = {
+            "classification_id": classification_id,
+            "mcp_name": mcp_name,
+            "mcp_version": mcp_version,
+            # "payload_summary": payload_summary, # Removed - Column doesn't exist in mcp_runs
+            "mcp_output": mcp_output_data, # Store the comprehensive object
+            # Note: Supabase client automatically adds created_at
+        }
+
+        # Filter out None values from the main log_entry (specifically for classification_id)
+        log_entry = {k: v for k, v in log_entry.items() if v is not None}
+
+        # == Add detailed pre-insert logging ==
+        logger.debug(f"LOG_MCP_RUN PRE-INSERT: Classification ID: {classification_id}")
+        logger.debug(f"LOG_MCP_RUN PRE-INSERT: MCP Name: {mcp_name}")
+        logger.debug(f"LOG_MCP_RUN PRE-INSERT: Payload Summary Keys: {list(payload_summary.keys()) if isinstance(payload_summary, dict) else 'Not a dict'}")
+        logger.debug(f"LOG_MCP_RUN PRE-INSERT: MCP Output Type: {type(mcp_output_data)}")
+        if isinstance(mcp_output_data, dict):
+            logger.debug(f"LOG_MCP_RUN PRE-INSERT: MCP Output Keys: {list(mcp_output_data.keys())}")
+        logger.debug(f"LOG_MCP_RUN PRE-INSERT: Final Log Entry Keys: {list(log_entry.keys())}")
+        try:
+            logger.debug("Attempting to insert log entry into mcp_runs...")
+            response = supabase_client.table("mcp_runs").insert(log_entry).execute()
+            logger.debug(f"Successfully inserted log entry into mcp_runs: {response.data}") # Show data part of response
+            # Handle potential API errors if needed, though PostgrestResponse structure might vary
+            # if hasattr(response, 'error') and response.error:
+            #     print(f"ERROR logging MCP run (Supabase error): {response.error}")
+        except Exception as e:
+            logger.error(f"Exception during log_mcp_run execution: {e}", exc_info=True)
+            # Add more specific error context if possible
+            # Try to log minimal info if main logging fails
+            try:
+                error_log = {
+                    "classification_id": classification_id,
+                    "mcp_name": mcp_name,
+                    "mcp_version": mcp_version,
+                    "error_message": str(e),
+                    "error_context": "log_mcp_run initial processing or insert"
+                }
+                logger.warning(f"Attempting minimal error log after main log failure: {error_log}")
+                # Consider logging this minimal error to a different table or log file
+            except Exception as inner_e:
+                logger.critical(f"Failed even to prepare minimal error log: {inner_e}", exc_info=True)
+            return # Exit the function after logging the error
 
     except Exception as e:
-        logger.error(f"Failed to log MCP run for {mcp_name} v{mcp_version} to Supabase: {e}", exc_info=True)
+        logger.error(f"Exception during log_mcp_run execution: {e}", exc_info=True)
+        # Add more specific error context if possible
+        # Try to log minimal info if main logging fails
+        try:
+            error_log = {
+                "classification_id": classification_id,
+                "mcp_name": mcp_name,
+                "mcp_version": mcp_version,
+                "error_message": str(e),
+                "error_context": "log_mcp_run initial processing or insert"
+            }
+            logger.warning(f"Attempting minimal error log after main log failure: {error_log}")
+            # Consider logging this minimal error to a different table or log file
+        except Exception as inner_e:
+            logger.critical(f"Failed even to prepare minimal error log: {inner_e}", exc_info=True)
+        return # Exit the function after logging the error
 
 def handle_mcp_result(mcp_output: MCPOutput) -> bool:
     """
@@ -125,7 +164,6 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
                                 mcp_output.get("debug_info", {}).get("assessment_id")
 
     logger.debug(f"Applying _db_patch: {json.dumps(db_patch, indent=2)} for assessment_id (from output): {assessment_id_from_output}")
-    success = True
     processed_assessment_id = None # Store the ID processed in the Assessments table
     try:
         for table, records in db_patch.items():
@@ -139,8 +177,7 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
                     try:
                         supabase_client.table(table).update(patch_data).eq("id", record_id).execute()
                     except Exception as e: # Catch any exception during update
-                        logger.error(f"Error applying _db_patch for {table}/{record_id}: {e}")
-                        success = False
+                        logger.error(f"ERROR applying _db_patch for {table}/{record_id}: {e}")
                 else:
                     logger.warning(f"Expected exactly one record ID under 'Assessments' in db_patch, found {len(records)}. Skipping Assessments update.")
                 continue # Move to next table after handling Assessments
@@ -158,6 +195,13 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
                 continue # Skip this table if assessment_id is missing
                 
             for record_id, patch_data in records.items():
+                try:
+                    # Copy and attempt to serialize for logging, handle potential errors
+                    log_patch_str = json.dumps(patch_data, indent=2, default=str) # Use default=str for non-serializable types like datetime
+                    logger.debug(f"Preparing to upsert record_id '{record_id}' into table '{table}' with data:\n{log_patch_str}")
+                except Exception as log_e:
+                    logger.debug(f"Preparing to upsert record_id '{record_id}' into table '{table}'. Error logging patch data: {log_e}. Raw data: {patch_data}")
+                
                 # Ensure assessment_id is in the patch data for related tables
                 if 'assessment_id' not in patch_data:
                     patch_data['assessment_id'] = current_assessment_id
@@ -168,8 +212,27 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
 
                 logger.info(f"Upserting table '{table}', record '{record_id}' with data: {patch_data}")
                 try:
-                    # Use upsert to handle both inserts and updates
-                    response = supabase_client.table(table).upsert(patch_data).execute()
+                    # Define conflict columns based on table
+                    conflict_columns = None
+                    if table == "Products":
+                        conflict_columns = "assessment_id,name"
+                    elif table == "ProductVariants":
+                        # Check if product_id exists; if not, cannot upsert uniquely
+                        if 'product_id' in patch_data:
+                             conflict_columns = "product_id,name"
+                        else:
+                            logger.warning(f"Missing 'product_id' for variant {record_id} in {table}. Cannot determine conflict column. Skipping upsert.")
+                            continue
+                    elif table == "Certifications":
+                        conflict_columns = "id"
+
+                    if conflict_columns:
+                        logger.debug(f"Upserting {table}/{record_id} with on_conflict='{conflict_columns}'")
+                        response = supabase_client.table(table).upsert(patch_data, on_conflict=conflict_columns).execute()
+                    else:
+                        # Fallback or specific handling if no conflict columns defined (e.g., just insert?)
+                        logger.warning(f"No conflict columns defined for table {table}. Attempting standard upsert without on_conflict for {record_id}. This might fail or behave unexpectedly.")
+                        response = supabase_client.table(table).upsert(patch_data).execute() # Attempt without on_conflict
                     
                     # Check response - upsert might return empty data on success
                     if not response.data:
@@ -179,13 +242,13 @@ def handle_mcp_result(mcp_output: MCPOutput) -> bool:
                         logger.debug(f"Upsert response data for {table}/{record_id}: {response.data}")
 
                 except Exception as e: # Catch specific Supabase API errors if possible, fallback to general
-                    logger.error(f"Error upserting data for {table}/{record_id}: {e}")
-                    success = False
+                    logger.error(f"ERROR upserting data for {table}/{record_id}: {e}. Data: {patch_data}")
 
     except Exception as e:
-        logger.error(f"General error applying _db_patch: {e}", exc_info=True)
-        success = False
-    return success # Return whether patch application was attempted
+        logger.error(f"ERROR applying DB patch: Unexpected error - {e}")
+        return False # Indicate failure on major unexpected error
+
+    return True # Indicate that patch application was attempted
 
 # Placeholder for future prompt templating helpers
 # def format_prompt(template: str, context: dict) -> str:

@@ -23,10 +23,11 @@ interface AssessmentState {
   fallbackReason: string | null;
   confirmedProducts: Product[];
   showCompliance: boolean;
+  confidence_score: number | null;
 }
 
 type AssessmentAction =
-  | { type: 'SET_DATA'; payload: Partial<Pick<AssessmentState, 'summary' | 'products' | 'certifications' | 'fallbackReason'>> }
+  | { type: 'SET_DATA'; payload: Partial<Pick<AssessmentState, 'summary' | 'products' | 'certifications' | 'fallbackReason' | 'confidence_score'>> }
   | { type: 'CONFIRM_PRODUCTS'; payload: Product[] }
   | { type: 'SHOW_COMPLIANCE'; payload: boolean };
 
@@ -37,6 +38,7 @@ const initialState: AssessmentState = {
   fallbackReason: null,
   confirmedProducts: [],
   showCompliance: false,
+  confidence_score: null,
 };
 
 function assessmentReducer(state: AssessmentState, action: AssessmentAction): AssessmentState {

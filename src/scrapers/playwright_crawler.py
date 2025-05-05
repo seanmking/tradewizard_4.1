@@ -17,7 +17,6 @@ from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 from bs4 import BeautifulSoup
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class PlaywrightCrawler:
@@ -120,13 +119,28 @@ class PlaywrightCrawler:
                 
                 # Process the page
                 try:
+                    # DEBUG: Log state before processing page
+                    logger.debug(f"[_crawl loop] Before _process_page for {url}. self.results['pages'] type: {type(self.results['pages'])}, value: {self.results['pages']}")
+                    
                     page_data = await self._process_page(context, url, depth)
-                    self.results["pages"].append(page_data)
+                    
+                    # DEBUG: Log state after processing page
+                    logger.debug(f"[_crawl loop] After _process_page for {url}. self.results['pages'] type: {type(self.results['pages'])}. page_data keys: {page_data.keys() if isinstance(page_data, dict) else 'N/A'}")
+
+                    # Check if page_data is valid before appending
+                    if isinstance(page_data, dict) and 'url' in page_data: 
+                        self.results["pages"].append(page_data)
+                    else:
+                        logger.warning(f"[_crawl loop] Invalid page_data received from _process_page for {url}. Skipping append. Data: {page_data}")
+                        # Optionally add to errors if needed
+
                     self.visited_urls.add(url)
                     self.crawl_stats["pages_crawled"] += 1
                     
                     # Add discovered links to the queue
-                    for link in page_data.get("links_found", []):
+                    # Use page_data safely
+                    links_to_add = page_data.get("links", []) if isinstance(page_data, dict) else []
+                    for link in links_to_add:
                         if link not in self.visited_urls and link not in [u for u, _ in self.url_queue]:
                             self.url_queue.append((link, depth + 1))
                     
@@ -136,14 +150,16 @@ class PlaywrightCrawler:
                     logger.info(f"Crawled {url} ({len(self.visited_urls)}/{self.max_pages})")
                     
                 except Exception as e:
-                    logger.error(f"Error crawling {url}: {str(e)}")
+                    logger.error(f"Error processing page {url}: {str(e)}", exc_info=True)
+                    # DEBUG: Log state on error
+                    logger.debug(f"[_crawl loop] Exception during _process_page for {url}. self.results['pages'] type: {type(self.results['pages'])}, value: {self.results['pages']}")
                     self.crawl_stats["errors"].append({
                         "url": url,
                         "error": str(e),
                         "timestamp": datetime.now().isoformat()
                     })
-            
-            await browser.close()
+        
+        await browser.close()
         
         # Finalize results
         self.crawl_stats["end_time"] = datetime.now().isoformat()
@@ -186,10 +202,10 @@ class PlaywrightCrawler:
             # Extract HTML content
             html_content = await page.content()
             
-            # Extract text content
-            text_content = await self._extract_text_content(page)
+            # Extract cleaned text content using the raw HTML
+            text_content = self._extract_text_content(html_content)
             
-            # Extract links
+            # Extract links within the same domain
             links = await self._extract_links(page, url)
             
             # Extract products if this looks like a product page
@@ -205,7 +221,7 @@ class PlaywrightCrawler:
                 "depth": depth,
                 "html": html_content,
                 "text": text_content,
-                "links_found": links
+                "links": links
             }
             
             # Add products if found
@@ -217,47 +233,63 @@ class PlaywrightCrawler:
         finally:
             await page.close()
     
-    async def _extract_text_content(self, page: Page) -> str:
+    def _extract_text_content(self, html_content: str) -> str:
         """
-        Extract clean text content from the page.
+        Extracts relevant text content from HTML, removing common noise elements 
+        (scripts, styles, nav, header, footer) and prioritizing main content areas.
         
         Args:
-            page: Playwright page object
+            html_content: The HTML content of the page as a string.
             
         Returns:
-            Extracted text content
+            The extracted and cleaned text content as a string.
         """
-        # Use JavaScript's querySelectorAll to find all relevant elements
-        # and extract their text content, then join them.
-        js_code = """
-            () => {
-                const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, td, th, div, span, a, button, label');
-                let text = '';
-                elements.forEach(el => {
-                    // Check if the element is visible
-                    const style = window.getComputedStyle(el);
-                    if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
-                        // Attempt to get text content, preferring innerText for rendered text
-                        let elementText = el.innerText || el.textContent || '';
-                        // Normalize whitespace: replace multiple spaces/newlines with a single space
-                        elementText = elementText.replace(new RegExp('\\s+', 'g'), ' ').trim();
-                        if (elementText) {
-                            text += elementText + ' ';
-                        }
-                    }
-                });
-                // Final trim to remove leading/trailing space from concatenation
-                return text.trim();
-            }
-        """
-        try:
-            content = await page.evaluate(js_code)
-            logger.debug(f"Extracted content length: {len(content)}")
-            return content
-        except Exception as e:
-            logger.error(f"Error extracting text content: {e}")
+        if not html_content:
             return ""
-    
+            
+        try:
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Remove common noise elements
+            selectors_to_remove = ["script", "style", "nav", "header", "footer", 
+                                   '[id*="cookie"]', '[class*="cookie"]', 
+                                   '[id*="banner"]', '[class*="banner"]'] # Add more specific selectors if needed
+            
+            for selector in selectors_to_remove:
+                for element in soup.select(selector):
+                    element.decompose()
+
+            # Prioritize main content areas
+            main_content_selectors = ["main", "article", "section"]
+            content_texts = []
+            for selector in main_content_selectors:
+                for element in soup.select(selector):
+                    content_texts.append(element.get_text(separator=' ', strip=True))
+            
+            prioritized_text = " ".join(content_texts)
+
+            # If prioritized text is substantial, use it
+            if len(prioritized_text) > 200: # Arbitrary threshold, adjust as needed
+                logger.debug(f"Extracted {len(prioritized_text)} characters from prioritized tags.")
+                return prioritized_text
+            else:
+                # Fallback to extracting text from the cleaned body
+                logger.debug("Prioritized text is short, falling back to cleaned body text.")
+                body = soup.find('body')
+                if body:
+                    fallback_text = body.get_text(separator=' ', strip=True)
+                    logger.debug(f"Extracted {len(fallback_text)} characters from fallback (cleaned body).")
+                    return fallback_text
+                else:
+                    # Very unlikely fallback
+                    logger.warning("Could not find body tag after cleaning.")
+                    return soup.get_text(separator=' ', strip=True)
+
+        except Exception as e:
+            logger.error(f"Error extracting text content with BeautifulSoup: {e}", exc_info=True)
+            # Fallback to simple regex-based cleaning or return empty
+            return "" # Keep it simple on error
+
     async def _extract_links(self, page: Page, base_url: str) -> List[str]:
         """
         Extract and normalize all internal links from the page.

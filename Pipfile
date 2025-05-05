@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+scrapy = ">=2.11.0"
+python-dotenv = ">=1.0.0"
+supabase = ">=1.0.0"
+openai = ">=1.0.0"
+fastapi = ">=0.100.0"
+uvicorn = {extras = ["standard"], version = ">=0.20.0"}
+sqlalchemy = ">=2.0.0"
+psycopg2-binary = ">=2.9.5"
+pydantic = ">=2.0.0"
+beautifulsoup4 = ">=4.12.0"
+requests = ">=2.30.0"
+playwright = ">=1.40.0"
+tenacity = ">=8.2.0"
+schedule = ">=1.1.0"
+pytest = ">=8.0.0"
+rich = "*"
+pytest-asyncio = "*"
+respx = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
